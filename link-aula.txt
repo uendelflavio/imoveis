@@ -1,0 +1,13 @@
+https://www.youtube.com/watch?v=fqbcngTBR7E
+
+link biblioteca soft-delete
+https://hexdocs.pm/paranoid/readme.html
+
+link biblioteca documentacao api
+https://hexdocs.pm/phoenix_swagger/getting-started.html
+
+//esquema para consertar live-reload no pop linux para aplicativos react
+sudo -i
+echo "fs.inotify.max_user_watches=624288" >> /etc/sysctl.conf
+sudo sysctl -p
+exit
