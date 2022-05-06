@@ -45,13 +45,13 @@ defmodule Api.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:plug, "~> 1.13", override: true},
       {:bcrypt_elixir, "~> 2.3"},
       {:guardian, "~> 2.2"},
       {:faker, "~> 0.17", only: :test},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:cors_plug, "~> 3.0"},
-      {:phoenix_pagination, "~> 0.7.0"}
+      {:scrivener_ecto, "~> 2.7"},
+      {:distillery, "~> 2.0"}
     ]
   end
 

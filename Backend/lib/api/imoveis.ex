@@ -22,6 +22,19 @@ defmodule Api.Imoveis do
   end
 
   @doc """
+  Returns the list of imoveis with paginate.
+
+  ## Examples
+
+      iex> paginate_imoveis()
+      [%Imovel{}, ...]
+
+  """
+  def paginate_imoveis(params) do
+    Repo.paginate(Imovel, params)
+  end
+
+  @doc """
   Gets a single imovel.
 
   Raises `Ecto.NoResultsError` if the Imovel does not exist.

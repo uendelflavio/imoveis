@@ -11,8 +11,8 @@ defmodule Api.AccountFixtures do
     {:ok, user} =
       attrs
       |> Enum.into(%{
-        email: "some email",
-        password: "some password"
+        email: "uendel.flavio@gmail.com",
+        password: "123456"
       })
       |> Api.Account.create_user()
 

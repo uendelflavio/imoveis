@@ -1,20 +1,13 @@
 defmodule ApiWeb.ImovelView do
   use ApiWeb, :view
   alias ApiWeb.ImovelView
-  import Phoenix.Pagination.JSON
 
-  def render("index.json", %{conn: conn, imoveis: imoveis, phoenix_pagination: phoenix_pagination}) do
+  def render("index.json", %{imoveis: imoveis}) do
     %{
-      data: render_many(imoveis, ApiWeb.ImovelView, "imovel.json"),
-      pagination: paginate(conn, phoenix_pagination)
+      data: render_many(imoveis, ImovelView, "imovel.json"),
+      pagination: ApiWeb.PaginationHelpers.pagination(imoveis)
     }
   end
-
-  """
-  def render("index.json", %{imoveis: imoveis}) do
-    %{data: render_many(imoveis, ImovelView, "imovel.json")}
-  end
-  """
 
   def render("show.json", %{imovel: imovel}) do
     %{data: render_one(imovel, ImovelView, "imovel.json")}

@@ -5,7 +5,6 @@ defmodule Api.AccountTest do
 
   describe "users" do
     alias Api.Account.User
-
     import Api.AccountFixtures
 
     @invalid_attrs %{email: nil, password: nil}

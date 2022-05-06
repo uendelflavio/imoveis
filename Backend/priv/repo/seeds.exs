@@ -9,3 +9,16 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+alias Api.Repo
+alias Api.Imoveis.Imovel
+
+Repo.insert!(%Imovel{
+  bairro: "Palmeiras",
+  cep: 74_521_422,
+  cidade: "anapolis",
+  endereco: "Rua das Piripocas",
+  numero: 14,
+  ocupado: true,
+  uf: "GO",
+  vistoria: false
+})

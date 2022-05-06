@@ -4,13 +4,13 @@ defmodule ApiWeb.SessionController do
   alias Api.Account
   alias Api.Guardian
 
-  action_fallback ApiWeb.FallbackController
+  action_fallback(ApiWeb.FallbackController)
 
   def new(conn, %{"email" => email, "password" => password}) do
     case Account.authenticate_user(email, password) do
       {:ok, user} ->
         {:ok, access_token, _claims} =
-          Guardian.encode_and_sign(user, %{}, token_type: "access", ttl: {15, :minute})
+          Guardian.encode_and_sign(user, %{}, token_type: "access", ttl: {120, :minute})
 
         {:ok, refresh_token, _claims} =
           Guardian.encode_and_sign(user, %{}, token_type: "refresh", ttl: {7, :day})

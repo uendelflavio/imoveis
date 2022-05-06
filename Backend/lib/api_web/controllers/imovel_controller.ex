@@ -7,7 +7,7 @@ defmodule ApiWeb.ImovelController do
   action_fallback(ApiWeb.FallbackController)
 
   def index(conn, _params) do
-    imoveis = Imoveis.list_imoveis()
+    imoveis = Imoveis.paginate_imoveis(_params)
     render(conn, "index.json", imoveis: imoveis)
   end
 
