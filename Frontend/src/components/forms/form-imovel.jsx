@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
   Modal,
   ModalHeader,
@@ -6,35 +6,28 @@ import {
   ModalFooter,
 } from 'reactstrap';
 
-export const FormImovel = () => {
+const FormImovel = ({ isModal,isUpdated, isId }) => {  
+  const [modalOpen, setModalOpen] = React.useState(isModal); 
+  const toggle = () => setModalOpen(!modalOpen);
 
-const [modalDialog, setModal] = React.useState(false);
-const [isUpdated, setIsUpdated] = React.useState(false);
-const [isId, setID] = React.useState('');
-
-function toggleModal(name, type_button, linha) {
-    switch (name) {
-      case 'modalDialog':
-        setIsUpdated(type_button);
-        setModal(!modalDialog);
-        setID(linha)
-        break;
-      default:
-        break;
-    }
-  }
     return (
-      <div>
-      <Modal centered isOpen={modalDialog} toggle={() => toggleModal('modalDialog')}>
-        <ModalHeader toggle={() => toggleModal('modalDialog')} close={<button className="btn-close" onClick={() => toggleModal('modalDialog')}></button>}>{!isUpdated ? 'Incluir Novo Imóvel' : '[' + (isId).toString().padStart(3, "0") + '] - Atualizar Imóvel '}</ModalHeader>
-        <ModalBody>
-          ...
-        </ModalBody>
-        <ModalFooter>
-          <button className={`btn ${!isUpdated ? 'btn-success' : 'btn-warning'}`} >{!isUpdated ? 'Incluir' : 'Atualizar'}</button>
-          <button className="btn btn-inverse" onClick={() => toggleModal('modalDialog')}>Sair</button>
-        </ModalFooter>
-      </Modal>
-      </div>
+      <Fragment>
+        {!isUpdated ?
+          <button type="button" onClick={toggle} className="btn btn-success btn-icon btn-circle btn-lg me-2"><i className="fa fa-plus"></i></button> :
+          <button type="button" onClick={toggle} className="btn btn-warning btn-icon btn-circle btn-lg me-2"><i className="fa fa-check "></i></button>        
+        }
+        <Modal centered toggle={toggle} isOpen={modalOpen}>
+            <ModalHeader toggle={toggle} >{!isUpdated ? 'Incluir Novo Imóvel' : '[' + (isId).toString().padStart(3, "0") + '] - Atualizar Imóvel '}</ModalHeader>
+          <ModalBody>
+            ...
+          </ModalBody>
+          <ModalFooter>
+              <button onClick={toggle}  className={`btn ${!isUpdated ? 'btn-success' : 'btn-warning'}`} >{!isUpdated ? 'Incluir' : 'Atualizar'}</button>
+              <button onClick={toggle}  className="btn btn-inverse" >Sair</button>
+          </ModalFooter>
+        </Modal>
+      </Fragment>      
   )
 }
+
+export default FormImovel

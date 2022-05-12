@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import ColumnAction from "./column-action";
 
 export const COLUMNS_IMOVEIS = [
   {
@@ -19,6 +20,7 @@ export const COLUMNS_IMOVEIS = [
   {
     Header: 'ENDERECO',
     accessor: 'endereco',
+    maxWidth: 100,    
   },
   {
     Header: 'NUMERO',
@@ -45,4 +47,10 @@ export const COLUMNS_IMOVEIS = [
     Header: 'OCUPADO',
     accessor: 'ocupado',
     Cell: e => e.value ? <span className="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">SIM&nbsp;<i className="fa fa-circle fs-9px fa-fw"></i>{e.value}</span> : <span className="badge border border-danger text-danger px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">NÃO&nbsp;<i className="fa fa-circle fs-9px fa-fw"></i></span>
-  }];
+  },
+  {
+    Header: () => 'AÇÕES',
+    id: 'action',
+    Cell: ({ row }) => <ColumnAction rowID={ row.original.id }/>    
+  }
+];
