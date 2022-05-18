@@ -2,21 +2,90 @@ import React  from "react";
 import { Link } from "react-router-dom";
 import { COLUMNS_IMOVEIS } from "../components/table-column/columns";
 import MOCK_DATA from '../components/MOCK_DATA.json'
-import { store } from 'react-notifications-component';
-import 'react-notifications-component/dist/theme.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useTable, useGlobalFilter, usePagination } from 'react-table';
 import TableFilter from '../components/table-filter/table-filter'
 import FormImovel from '../components/forms/form-imovel'
+import { useExportData } from "react-table-plugins";
+import Papa from "papaparse";
+
+import * as XLSX from 'xlsx/xlsx.mjs';
+import JsPDF from "jspdf";
+import "jspdf-autotable";
 
 function Imoveis() {
 
   const columns = React.useMemo(() => COLUMNS_IMOVEIS, []);
   const data = React.useMemo(() => MOCK_DATA, []);
 
+  const getExportFileBlob = ({ columns, data, fileType, fileName }) => {
+  if (fileType === "csv") {
+    // CSV example
+    const headerNames = columns.map((col) => col.exportValue);
+    const csvString = Papa.unparse({ fields: headerNames, data });
+    return new Blob([csvString], { type: "text/csv" });
+  } else if (fileType === "xlsx") {
+    // XLSX example
+
+    const header = columns.map((c) => c.exportValue);
+    const compatibleData = data.map((row) => {
+      const obj = {};
+      header.forEach((col, index) => {
+        obj[col] = row[index];
+      });
+      return obj;
+    });
+
+    let wb = XLSX.utils.book_new();
+    let ws1 = XLSX.utils.json_to_sheet(compatibleData, {
+      header,
+    });
+    XLSX.utils.book_append_sheet(wb, ws1, "React Table Data");
+    XLSX.writeFile(wb, `${fileName}.xlsx`);
+
+    // Returning false as downloading of file is already taken care of
+    return false;
+  }
+  //PDF example
+  if (fileType === "pdf") {
+    const headerNames = columns.map((column) => column.exportValue);
+    const page = {
+      layout: 'l', //p=portrait, l=landscape
+      papersize: {
+        height: 297.0, //330.2mm
+        width: 210.0, //215.9mm
+        unit: 'mm'
+      }
+    }
+    const doc = new JsPDF(page.layout, page.papersize.unit, [page.papersize.width, page.papersize.height]);
+    doc.autoTable({
+      orientation: "landscape",
+      head: [headerNames],
+      body: data,
+      format: [4, 2],
+      margin: { top: 10 },
+      styles: {
+        minCellHeight: 9,
+        halign: "left",
+        valign: "center",
+        fontSize: 8,
+      },
+    });
+    
+    doc.save(`${fileName}.pdf`);
+
+    return false;
+  }
+
+  // Other formats goes here
+  return false;
+}
 
   const {
     getTableProps,
     getTableBodyProps,
+    prepareRow,
     headerGroups,
     page,
     nextPage,
@@ -26,40 +95,25 @@ function Imoveis() {
     pageOptions,
     state,
     gotoPage,
-    pageCount,
-    prepareRow,
+    pageCount,    
     preGlobalFilteredRows,
     setGlobalFilter,
+    exportData,
   } = useTable({
     columns,
     data,
+    getExportFileBlob,
     initialState: { pageIndex: 0 },
   },
     useGlobalFilter,
-    usePagination
+    usePagination,
+    useExportData
   );
-  
   const { pageIndex, pageSize } = state
-
-  function addNotification(notificationType, notificationTitle, notificationMessage, notificationPosition, notificationContent) {
-    store.addNotification({
-      title: notificationTitle,
-      message: notificationMessage,
-      type: notificationType,
-      container: notificationPosition,
-      insert: "top",      
-      isMobile: true,
-      showIcon:true,
-      animationIn: ["animated", "fadeIn"],
-      animationOut: ["animated", "fadeOut"],            
-      dismiss: { duration: 2000, onScreen : true  },
-      dismissable: { click: true },
-      content: notificationContent
-    });
-  }
 
   return (
     <div>
+      <ToastContainer position="top-center" newestOnTop/>
       <div className="d-flex align-items-center mb-3">
         <div>
           <ul className="breadcrumb">
@@ -76,17 +130,14 @@ function Imoveis() {
       </div>
       <div className="card border-0">
         <ul className="nav px-3 py-3 ">
-          <button type="button" onClick={() => addNotification('success', 'Sucesso', 'Ativou a Exportação do CSV', 'top-center')} className="btn btn-indigo btn-icon btn-circle btn-lg me-2">
+          <button type="button" onClick={() => exportData("csv", false)} className="btn btn-indigo btn-icon btn-circle btn-lg me-2">
             <i className="fa fa-file-csv"></i>
           </button>
-          <button type="button" onClick={() => addNotification('warning', 'Atencao', 'Ativou a Exportação do PDF', 'top-center')} className="btn btn-primary btn-icon btn-circle btn-lg me-2">
+          <button type="button" onClick={() => exportData("pdf", false)} className="btn btn-primary btn-icon btn-circle btn-lg me-2">
             <i className="fa fa-file-pdf"></i>
           </button>
-          <button type="button" onClick={() => addNotification('danger', 'Atencao', 'Ativou a Exportação do PDF', 'top-center')} className="btn btn-info btn-icon btn-circle btn-lg me-2">
+          <button type="button" onClick={() => exportData("xlsx", false)} className="btn btn-info btn-icon btn-circle btn-lg me-2">
             <i className="fa fa-file-excel"></i>
-          </button>
-          <button type="button" onClick={() => addNotification('info', 'Atencao', 'Ativou a Exportação do TEXTO', 'top-center')} className="btn btn-lime btn-icon btn-circle btn-lg me-2">
-            <i className="fa fa-file-alt"></i>
           </button>
           <li className="nav-item me-2 ms-auto">           
             <FormImovel isModal={false} isUpdated={false} isId={''} />

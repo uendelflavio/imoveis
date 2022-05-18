@@ -2,12 +2,9 @@ import React from "react";
 import {  withRouter } from "react-router-dom";
 import { AppSettings } from './../config/app-settings'
 import API from '../utils/api';
-
 import { login } from "../utils/auth";
-import ReactNotifications from 'react-notifications-component';
-import { store } from 'react-notifications-component';
-import 'react-notifications-component/dist/theme.css';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class Login extends React.Component {
 	static contextType = AppSettings;
@@ -20,23 +17,7 @@ class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleSubmit = this.handleSubmit.bind(this);
-		this.addNotification = this.addNotification.bind(this);
 	}
-	
-	addNotification = (notificationType, notificationTitle, notificationMessage, notificationPosition, notificationContent) => {
-		store.addNotification({
-				title: notificationTitle,
-				message: notificationMessage,
-				type: notificationType,
-				insert: "top",
-				container: notificationPosition,
-				animationIn: ["animated", "fadeIn"],
-				animationOut: ["animated", "fadeOut"],
-				dismiss: { duration: 5000 },
-				dismissable: { click: true },
-				content: notificationContent
-		});
-	  }
 	
 	componentDidMount() {
 		this.emailInput.focus();
@@ -45,27 +26,25 @@ class Login extends React.Component {
 	handleSubmit =  async event => {
 		event.preventDefault();
 		const { email, password } = this.state;
-	    if (!email || !password) {
-			this.addNotification('warning', 'Atenção', 'Preencha e-mail e senha para continuar!', 'top-center');
+	    if (!email || !password) {			
+			toast.warning('Preencha e-mail e senha para continuar!');
 			this.emailInput.focus();
 		} else {
 			try {
-				const response = await API.post("/session/new", { email, password }, { headers: { 'Content-Type': 'application/json' } });
-	
+				const response = await API.post("/session/new", { email, password }, { headers: { 'Content-Type': 'application/json' } });	
 				login(response.data.access_token);
 				this.props.history.push("/app");
 			} catch (error) {	
-				if (error.response.status === 401) {
-					this.addNotification('warning', 'Atenção', 'Houve um problema com autenticação, verifique suas credenciais e tente novamente.', 'top-center');
+				if (error.response.status === 401) {					
+					toast.error('Houve um problema com autenticação, verifique suas credenciais e tente novamente.');
 					this.setState({ email: '' });
 					this.setState({ password: '' });
 				}
-				if (error.response.status >= 500) {
-					this.addNotification('danger', 'Falha', 'Houve falha de comunicação com o servidor, tente autenticar novamente.', 'top-center');
+				if (error.response.status >= 500) {					
+					toast.error('Houve falha de comunicação com o servidor, tente autenticar novamente.');
 					this.setState({ email: '' });
 					this.setState({ password: '' });
 				}
-	
 				this.emailInput.focus();
 			}
 		}
@@ -74,7 +53,7 @@ class Login extends React.Component {
 	render() {
 		return (
 			<div className="login login-v1">
-				<ReactNotifications />
+				<ToastContainer position="top-center" newestOnTop/>
 				<div className="login-container">
 					<div className="login-header">
 						<div className="brand">
