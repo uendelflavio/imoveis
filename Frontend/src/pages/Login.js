@@ -1,99 +1,33 @@
 import React from "react";
-import {  withRouter } from "react-router-dom";
-import { AppSettings } from './../config/app-settings'
-import API from '../utils/api';
-import { login } from "../utils/auth";
-import { ToastContainer, toast } from 'react-toastify';
+import { withRouter } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import FormLogin from "../components/forms/form-login"
 
-class Login extends React.Component {
-	static contextType = AppSettings;
-
-	state = {
-		email: "",
-		password: ""
-	};
-
-	constructor(props) {
-		super(props);
-		this.handleSubmit = this.handleSubmit.bind(this);
-	}
-	
-	componentDidMount() {
-		this.emailInput.focus();
-	}
-
-	handleSubmit =  async event => {
-		event.preventDefault();
-		const { email, password } = this.state;
-	    if (!email || !password) {			
-			toast.warning('Preencha e-mail e senha para continuar!');
-			this.emailInput.focus();
-		} else {
-			try {
-				const response = await API.post("/session/new", { email, password }, { headers: { 'Content-Type': 'application/json' } });	
-				login(response.data.access_token);
-				this.props.history.push("/app");
-			} catch (error) {	
-				if (error.response.status === 401) {					
-					toast.error('Houve um problema com autenticação, verifique suas credenciais e tente novamente.');
-					this.setState({ email: '' });
-					this.setState({ password: '' });
-				}
-				if (error.response.status >= 500) {					
-					toast.error('Houve falha de comunicação com o servidor, tente autenticar novamente.');
-					this.setState({ email: '' });
-					this.setState({ password: '' });
-				}
-				this.emailInput.focus();
-			}
-		}
-  }
-  
-	render() {
-		return (
-			<div className="login login-v1">
-				<ToastContainer position="top-center" newestOnTop/>
-				<div className="login-container">
-					<div className="login-header">
-						<div className="brand">
-							<div className="d-flex align-items-center">
-								<span className="logo"></span> <b>Sys</b> Imovel
-							</div>
-							<small>Sistema de Gestão de Imóveis</small>
+const Login = () => {
+	return (
+		<div className="login login-v1">
+			<ToastContainer position="top-center" newestOnTop />
+			<div className="login-container">
+				<div className="login-header">
+					<div className="brand">
+						<div className="d-flex align-items-center">
+							<span className="logo"></span> <b>Sys</b> Imovel
 						</div>
-						<div className="icon">
-							<i className="fa fa-lock"></i>
-						</div>
+						<small>Sistema de Gestão de Imóveis</small>
 					</div>
-					<div className="login-body">
-						<div className="login-content fs-13px">
-							<form onSubmit={this.handleSubmit}>
-								<div className="form-floating mb-20px">
-									<input value={this.state.email} ref={inputEl => (this.emailInput = inputEl)} type="email" onChange={e => this.setState({ email: e.target.value })} className="form-control fs-13px h-45px" id="emailAddress" placeholder="Email Address" />
-									<label htmlFor="emailAddress" className="d-flex align-items-center py-0">Email Address</label>
-								</div>
-								<div className="form-floating mb-20px">
-									<input value={this.state.password} type="password" onChange={e => this.setState({ password: e.target.value })} className="form-control fs-13px h-45px" id="password" placeholder="Password" />
-									<label htmlFor="password" className="d-flex align-items-center py-0">Password</label>
-								</div>
-								<div className="form-check mb-20px">
-									<input className="form-check-input" type="checkbox" value="" id="rememberMe" />
-									<label className="form-check-label" htmlFor="rememberMe">
-										Memorizar Usuario e Senha
-									</label>
-								</div>
-								<div className="login-buttons">
-									<button type="submit" className="btn h-45px btn-success d-block w-100 btn-lg">Sign me in</button>
-								</div>
-							</form>
-						</div>
+					<div className="icon">
+						<i className="fa fa-lock"></i>
+					</div>
+				</div>
+				<div className="login-body">
+					<div className="login-content fs-13px">
+						<FormLogin />
 					</div>
 				</div>
 			</div>
-		)
-	}
+		</div>
+	)
 }
 
-//export default Login;
 export default withRouter(Login);

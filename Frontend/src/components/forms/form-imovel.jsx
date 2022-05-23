@@ -7,99 +7,97 @@ import SwitchInput from "../switch-input/switch-input";
 import FieldInput from "../field-input/field-input";
 import PanelHeaderOption from "../panel-header-option/panel-header-option";
 import ButtonActionInput from "../button-action-input/button-action-input";
+import ButtonModal from "../button-modal/button-modal";
+import SelectInput from "../select-input/select-input";
 
-const initialValues = {
-  endereco: "",
-  numero: "",
-  bairro: "",
-  cep: "",
-  cidade: "",
-  vistoria: false,
-  ocupado: false,
-};
+const dados = [
+    { value: '',text: ''   },
+    { value: 'AC', text: 'Acre'   },
+    { value: 'AL', text: 'Alagoas'},
+    { value: 'AP', text: 'Amapá' },
+    { value: 'AM', text: 'Amazonas' },
+    { value: 'BA', text: 'Bahia' },
+    { value: 'CE', text: 'Ceará' },
+    { value: 'DF', text: 'Distrito Federal' },
+    { value: 'ES', text: 'Espírito Santo' },
+    { value: 'GO', text: 'Goiás' },
+    { value: 'MA', text: 'Maranhão' },
+    { value: 'MT', text: 'Mato Grosso' },
+    { value: 'MS', text: 'Mato Grosso do Sul' },
+    { value: 'MG', text: 'Minas Gerais' },
+    { value: 'PA', text: 'Pará' },
+    { value: 'PB', text: 'Paraíba' },
+    { value: 'PR', text: 'Paraná' },
+    { value: 'PE', text: 'Pernambuco' },
+    { value: 'PI', text: 'Piauí' },
+    { value: 'RJ', text: 'Rio de Janeiro' },
+    { value: 'RN', text: 'Rio Grande do Norte' },
+    { value: 'RS', text: 'Rio Grande do Sul' },
+    { value: 'RO', text: 'Rondônia' },
+    { value: 'RR', text: 'Roraima' },
+    { value: 'SC', text: 'Santa Catarina' },
+    { value: 'SP', text: 'São Paulo' },
+    { value: 'SE', text: 'Sergipe' },
+    { value: 'TO', text: 'Tocantins' },        
+];
 
 const onSubmit = (values) => {
   console.log(values);
 };
 
-const validationSchema = Yup.object({
-  endereco: Yup.string().required("o endereço e obrigatorio!"),
+const validationSchema = Yup.object({  
+  endereco: Yup.string().min(4,'4 caracteres no minimo').required("O endereço e obrigatório!"),
   numero: Yup.number()
     .typeError("Digite um numero válido")
-    .required("o numero e obrigatorio!"),
-  bairro: Yup.string().required("o bairro e obrigatorio!"),
+    .required("O número e obrigatório!"),
+  bairro: Yup.string().min(4,'4 caracteres no minimo').required("O bairro e obrigatório!"),
   cep: Yup.number()
     .typeError("Digite um numero válido")
-    .required("o cep e obrigatorio!"),
-  cidade: Yup.string().required("o cidade e obrigatorio!"),
+    .required("O cep e obrigatório!"),
+  uf: Yup.string().required('O uf e obrigatório'),
+  cidade: Yup.string().min(4,'4 caracteres no minimo').required("A cidade e obrigatório!"),
 });
 
-const FormImovel = ({ isModal, isUpdated, isId }) => {
+const FormImovel = ({ isModal, isUpdated, isId, row }) => {
   const [modalOpen, setModalOpen] = useState(isModal);
   const toggle = () => setModalOpen(!modalOpen);
 
   return (
     <Fragment>
-      {!isUpdated ? (
-        <button
-          type="button"
-          onClick={toggle}
-          className="btn btn-success btn-icon btn-circle btn-lg me-2"
-        >
-          <i className="fa fa-plus"></i>
-        </button>
-      ) : (
-        <button
-          type="button"
-          onClick={toggle}
-          className="btn btn-warning btn-icon btn-circle btn-lg me-2"
-        >
-          <i className="fa fa-check "></i>
-        </button>
-      )}
-
-      <Modal centered toggle={toggle} isOpen={modalOpen}>
+      <ButtonModal  isUpdated={isUpdated} toggle={toggle}/>
+      <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false}>
         <Panel className="mb-0">
           <PanelHeaderOption isUpdated={isUpdated} isId={isId} />
           <PanelBody>
             <Formik
-              initialValues={initialValues}
+              enableReinitialize={true}
+              initialValues={{                  
+                  endereco: modalOpen && isUpdated ? row.endereco:"",
+                  numero: modalOpen && isUpdated ? row.numero:"",
+                  bairro: modalOpen && isUpdated ? row.bairro:"",
+                  cep: modalOpen && isUpdated ? row.cep:"",
+                  cidade: modalOpen && isUpdated ? row.cidade:"",
+                  uf:modalOpen && isUpdated ? row.uf:"",
+                  vistoria: modalOpen && isUpdated ? row.vistoria: false,
+                  ocupado: modalOpen && isUpdated ? row.ocupado : false,
+              }}              
               validationSchema={validationSchema}
               onSubmit={onSubmit}
             >
-              <Form>
-                <FieldInput label="Endereço" name="endereco" />
-                <FieldInput label="Número" name="numero" />
-                <FieldInput label="Bairro" name="bairro" />
-                <FieldInput label="Cep" name="cep" />
-                <FieldInput label="Cidade" name="cidade" />
-                <SwitchInput name="vistoria" />
-                <SwitchInput name="ocupado" />
-                <div className="mb-0 p-1 text-end border-0 hljs-wrapper">
-                  <button
-                    type="submit"
-                    onClick={toggle}
-                    className={`btn ${
-                      !isUpdated
-                        ? "btn-success btn-lg m-1"
-                        : "btn-warning btn-lg m-1"
-                    }`}
-                  >
-                    {!isUpdated ? "Incluir" : "Atualizar"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={toggle}
-                    className="btn btn-gray btn-lg m-2"
-                  >
-                    Sair
-                  </button>
-                </div>
-                {/* <ButtonActionInput
+              <Form>                                
+                <FieldInput label="Endereço" name="endereco" focus={true} />
+                <FieldInput label="Número" name="numero"/>
+                <FieldInput label="Bairro" name="bairro"/>
+                <FieldInput label="Cep" name="cep" />           
+                <FieldInput label="Cidade" name="cidade"/>
+                <SelectInput label="Uf" name="uf" dados={dados}/>
+                <SwitchInput label="Vistoria" name="vistoria" checkState={row.vistoria}/>
+                <SwitchInput label="Ocupado" name="ocupado" checkState={row.ocupado} />
+                <ButtonActionInput
                   toggle={toggle}
                   isUpdated={isUpdated}
-                  onSubmit={onSubmit}
-                /> */}
+                  onSubmit={onSubmit}                 
+                />
               </Form>
             </Formik>
           </PanelBody>

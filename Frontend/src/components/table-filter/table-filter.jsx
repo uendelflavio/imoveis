@@ -1,4 +1,4 @@
-import React from "react";
+import React,{Fragment} from "react";
 import { useAsyncDebounce } from 'react-table';
 
   function TableFilter({
@@ -12,6 +12,7 @@ import { useAsyncDebounce } from 'react-table';
       setGlobalFilter(value || undefined)
     }, 200)
     return (
+      <Fragment>
       <div className="input-group mb-3">
         <button
           className="btn btn-white"
@@ -37,7 +38,8 @@ import { useAsyncDebounce } from 'react-table';
             />
           </div>
         </div>
-      </div>
+        </div>
+        </Fragment>
     )
   }
 

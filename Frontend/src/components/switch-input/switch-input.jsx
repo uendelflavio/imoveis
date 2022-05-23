@@ -1,30 +1,28 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 import Switch from "react-switch";
 import { Field } from "formik";
-const SwitchInput = ({ name }) => {
-  const [check, setCheck] = useState(false);
+const SwitchInput = ({ label, name, checkState=false }) => {
+  const [check, setCheck] = useState(checkState);
   const handleSwitch = (form) => {
     setCheck(!check);
     form.setFieldValue(name, true, false);
   };
-  return (
-    <Fragment>
+  return (   
       <div className="form-check form-check-inline">
         <label className="form-check-label col-form-label col-md-2">
-          <span>Vistoria</span>
+          <span>{label}</span>
           <Field>
             {({ form }) => (
               <Switch
                 checked={check}
-                onChange={() => handleSwitch(form)}
+                onChange={() => handleSwitch(form)}              
                 name={name}
                 className="react-switch"
               />
             )}
           </Field>
         </label>
-      </div>
-    </Fragment>
+      </div>   
   );
 };
 

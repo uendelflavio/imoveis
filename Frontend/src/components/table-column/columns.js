@@ -5,7 +5,7 @@ export const COLUMNS_IMOVEIS = [
   {
     Header: 'ID',
     accessor: 'id',
-    Cell: e => <span className="fw-bold" >{(e.value).toString().padStart(3, "0") }</span>
+    Cell: e => <span className="fw-bold" >{(e.value).toString().padStart(3, "0")}</span>
   },
   {
     Header: () => 'ID LOCADOR',
@@ -20,7 +20,7 @@ export const COLUMNS_IMOVEIS = [
   {
     Header: 'ENDERECO',
     accessor: 'endereco',
-    maxWidth: 100,    
+    maxWidth: 100,
   },
   {
     Header: 'NUMERO',
@@ -51,6 +51,7 @@ export const COLUMNS_IMOVEIS = [
   {
     Header: () => 'AÇÕES',
     id: 'action',
-    Cell: ({ row }) => <ColumnAction rowID={ row.original.id }/>    
+    Cell: ({ row }) => < ColumnAction rowID={row.original.id} row={row.original} />
+
   }
 ];
