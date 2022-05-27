@@ -9,6 +9,7 @@ import PanelHeaderOption from "../panel-header-option/panel-header-option";
 import ButtonActionInput from "../button-action-input/button-action-input";
 import ButtonModal from "../button-modal/button-modal";
 import SelectInput from "../select-input/select-input";
+import MaskInput from "../mask-input/mask-input";
 
 const dados = [
     { value: '',text: ''   },
@@ -46,22 +47,22 @@ const onSubmit = (values) => {
 };
 
 const validationSchema = Yup.object({  
-  endereco: Yup.string().min(4,'4 caracteres no minimo').required("O endereço e obrigatório!"),
+  endereco: Yup.string().min(4,'4 caracteres no mínimo').required("O endereço é obrigatório!"),
   numero: Yup.number()
     .typeError("Digite um numero válido")
-    .required("O número e obrigatório!"),
-  bairro: Yup.string().min(4,'4 caracteres no minimo').required("O bairro e obrigatório!"),
+    .required("O número é obrigatório!"),
+  bairro: Yup.string().min(4,'4 caracteres no mínimo').required("O bairro é obrigatório!"),
   cep: Yup.number()
     .typeError("Digite um numero válido")
-    .required("O cep e obrigatório!"),
-  uf: Yup.string().required('O uf e obrigatório'),
-  cidade: Yup.string().min(4,'4 caracteres no minimo').required("A cidade e obrigatório!"),
+    .required("O cep é obrigatório!"),
+  uf: Yup.string().ensure().required('A uf é obrigatório'),
+  cidade: Yup.string().min(4,'4 caracteres no mínimo').required("A cidade é obrigatório!"),
 });
 
 const FormImovel = ({ isModal, isUpdated, isId, row }) => {
   const [modalOpen, setModalOpen] = useState(isModal);
-  const toggle = () => setModalOpen(!modalOpen);
-
+  const toggle = () => setModalOpen(!modalOpen);  
+  
   return (
     <Fragment>
       <ButtonModal  isUpdated={isUpdated} toggle={toggle}/>
@@ -72,14 +73,14 @@ const FormImovel = ({ isModal, isUpdated, isId, row }) => {
             <Formik
               enableReinitialize={true}
               initialValues={{                  
-                  endereco: modalOpen && isUpdated ? row.endereco:"",
-                  numero: modalOpen && isUpdated ? row.numero:"",
-                  bairro: modalOpen && isUpdated ? row.bairro:"",
-                  cep: modalOpen && isUpdated ? row.cep:"",
-                  cidade: modalOpen && isUpdated ? row.cidade:"",
-                  uf:modalOpen && isUpdated ? row.uf:"",
-                  vistoria: modalOpen && isUpdated ? row.vistoria: false,
-                  ocupado: modalOpen && isUpdated ? row.ocupado : false,
+                  endereco:  row.endereco,
+                  numero: row.numero ,
+                  bairro: row.bairro,
+                  cep:  row.cep,
+                  cidade: row.cidade,                  
+                  uf: row.uf,
+                  vistoria:  row.vistoria,
+                  ocupado:  row.ocupado,
               }}              
               validationSchema={validationSchema}
               onSubmit={onSubmit}
@@ -88,11 +89,12 @@ const FormImovel = ({ isModal, isUpdated, isId, row }) => {
                 <FieldInput label="Endereço" name="endereco" focus={true} />
                 <FieldInput label="Número" name="numero"/>
                 <FieldInput label="Bairro" name="bairro"/>
-                <FieldInput label="Cep" name="cep" />           
-                <FieldInput label="Cidade" name="cidade"/>
-                <SelectInput label="Uf" name="uf" dados={dados}/>
-                <SwitchInput label="Vistoria" name="vistoria" checkState={row.vistoria}/>
-                <SwitchInput label="Ocupado" name="ocupado" checkState={row.ocupado} />
+                {/* <FieldInput label="Cep" name="cep" />            */}
+                <MaskInput label="Cep" name="cep" mask="99.999-999"/>
+                <FieldInput label="Cidade" name="cidade"/>                
+                <SelectInput label="Uf" name="uf" dados={dados} />
+                <SwitchInput label="Ocupado" name="ocupado" checkStatus={row.ocupado}/>
+                <SwitchInput label="Vistoria" name="vistoria" checkStatus={row.vistoria} />         
                 <ButtonActionInput
                   toggle={toggle}
                   isUpdated={isUpdated}

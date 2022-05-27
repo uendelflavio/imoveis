@@ -9,32 +9,29 @@ import TextError from "../text-error/text-error";
 const FormLogin = () => {
     const history = useHistory();
     const onSubmit = async (values, actions) => {                    
-            if (!values.email || !values.password) {
-                toast.warning('Preencha e-mail e senha para continuar!');
-            } else {
-                try {
-                    const response = await API.post("/session/new", values, { headers: { 'Content-Type': 'application/json' } });
-                    login(response.data.access_token);                    
-                    history.push("/app");
-                } catch (error) {
-                    if (error.response.status === 401) toast.error('Houve um problema com autenticação, verifique suas credenciais e tente novamente.');                    
-                    if (error.response.status >= 500) toast.error('Houve falha de comunicação com o servidor, tente autenticar novamente.');                    
-                }
+        if (!values.email || !values.password) {
+            toast.warning('Preencha e-mail e senha para continuar!');
+        } else {
+            try {
+                const response = await API.post("/session/new", values, { headers: { 'Content-Type': 'application/json' } });
+                login(response.data.access_token);                    
+                history.push("/app");
+            } catch (error) {
+                if (error.response.status === 401) toast.error('Houve um problema com autenticação, verifique suas credenciais e tente novamente.');                    
+                if (error.response.status >= 500) toast.error('Houve falha de comunicação com o servidor, tente autenticar novamente.');                    
             }
-            actions.setSubmitting(false);
-            actions.resetForm({
-             values: {
-               email: '',
-               password: '',
-             },
-           });
-        console.log(values,actions)
- 
-    };
-    
+        }
+        actions.setSubmitting(false);
+        actions.resetForm({
+            values: {
+            email: '',
+            password: '',
+            },
+        });    
+    };    
     const validationSchema = Yup.object({  
-        email: Yup.string().email('O email esta inválido!').required("O email e obrigatório!"),
-        password: Yup.string().min(6,'É necessario no minimo 6 caracteres').required("A senha é obrigatória!"),
+        email: Yup.string().email('O email está inválido!').required("O email é obrigatório!"),
+        password: Yup.string().min(6,'É necessario no mínimo 6 caracteres').required("A senha é obrigatória!"),
     });
   return (
     <Fragment>
@@ -47,18 +44,18 @@ const FormLogin = () => {
             validationSchema={validationSchema}
             onSubmit={onSubmit}
         >
-              <Form> 
+            <Form> 
                   <div className="form-floating mb-20px">                   
                    <Field type="text" name="email" id="email" placeholder="Email" >
                     {({ field, meta: { touched, error } }) => (
                         <input                                  
-                                  className={
-                                      touched && error
-                                          ? "form-control is-invalid fs-13px h-45px"
-                                          : "form-control is-valid fs-13px h-45px"
-                                  }
-                                  {...field}
-                                  autoFocus={true}
+                        className={
+                            touched && error
+                                ? "form-control is-invalid fs-13px h-45px"
+                                : "form-control is-valid fs-13px h-45px"
+                        }
+                        {...field}
+                        autoFocus={true}
                         />
                     )}
                     </Field>
@@ -91,7 +88,7 @@ const FormLogin = () => {
                 <div className="login-buttons">
                     <button type="submit" onSubmit={onSubmit} className="btn h-45px btn-success d-block w-100 btn-lg">Autenticar</button>
                 </div>
-              </Form>
+            </Form>
         </Formik>
     </Fragment>
   );

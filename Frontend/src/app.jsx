@@ -7,7 +7,7 @@ import TopMenu from './components/top-menu/top-menu.jsx';
 import Content from './components/content/content.jsx';
 import FloatSubMenu from './components/float-sub-menu/float-sub-menu.jsx';
 import ThemePanel from './components/theme-panel/theme-panel.jsx';
-// import ReactNotifications from 'react-notifications-component';
+
 
 
 class App extends React.Component {

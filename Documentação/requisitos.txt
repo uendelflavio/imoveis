@@ -1,0 +1,41 @@
+Se você ainda faz o controle seus alugueis com recibos e operações manuais porque não consegue pagar um software, conheça essa ferramenta fantástica que vai otimizar bastante suas rotinas administrativas no tocante ao controle de alugueis imobiliários. A planilha vai te auxiliar desde o cadastro e controle de imóveis, até o momento que o inquilino lhe devolve as chaves. Com operações automatizadas, envio de emails, cópias para whatsapp e emissão de PDFs, a nossa planilha para controle de alugueis é tão completa, que não fica para trás de nenhum sistema do ramo imobiliário. Veja abaixo os inúmeros recursos que você terá:
+
+Totalmente personalizável - Você define quanto cobrar de juros e multa, se vai cobrar os alugueis na modalidade paga e mora ou mora e paga. Você pode incluir sua logo nos recibos, relatórios e contratos de alugueis. Você pode editar algumas cláusulas do contrato de aluguel. Você pode incluir uma assinatura digital, de modo que recibos e contratos já sejam emitidos com a sua assinatura.
+
+Cadastro de imóveis - Cadastro detalhado de imóveis com Busca de CEPs automática*, cadastro de fotos, cadastro de documentos dos imóveis, botões de navegação rápida entre os imóveis cadastrados, função de espelhamento ideal para cadastrar várias unidades de um condomínio de forma rápida, cadastrao de despesas por imóveis e emissão de relatórios dos imóveis.
+
+Cadastro de Proprietários - Cadastre os proprietários e deixe seu controle mais completo, você pode cadastrar quantos proprietários quiser em cada imóvel, desde que o % de propriedade total não ultrapasse 100%.
+
+Cadastro de Contratos - Cadastro os contratos com até 3 locatários e 4 fiadores, personalize as parcelas dos contratos, de modo que você possa atribuir taxas (Como IPTU e Bombeiros) em parcelas específicas do contrato, controle a parcela caução de forma prática, personalize e emita a folha de checklist para reforçar o seu contrato de aluguel, imprima ou emita PDF do contrato de aluguel
+
+Gestão de Alugueis - Receba notificações de contratos inadimplentes ao abrir o sistema, emita relatórios de contratos inadimplentes para facilitar na cobrança, aplique filtros avançados para facilitar as buscas
+
+Cobrança - Dispare emails de cobrança, de forma massiva, para todos os contratos inadimplentes com apenas um clique**, copie uma cobrança personalizada para envio no whatsapp ou email do locatário inadimplente, emite relatório de inadimplentes, com dados de parcelas, nome e telefone dos locatários para facilicar na cobrança.
+
+Baixa de Pagamento - Realize a baixa de pagamento dos alugueis e emita o recibo para envio aos locatários, aplique multa e juros por atraso, controle retenção de IR, adicione parcelas extras e emita recibos destas também, baixe pagamentos de forma massiva (Dentro do contrato selecionado) e tenha menos trabalho para controle de contratos retroativos.
+
+Renovação e ajustes de contratos de alugueis - Renove ou ajuste os contratos de alugueis com apenas alguns cliques
+
+Despesas operacionais - Controle as despesas operacionais da sua imobiliária ou venha a ter na administração dos imóveis
+
+Emissão de relatório anual para o locatário - Emita relatórios anuais, detalhando todo o pagamento do seu locatário e envie para o mesmo, caso seja necessário.
+
+Relatório de Repasse - Emita relatórios de repasses para o seu cliente proprietário, o relatório pode ser anual ou mensal (O mensal detalha as despesas do período vinculadas aos imóveis)
+
+Relatório Analítico e Dashboard - Preencha sua planilha corretamente e tenha relatórios analíticos e dashboard que lhe darão uma visão gerencial da sua administração
+
+Pagamento Único - Pague pela planilha apenas uma vez e ela será sua para sempre
+
+Atualizações grátis - Receba atualizações sempre que houver sem custo adicional
+
+Suporte online e vitalício - O nosso suporte é 100% online, para isso utilizamos a ferramenta de acesso remoto anydesk.
+
+Requisitos para funcionamento - Sistema operacional Windows e Excel instalado na máquina (Não fuinciona em planilhas online, app de planilhas ou softwares de planilhas similares ao Excel)
+
+Quer testar? Solicite uma versão demo e receba em alguns instantes direto no seu email
+
+* A busca de CEP é online, para isso, o PC precisa estar conectado à internet. O Banco de dados não é de propriedade da PL Soluções em Excel, não nos responsabilizamos por queda futura o link e perda do serviço de busca de CEP na planilha.
+
+** O recurso de disparo de emails, no momento, é exclusivo para usuários do Gmail devidamente configurados conforme demonstrado em tutorial
+
+*** Valor Sujeito a alterações
