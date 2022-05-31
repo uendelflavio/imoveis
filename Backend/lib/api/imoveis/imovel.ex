@@ -3,14 +3,14 @@ defmodule Api.Imoveis.Imovel do
   import Ecto.Changeset
 
   schema "imoveis" do
-    field :bairro, :string
-    field :cep, :integer
-    field :cidade, :string
-    field :endereco, :string
-    field :numero, :integer
-    field :ocupado, :boolean, default: false
-    field :uf, :string
-    field :vistoria, :boolean, default: false
+    field(:bairro, :string)
+    field(:cep, :string)
+    field(:cidade, :string)
+    field(:endereco, :string)
+    field(:numero, :integer)
+    field(:ocupado, :boolean, default: false)
+    field(:uf, :string)
+    field(:vistoria, :boolean, default: false)
 
     timestamps()
   end

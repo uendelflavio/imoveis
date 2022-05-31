@@ -4,13 +4,13 @@ defmodule ApiWeb.ImovelView do
 
   def render("index.json", %{imoveis: imoveis}) do
     %{
-      data: render_many(imoveis, ImovelView, "imovel.json"),
-      pagination: ApiWeb.PaginationHelpers.pagination(imoveis)
+      imoveis: render_many(imoveis, ImovelView, "imovel.json")
+      # pagination: ApiWeb.PaginationHelpers.pagination(imoveis)
     }
   end
 
   def render("show.json", %{imovel: imovel}) do
-    %{data: render_one(imovel, ImovelView, "imovel.json")}
+    %{imovel: render_one(imovel, ImovelView, "imovel.json")}
   end
 
   def render("imovel.json", %{imovel: imovel}) do

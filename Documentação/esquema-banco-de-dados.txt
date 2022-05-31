@@ -111,3 +111,12 @@ OBSERVA��O
 
 
 
+PASSOS PARA ALTERAR ESTRUTURA DO BANCO
+-> Desligue o servidor cowboy
+-> Desconecte-se de qualquer software de cliente de banco de DADOS
+-> Va no arquivo changeset e altere os dados do campo
+-> Va no arquivo de migração e altere os dados do campo
+-> Execute no terminal os seguinte comandos
+$ mix ecto.drop
+$ mix ecto.create
+$ mix ecto.migrate

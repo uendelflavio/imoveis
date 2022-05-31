@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Switch from "react-switch";
 import { Field } from "formik";
 
-const SwitchInput = ({ label, name, checkStatus }) => {
+const SwitchInput = ({ label, name, checkStatus=false }) => {
   const [check, setCheck] = useState(checkStatus);
   const handleSwitch = (form) => {
     setCheck(!check);

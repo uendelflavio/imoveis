@@ -32,7 +32,7 @@ class Content extends React.Component {
 	componentDidMount() {
 		setTitle(this.props.history.location.pathname, routes);
 	}
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
     this.props.history.listen(() => {
 			setTitle(this.props.history.location.pathname, routes);
     });

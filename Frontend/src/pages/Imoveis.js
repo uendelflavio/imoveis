@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,14 +8,25 @@ import Papa from "papaparse";
 import * as XLSX from 'xlsx/xlsx.mjs';
 import JsPDF from "jspdf";
 import "jspdf-autotable";
-import TableFilter from '../components/table-filter/table-filter'
-import FormImovel from '../components/forms/form-imovel'
+import TableFilter from '../components/table-filter/table-filter';
+import FormImovel from '../components/forms/form-imovel';
 import { COLUMNS_IMOVEIS } from "../components/table-column/columns";
-import MOCK_DATA from '../components/MOCK_DATA.json'
+// import MOCK_DATA from '../components/MOCK_DATA.json';
+import ImovelService from '../services/ImovelService';
 
 function Imoveis() {
-  const columns = React.useMemo(() => COLUMNS_IMOVEIS, []);
-  const data = React.useMemo(() => MOCK_DATA, []);
+  const [data, setData] = useState([]);
+  const columns = useMemo(() => COLUMNS_IMOVEIS, []);
+  // const data = useMemo(() => MOCK_DATA, []);
+  useEffect(() => {
+    (async () => {
+      const result = await ImovelService.getAll('');
+      setData(result.data.imoveis);
+    })();
+  }, []);
+  console.log(data)
+
+
 
   const getExportFileBlob = ({ columns, data, fileType, fileName }) => {
     if (fileType === "csv") {

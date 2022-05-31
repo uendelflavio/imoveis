@@ -2,18 +2,18 @@ import React, { Fragment } from "react";
 import {  useHistory } from "react-router-dom";
 import { Formik, Form, Field,ErrorMessage } from "formik";
 import * as Yup from "yup";
-import API from "../../utils/api";
 import { login } from "../../utils/auth";
 import { toast } from 'react-toastify';
 import TextError from "../text-error/text-error";
+import LoginService from '../../services/LoginService'
 const FormLogin = () => {
     const history = useHistory();
     const onSubmit = async (values, actions) => {                    
         if (!values.email || !values.password) {
             toast.warning('Preencha e-mail e senha para continuar!');
         } else {
-            try {
-                const response = await API.post("/session/new", values, { headers: { 'Content-Type': 'application/json' } });
+            try {                
+                const response = await LoginService.post(values);
                 login(response.data.access_token);                    
                 history.push("/app");
             } catch (error) {

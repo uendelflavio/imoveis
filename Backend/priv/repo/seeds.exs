@@ -14,7 +14,7 @@ alias Api.Imoveis.Imovel
 
 Repo.insert!(%Imovel{
   bairro: "Palmeiras",
-  cep: 74_521_422,
+  cep: "74521422",
   cidade: "anapolis",
   endereco: "Rua das Piripocas",
   numero: 14,

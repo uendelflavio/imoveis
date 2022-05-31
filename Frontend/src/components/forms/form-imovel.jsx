@@ -43,7 +43,7 @@ const dados = [
 ];
 
 const onSubmit = (values) => {
-  console.log(values);
+  console.log(values);  
 };
 
 const validationSchema = Yup.object({  
@@ -52,9 +52,7 @@ const validationSchema = Yup.object({
     .typeError("Digite um numero válido")
     .required("O número é obrigatório!"),
   bairro: Yup.string().min(4,'4 caracteres no mínimo').required("O bairro é obrigatório!"),
-  cep: Yup.number()
-    .typeError("Digite um numero válido")
-    .required("O cep é obrigatório!"),
+  cep: Yup.string().min(10,'8 caracteres no mínimo').required("O cep é obrigatório!"),
   uf: Yup.string().ensure().required('A uf é obrigatório'),
   cidade: Yup.string().min(4,'4 caracteres no mínimo').required("A cidade é obrigatório!"),
 });
@@ -88,9 +86,8 @@ const FormImovel = ({ isModal, isUpdated, isId, row }) => {
               <Form>                                
                 <FieldInput label="Endereço" name="endereco" focus={true} />
                 <FieldInput label="Número" name="numero"/>
-                <FieldInput label="Bairro" name="bairro"/>
-                {/* <FieldInput label="Cep" name="cep" />            */}
-                <MaskInput label="Cep" name="cep" mask="99.999-999"/>
+                <FieldInput label="Bairro" name="bairro"/>                           
+                <MaskInput label="Cep" name="cep" mask="99.999-999" value/>
                 <FieldInput label="Cidade" name="cidade"/>                
                 <SelectInput label="Uf" name="uf" dados={dados} />
                 <SwitchInput label="Ocupado" name="ocupado" checkStatus={row.ocupado}/>
