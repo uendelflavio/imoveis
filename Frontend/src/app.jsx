@@ -375,8 +375,7 @@ class App extends React.Component {
 		this.state = {
 			appTheme: '',
 			appDarkMode: false,
-			appGradientEnabled: false,
-			
+			appGradientEnabled: false,			
 			appHeaderNone: false,
 			appHeaderFixed: true,
 			appHeaderInverse: false,

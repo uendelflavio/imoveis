@@ -2,16 +2,16 @@ import React from "react";
 import { Field, ErrorMessage  } from "formik";
 import TextError from "../text-error/text-error";
 
-const FieldInput = ({ label, name, focus }) => {
+const FieldInput = (props) => {
   
   return (
     <div className="row mb-1">
-      <label className="form-label col-form-label col-md-2">{label}:</label>
+      <label className="form-label col-form-label col-md-2">{props.label}:</label>
       <div className="col-md-10">
         <Field
           type="text"
-          name={name}
-          id={name}>
+          name={props.name}
+          id={props.name}>
           {({ field, meta: { touched, error } }) => (
             <input
               className={
@@ -20,12 +20,12 @@ const FieldInput = ({ label, name, focus }) => {
                   : "form-control is-valid"
               }
               {...field}
-              autoFocus={focus}
-              placeholder={label}
+              autoFocus={props.focus}
+              placeholder={props.label}
             />
           )}
         </Field>
-        <ErrorMessage name={name} component={TextError} />
+        <ErrorMessage name={props.name} component={TextError} />
       </div>
     </div>
 

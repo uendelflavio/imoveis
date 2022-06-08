@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import Switch from "react-switch";
 import { Field } from "formik";
 
-const SwitchInput = ({ label, name, checkStatus=false }) => {
-  const [check, setCheck] = useState(checkStatus);
+const SwitchInput = (props) => {
+  const [check, setCheck] = useState(typeof props.checkStatus === 'undefined' ? false :props.checkStatus);
   const handleSwitch = (form) => {
     setCheck(!check);
     if (check) {
-      form.setFieldValue(name, false,true);  
+      form.setFieldValue(props.name, false,true);  
     } else {
-      form.setFieldValue(name, true,false);
+      form.setFieldValue(props.name, true,false);
     }    
   };
 
@@ -17,13 +17,13 @@ const SwitchInput = ({ label, name, checkStatus=false }) => {
     <div className="d-inline-flex flex-row flex-direction: row align-items: start">
       <div className="form-check">
         <label className="form-check-label">
-          <strong className="d-flex flex-wrap">{label}</strong>
-          <Field name={name}>
+          <strong className="d-flex flex-wrap">{props.label}</strong>
+          <Field name={props.name}>
             {({ form }) => (
               <Switch
                 checked={check}
                 onChange={() => handleSwitch(form)}              
-                name={name}
+                name={props.name}
                 className="react-switch"
               />
           )}

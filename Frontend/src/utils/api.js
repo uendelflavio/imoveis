@@ -7,7 +7,6 @@ export const API = axios.create({
   timeout: 3000,
 });
 
-
 API.interceptors.request.use(async config => {
   const token = getToken();
   if (token) {

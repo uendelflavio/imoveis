@@ -5,7 +5,6 @@ import DropdownLanguage from "./dropdown/language.jsx";
 import DropdownProfile from "./dropdown/profile.jsx";
 import SearchForm from "./search/form.jsx";
 import DropdownMegaMenu from "./dropdown/mega.jsx";
-
 import { AppSettings } from "./../../config/app-settings.js";
 
 class Header extends React.Component {

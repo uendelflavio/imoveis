@@ -1,24 +1,23 @@
 import React from "react";
-import {  withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { isAuthenticated } from "../utils/auth";
 
 class Logout extends React.Component {
 
 	constructor(props) {
-		super(props);		
+		super(props);
 		try {
-			if (isAuthenticated) {				
+			if (isAuthenticated) {
 				this.props.history.push("/login");
 			} else {
 				this.props.history.push("/app");
 			}
-			
+
 		} catch (error) {
-			console.log(error)			
+			console.log(error)
 		}
-	
+
 	}
-	
 	render() {
 		return (
 			<div>

@@ -11,22 +11,25 @@ import "jspdf-autotable";
 import TableFilter from '../components/table-filter/table-filter';
 import FormImovel from '../components/forms/form-imovel';
 import { COLUMNS_IMOVEIS } from "../components/table-column/columns";
-// import MOCK_DATA from '../components/MOCK_DATA.json';
 import ImovelService from '../services/ImovelService';
 
 function Imoveis() {
   const [data, setData] = useState([]);
   const columns = useMemo(() => COLUMNS_IMOVEIS, []);
-  // const data = useMemo(() => MOCK_DATA, []);
+
   useEffect(() => {
     (async () => {
       const result = await ImovelService.getAll('');
       setData(result.data.imoveis);
     })();
   }, []);
-  console.log(data)
 
-
+  const onLoading = async (mod) => {
+    if (mod) {
+      const result = await ImovelService.getAll('');
+      setData(result.data.imoveis);
+    }
+  }
 
   const getExportFileBlob = ({ columns, data, fileType, fileName }) => {
     if (fileType === "csv") {
@@ -115,6 +118,7 @@ function Imoveis() {
   );
   const { pageIndex, pageSize } = state
 
+
   return (
     <div>
       <ToastContainer position="top-center" newestOnTop />
@@ -135,25 +139,25 @@ function Imoveis() {
       <div className="card border-0">
         <ul className="nav px-3 py-3 ">
           <li>
-            <button type="button" onClick={() => exportData("csv", false)} className="btn btn-indigo btn-icon btn-circle btn-lg me-2">
+            <button type="button" disabled={pageOptions.length > 0 ? false : true} onClick={() => exportData("csv", false)} className="btn btn-indigo btn-icon btn-circle btn-lg me-2">
               <i className="fa fa-file-csv"></i>
             </button>
-            <button type="button" onClick={() => exportData("pdf", false)} className="btn btn-primary btn-icon btn-circle btn-lg me-2">
+            <button type="button" disabled={pageOptions.length > 0 ? false : true} onClick={() => exportData("pdf", false)} className="btn btn-primary btn-icon btn-circle btn-lg me-2">
               <i className="fa fa-file-pdf"></i>
             </button>
-            <button type="button" onClick={() => exportData("xlsx", false)} className="btn btn-info btn-icon btn-circle btn-lg me-2">
+            <button type="button" disabled={pageOptions.length > 0 ? false : true} onClick={() => exportData("xlsx", false)} className="btn btn-info btn-icon btn-circle btn-lg me-2">
               <i className="fa fa-file-excel"></i>
             </button>
           </li>
           <li className="nav-item me-2 ms-auto">
-            <FormImovel isModal={false} isUpdated={false} isId={''} row={''} />
+            <FormImovel isModal={false} onModalChange={onLoading} isUpdated={false} isId={''} row={''} />
           </li>
         </ul>
         <div className="tab-content p-4">
           <div className="tab-pane fade show active" id="allTab">
-            <TableFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
+            <TableFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} disabled={pageOptions.length > 0 ? false : true} />
             <div className="table-responsive mb-3">
-              <table {...getTableProps()} className="table table-hover table-panel text-nowrap align-middle mb-0 table-sm">
+              <table {...getTableProps()} className="table table-hover table-panel text-nowrap align-middle mb-0 table-sm" hidden={pageOptions.length > 0 ? false : true}>
                 <thead>
                   {headerGroups.map(headerGroup => (
                     <tr  {...headerGroup.getHeaderGroupProps()}>
@@ -163,7 +167,7 @@ function Imoveis() {
                     </tr>
                   ))}
                 </thead>
-                <tbody {...getTableBodyProps()}>
+                <tbody {...getTableBodyProps()}  >
                   {page.map((row, i) => {
                     prepareRow(row)
                     return (
@@ -180,7 +184,7 @@ function Imoveis() {
               </table>
             </div>
             <div className="d-md-flex align-items-center">
-              <div className="me-md-auto text-md-left text-center mb-2 mb-md-0">
+              <div className="me-md-auto text-md-left text-center mb-2 mb-md-0" hidden={pageOptions.length > 0 ? false : true}>
                 Mostrando {pageIndex + 1} até {pageSize} com o total de {pageOptions.length} registros
               </div>
               <button type="button" onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="btn btn-dark btn-icon btn-circle btn-lg me-2">

@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 13.5 (Debian 13.5-1.pgdg110+1)
--- Dumped by pg_dump version 13.5 (Ubuntu 13.5-0ubuntu0.21.10.1)
+-- Dumped by pg_dump version 14.3 (Ubuntu 14.3-0ubuntu0.22.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -29,7 +29,7 @@ CREATE TABLE public.imoveis (
     endereco text,
     numero integer,
     bairro character varying(255),
-    cep integer,
+    cep character varying(255),
     cidade character varying(255),
     uf character varying(255),
     vistoria boolean DEFAULT false NOT NULL,
@@ -74,8 +74,8 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.users (
     id bigint NOT NULL,
-    email character varying(255),
-    password character varying(255),
+    email character varying(255) NOT NULL,
+    password character varying(255) NOT NULL,
     inserted_at timestamp(0) without time zone NOT NULL,
     updated_at timestamp(0) without time zone NOT NULL
 );
@@ -136,6 +136,13 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_email_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX users_email_index ON public.users USING btree (email);
 
 
 --

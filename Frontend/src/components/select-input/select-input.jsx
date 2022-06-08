@@ -2,15 +2,15 @@ import React, {Fragment} from 'react'
 import { Field, ErrorMessage } from "formik";
 import TextError from "../text-error/text-error";
 
-function SelectInput({ label, name, dados }) {
+function SelectInput(props) {
     
             
   return (
     <Fragment>
         <div className="row mb-1">
-            <label className="form-label col-form-label col-md-2">{label}:</label>
+            <label className="form-label col-form-label col-md-2">{props.label}:</label>
             <div className="col-md-10">
-                <Field name={name} id={name}>
+                <Field name={props.name} id={props.name}>
                     {({ field, meta: { touched, error } }) => (
                         <select
                         title="Choose one of the following..."
@@ -19,16 +19,16 @@ function SelectInput({ label, name, dados }) {
                         ? "form-select is-invalid"
                         : "form-select is-valid"
                         }
-                        placeholder={label}
+                        placeholder={props.label}
                         {...field}
                     >                              
-                    {dados.map(item => {
+                    {props.dados.map(item => {
                         return (<option key={item.value} value={item.value}>{item.text}</option>);
                     })}
                     </select>     
                     )}              
                 </Field>
-                <ErrorMessage name={name} component={TextError} />
+                <ErrorMessage name={props.name} component={TextError} />
            </div>
         </div>
     </Fragment>
