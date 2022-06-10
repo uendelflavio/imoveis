@@ -2,19 +2,22 @@ import React, { Fragment } from "react";
 import {  useHistory } from "react-router-dom";
 import { Formik, Form, Field,ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { login } from "../../utils/auth";
+import { login,setUser,setPass } from "../../utils/auth";
 import { toast } from 'react-toastify';
 import TextError from "../text-error/text-error";
 import LoginService from '../../services/LoginService'
 const FormLogin = () => {
-    const history = useHistory();
+    let history = useHistory();
+    
     const onSubmit = async (values, actions) => {                    
         if (!values.email || !values.password) {
             toast.warning('Preencha e-mail e senha para continuar!');
         } else {
             try {                
-                const response = await LoginService.post(values);
-                login(response.data.access_token);                    
+                const response = await LoginService.post_new(values);
+                login(response.data.access_token);               
+                setUser(values.email);
+                setPass(values.password)
                 history.push("/app");
             } catch (error) {
                 if (error.response.status === 401) toast.error('Houve um problema com autenticação, verifique suas credenciais e tente novamente.');                    

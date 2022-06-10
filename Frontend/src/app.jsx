@@ -7,13 +7,17 @@ import TopMenu from './components/top-menu/top-menu.jsx';
 import Content from './components/content/content.jsx';
 import FloatSubMenu from './components/float-sub-menu/float-sub-menu.jsx';
 import ThemePanel from './components/theme-panel/theme-panel.jsx';
+import LoginService from '../src/services/LoginService';
+import { getUser, getPass, login } from '../src/utils/auth';
+
 
 
 
 class App extends React.Component {
+
+
 	constructor(props) {
-		super(props);
-		
+		super(props);			
 		this.toggleAppSidebarMinify = (e) => {
 			e.preventDefault();
 			if (this.state.appSidebarMinify) {
@@ -301,7 +305,7 @@ class App extends React.Component {
 			}));
 		}
 		this.handleSetColor = () => {
-			this.setState(state => ({
+			this.setState(state => ({							
 				color: {
 					componentColor: window.getComputedStyle(document.body).getPropertyValue('--app-component-color').trim(),
 					componentBg: window.getComputedStyle(document.body).getPropertyValue('--app-component-bg').trim(),
@@ -518,36 +522,45 @@ class App extends React.Component {
 			}
 		};
 	}
-	
+
+	tokenRefresh  = async () => {		
+		const data_json = { 'email': getUser(), 'password': getPass() }			
+		const response = await LoginService.post_refresh(data_json);
+		login(response.data.access_token);		
+	}
+
 	componentDidMount() {
 		this.handleSetColor();
 		this.handleSetFont();
 		this.handleSetAppTheme(this.state.appTheme);
-    window.addEventListener('scroll', this.handleScroll)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll)
-  }
-  
-  handleScroll = () => {
-  	if (window.scrollY > 0) {
-  		this.setState(state => ({
-				hasScroll: true
-			}));
-  	} else {
-  		this.setState(state => ({
-				hasScroll: false
-			}));
-  	}
-  	var elm = document.getElementsByClassName('nvtooltip');
-  	for (var i = 0; i < elm.length; i++) {
-  		elm[i].classList.add('d-none');
-  	}
-  }
+		window.addEventListener('scroll', this.handleScroll)
+		setInterval(() => this.tokenRefresh(),6000000);
+	} 
 	
-	render() {
+	componentWillUnmount() {
+		window.removeEventListener('scroll', this.handleScroll)
+	}
+  
+	handleScroll = () => {
+		if (window.scrollY > 0) {
+			this.setState(state => ({
+					hasScroll: true
+				}));
+		} else {
+			this.setState(state => ({
+					hasScroll: false
+				}));
+		}
+		var elm = document.getElementsByClassName('nvtooltip');
+		for (var i = 0; i < elm.length; i++) {
+			elm[i].classList.add('d-none');
+		}
+	}
+	
+
+	render() {		
 		return (
+			
 			<AppSettings.Provider value={this.state}>
 				<div className={
 					'app ' +
@@ -572,12 +585,12 @@ class App extends React.Component {
 					{!this.state.appSidebarNone && (<Sidebar />)} 
 					{this.state.appSidebarTwo && (<SidebarRight />)}
 					{this.state.appTopMenu && (<TopMenu />)}
-					{!this.state.appContentNone && (<Content />)}
+					{!this.state.appContentNone && (<Content/>)}
 					<FloatSubMenu />
-					<ThemePanel />
-					{/* <ReactNotifications /> */}
+					<ThemePanel />			
 				</div>
-			</AppSettings.Provider>
+				</AppSettings.Provider>
+				
 		)
 	}
 }

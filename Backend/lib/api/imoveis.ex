@@ -18,7 +18,8 @@ defmodule Api.Imoveis do
 
   """
   def list_imoveis do
-    Repo.all(Imovel)
+    query = from(i in Imovel, order_by: i.id)
+    Repo.all(query)
   end
 
   @doc """

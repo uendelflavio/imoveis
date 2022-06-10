@@ -48,6 +48,27 @@ defmodule ApiWeb.Endpoint do
   plug(Plug.MethodOverride)
   plug(Plug.Head)
   plug(Plug.Session, @session_options)
-  plug(CORSPlug, origin: ["*"])
+  # plug(CORSPlug, origin: ["*"])
+  plug(CORSPlug,
+    origin: ["http://localhost:3000"],
+    max_age: 86400,
+    expose: [],
+    headers: [
+      "Authorization",
+      "Content-Type",
+      "Accept",
+      "Origin",
+      "User-Agent",
+      "DNT",
+      "Cache-Control",
+      "X-Mx-ReqToken",
+      "Keep-Alive",
+      "X-Requested-With",
+      "If-Modified-Since",
+      "Bearer",
+      "X-File-Name"
+    ]
+  )
+
   plug(ApiWeb.Router)
 end

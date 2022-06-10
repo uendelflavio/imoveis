@@ -19,7 +19,6 @@ import './scss/react.scss';
 import 'bootstrap-social/bootstrap-social.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
 
-
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
@@ -39,7 +38,7 @@ ReactDOM.render(
       <Route exact path="/login" component={Login} />
       <Route exact path="/" component={Logout} />
       <PrivateRoute path="/app" component={App} />
-      <Route path="*" component={() => <h1>Page not found</h1>} />        
+      <Route path="*" component={() => <h1>Page not found</h1>} />
     </Switch>
   </BrowserRouter>,
   document.getElementById('root')

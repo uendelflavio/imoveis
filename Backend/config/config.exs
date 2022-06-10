@@ -52,6 +52,7 @@ config :api, Api.Guardian,
   secret_key: "V3wLx6F7abB7I5EdpGs9xDh0v6xS+7rGGxooU5Iv3Sgb0AHIPPlOXWr8vtwTHgOk"
 
 config :cors_plug,
-  origin: ["*"],
+  # origin: ["*"],
+  origin: ["http://localhost:3000"],
   max_age: 86400,
   methods: ["GET", "POST"]
