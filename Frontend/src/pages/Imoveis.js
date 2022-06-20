@@ -13,6 +13,7 @@ import FormImovel from '../components/forms/form-imovel';
 import { COLUMNS_IMOVEIS } from "../components/table-column/columns";
 import ImovelService from '../services/ImovelService';
 
+
 function Imoveis() {
   const [data, setData] = useState([]);
   const columns = useMemo(() => COLUMNS_IMOVEIS, []);
@@ -23,13 +24,6 @@ function Imoveis() {
       setData(result.data.imoveis);
     })();
   }, []);
-
-  const onLoading = async (mod) => {
-    if (mod) {
-      const result = await ImovelService.getAll('');
-      setData(result.data.imoveis);
-    }
-  }
 
   const getExportFileBlob = ({ columns, data, fileType, fileName }) => {
     if (fileType === "csv") {
@@ -85,6 +79,7 @@ function Imoveis() {
 
       return false;
     }
+
     return false;
   }
 
@@ -118,7 +113,6 @@ function Imoveis() {
   );
   const { pageIndex, pageSize } = state
 
-
   return (
     <div>
       <ToastContainer position="top-center" newestOnTop />
@@ -150,7 +144,12 @@ function Imoveis() {
             </button>
           </li>
           <li className="nav-item me-2 ms-auto">
-            <FormImovel isModal={false} onModalChange={onLoading} isUpdated={false} isId={''} row={''} />
+            <FormImovel
+              isModal={false}
+              // onModalChange={onLoading}              
+              isUpdated={false}
+              isId={''}
+              row={''} />
           </li>
         </ul>
         <div className="tab-content p-4">

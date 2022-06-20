@@ -11,8 +11,6 @@ import LoginService from '../src/services/LoginService';
 import { getUser, getPass, login } from '../src/utils/auth';
 
 
-
-
 class App extends React.Component {
 
 
@@ -534,7 +532,7 @@ class App extends React.Component {
 		this.handleSetFont();
 		this.handleSetAppTheme(this.state.appTheme);
 		window.addEventListener('scroll', this.handleScroll)
-		setInterval(() => this.tokenRefresh(),6000000);
+		setInterval(() => this.tokenRefresh(),60000);
 	} 
 	
 	componentWillUnmount() {

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ColumnAction from "./column-action";
+import FormImovel from "../forms/form-imovel";
+import AlertDelete from "../sweet-alert/alert-delete";
 
 
 export const COLUMNS_IMOVEIS = [
@@ -53,7 +54,17 @@ export const COLUMNS_IMOVEIS = [
   {
     Header: () => 'AÇÕES',
     id: 'action',
-    Cell: ({ row }) => < ColumnAction rowID={row.original.id} row={row.original} />
-
+    Cell: ({ row }) => {
+      return (
+        <ul className="nav px-1 py-1 ">
+          <li className="nav-item">
+            <FormImovel isModal={false} isUpdated={true} isId={row.original.id} row={row.original} />
+            <AlertDelete rowID={row.original.id} />
+          </li>
+        </ul>
+      );
+    },
   }
 ];
+
+

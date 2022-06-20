@@ -1,34 +1,34 @@
-
 import API from '../utils/api';
 import { URL_IMOVEIS } from '../constants/urls';
 
-
-const getAll = async (params) => {
-  return await API.get(URL_IMOVEIS, { params }, { headers: { 'Content-Type': 'application/json' } });
+const getAll = async (data) => {
+  return await API.get(URL_IMOVEIS, data);
 };
 
 const get = async (id) => {
-  return await API.get(URL_IMOVEIS`${id}`, { headers: { 'Content-Type': 'application/json' } });
+  return await API.get(URL_IMOVEIS + id);
 };
 
 const create = async (data) => {
-  return await API.post(URL_IMOVEIS, data, { headers: { 'Content-Type': 'application/json' } });
+  data = { "imovel": data }
+  return await API.post(URL_IMOVEIS, data);
 };
 
 const update = async (id, data) => {
-  return await API.put(URL_IMOVEIS`${id}`, data, { headers: { 'Content-Type': 'application/json' } });
+  data = { "imovel": data }
+  return await API.put(URL_IMOVEIS + id, data);
 };
 
 const remove = async (id) => {
-  return await API.delete(URL_IMOVEIS`${id}`, { headers: { 'Content-Type': 'application/json' } });
+  return await API.delete(URL_IMOVEIS + id);
 };
 
 const removeAll = async () => {
-  return await API.delete(URL_IMOVEIS, { headers: { 'Content-Type': 'application/json' } });
+  return await API.delete(URL_IMOVEIS);
 };
 
 const findByTitle = async (title) => {
-  return await API.get(URL_IMOVEIS`?title=${title}`, { headers: { 'Content-Type': 'application/json' } });
+  return await API.get(URL_IMOVEIS`?title=${title}`);
 };
 
 const ImovelService = {
