@@ -48,11 +48,12 @@ defmodule ApiWeb.Endpoint do
   plug(Plug.MethodOverride)
   plug(Plug.Head)
   plug(Plug.Session, @session_options)
-  # plug(CORSPlug, origin: ["*"])
+
   plug(CORSPlug,
-    origin: ["http://localhost:3000"],
-    max_age: 86400,
+    origin: ["http://localhost:3000", "http://localhost:4000"],
+    max_age: 86_400,
     expose: [],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     headers: [
       "Authorization",
       "Content-Type",
