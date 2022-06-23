@@ -1,17 +1,20 @@
 defmodule Api.Imoveis.Imovel do
   use Ecto.Schema
   import Ecto.Changeset
-
+  # @primary_key {:id, :binary_id, autogenerate: true}
   schema "imoveis" do
     field(:bairro, :string)
     field(:cep, :string)
     field(:cidade, :string)
     field(:endereco, :string)
-    field(:numero, :integer)
-    field(:ocupado, :boolean, default: false)
+    field(:numero, :integer, default: 0)
     field(:uf, :string)
+    field(:ocupado, :boolean, default: false)
     field(:vistoria, :boolean, default: false)
-
+    field(:complemento, :string)
+    has_one(:detalhe_imovel, DetalheImovel)
+    has_one(:imagem_imovel, ImagemImovel)
+    has_one(:documento_imovel, DocumentosImovel)
     timestamps()
   end
 

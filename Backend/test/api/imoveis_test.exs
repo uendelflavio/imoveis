@@ -98,4 +98,58 @@ defmodule Api.ImoveisTest do
       assert %Ecto.Changeset{} = Imoveis.change_imovel(imovel)
     end
   end
+
+  describe "imovelimagens" do
+    alias Api.Imoveis.ImovelImagem
+
+    import Api.ImoveisFixtures
+
+    @invalid_attrs %{link: nil}
+
+    test "list_imovelimagens/0 returns all imovelimagens" do
+      imovel_imagem = imovel_imagem_fixture()
+      assert Imoveis.list_imovelimagens() == [imovel_imagem]
+    end
+
+    test "get_imovel_imagem!/1 returns the imovel_imagem with given id" do
+      imovel_imagem = imovel_imagem_fixture()
+      assert Imoveis.get_imovel_imagem!(imovel_imagem.id) == imovel_imagem
+    end
+
+    test "create_imovel_imagem/1 with valid data creates a imovel_imagem" do
+      valid_attrs = %{link: "some link"}
+
+      assert {:ok, %ImovelImagem{} = imovel_imagem} = Imoveis.create_imovel_imagem(valid_attrs)
+      assert imovel_imagem.link == "some link"
+    end
+
+    test "create_imovel_imagem/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Imoveis.create_imovel_imagem(@invalid_attrs)
+    end
+
+    test "update_imovel_imagem/2 with valid data updates the imovel_imagem" do
+      imovel_imagem = imovel_imagem_fixture()
+      update_attrs = %{link: "some updated link"}
+
+      assert {:ok, %ImovelImagem{} = imovel_imagem} = Imoveis.update_imovel_imagem(imovel_imagem, update_attrs)
+      assert imovel_imagem.link == "some updated link"
+    end
+
+    test "update_imovel_imagem/2 with invalid data returns error changeset" do
+      imovel_imagem = imovel_imagem_fixture()
+      assert {:error, %Ecto.Changeset{}} = Imoveis.update_imovel_imagem(imovel_imagem, @invalid_attrs)
+      assert imovel_imagem == Imoveis.get_imovel_imagem!(imovel_imagem.id)
+    end
+
+    test "delete_imovel_imagem/1 deletes the imovel_imagem" do
+      imovel_imagem = imovel_imagem_fixture()
+      assert {:ok, %ImovelImagem{}} = Imoveis.delete_imovel_imagem(imovel_imagem)
+      assert_raise Ecto.NoResultsError, fn -> Imoveis.get_imovel_imagem!(imovel_imagem.id) end
+    end
+
+    test "change_imovel_imagem/1 returns a imovel_imagem changeset" do
+      imovel_imagem = imovel_imagem_fixture()
+      assert %Ecto.Changeset{} = Imoveis.change_imovel_imagem(imovel_imagem)
+    end
+  end
 end

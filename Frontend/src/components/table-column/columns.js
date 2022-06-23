@@ -10,16 +10,16 @@ export const COLUMNS_IMOVEIS = [
     accessor: 'id',
     Cell: e => <span className="fw-bold" >{(e.value).toString().padStart(3, "0")}</span>
   },
-  {
-    Header: () => 'ID LOCADOR',
-    accessor: 'id_locador',
-    Cell: e => <Link to={'/app/locadores/' + e.value} className="fw-bold">{e.value}</Link>
-  },
-  {
-    Header: 'ID CONTA',
-    accessor: 'id_conta',
-    Cell: e => <Link to={'/app/contas/' + e.value} className="fw-bold">{e.value}</Link>
-  },
+  // {
+  //   Header: () => 'ID LOCADOR',
+  //   accessor: 'id_locador',
+  //   Cell: e => <Link to={'/app/locadores/' + e.value} className="fw-bold">{e.value}</Link>
+  // },
+  // {
+  //   Header: 'ID CONTA',
+  //   accessor: 'id_conta',
+  //   Cell: e => <Link to={'/app/contas/' + e.value} className="fw-bold">{e.value}</Link>
+  // },
   {
     Header: 'ENDERECO',
     accessor: 'endereco',

@@ -11,9 +11,8 @@ import ButtonModal from "../button-modal/button-modal";
 import SelectInput from "../select-input/select-input";
 import MaskInput from "../mask-input/mask-input";
 import ImovelService from '../../services/ImovelService';
-
-
-//import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+// import FormImovelTabs from "./form-imovel-tabs";
 
 
 const FormImovel = (props) => {
@@ -49,13 +48,15 @@ const FormImovel = (props) => {
       { value: 'TO', text: 'Tocantins' }      
   ];
 
-
   const onSubmit =  (values) => {  
     if (props.isUpdated) {
-      ImovelService.update(values.id, values);
+      ImovelService.update(values.id, values);      
+      toast.success('O imovel: '+values.id+' foi atualizado com sucesso');
     } else {
       ImovelService.create(values);
-    }
+      toast.success('O imovel foi criado com sucesso');
+    }    
+    setInterval(function () {window.location.reload();}, 500);
   }
   
   const validationSchema = Yup.object({  
@@ -78,9 +79,9 @@ const FormImovel = (props) => {
     <Fragment>
       <ButtonModal  isUpdated={props.isUpdated} toggle={toggle}/>
       <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false} >
-        <Panel className="mb-0">
-          <PanelHeaderOption isUpdated={props.isUpdated} isId={props.isId} />
-          <PanelBody>
+        <Panel className="mb-0" >
+          <PanelHeaderOption isUpdated={props.isUpdated} isId={props.isId} />          
+          <PanelBody>                                                    
             <Formik               
               onSubmit={(values) => onSubmit(values)}
               enableReinitialize={true}
@@ -95,8 +96,7 @@ const FormImovel = (props) => {
                 vistoria: props.row.vistoria,
                 ocupado:  props.row.ocupado,
                 }}              
-              validationSchema={validationSchema}              
-             
+              validationSchema={validationSchema}             
               >
               <Form>                                
                 <FieldInput label="Endereço" name="endereco" focus={true} />
@@ -105,14 +105,16 @@ const FormImovel = (props) => {
                 <MaskInput label="Cep" name="cep" mask="99.999-999" value/>
                 <FieldInput label="Cidade" name="cidade"/>                
                 <SelectInput label="Uf" name="uf" dados={dados} />
-                <SwitchInput label="Ocupado" name="ocupado" checkStatus={props.row.ocupado}/>
-                <SwitchInput label="Vistoria" name="vistoria" checkStatus={props.row.vistoria} />         
+                <SwitchInput label="Vistoria" name="vistoria" checkStatus={props.row.vistoria} />   
+                <SwitchInput label="Ocupado" name="ocupado" checkStatus={props.row.ocupado}/>                      
                 <ButtonActionInput toggle={toggle} isUpdated={props.isUpdated} onSubmit={(values) => onSubmit(values)}/>
               </Form>
             </Formik>
+            
           </PanelBody>
         </Panel>
       </Modal>
+   
     </Fragment>
   );
 };

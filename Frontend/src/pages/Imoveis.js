@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useTable, useGlobalFilter, usePagination, useRowSelect } from 'react-table';
@@ -17,13 +17,16 @@ import ImovelService from '../services/ImovelService';
 function Imoveis() {
   const [data, setData] = useState([]);
   const columns = useMemo(() => COLUMNS_IMOVEIS, []);
-
+  const location = useLocation()
   useEffect(() => {
     (async () => {
       const result = await ImovelService.getAll('');
       setData(result.data.imoveis);
     })();
-  }, []);
+  }, [location.key]);
+
+
+
 
   const getExportFileBlob = ({ columns, data, fileType, fileName }) => {
     if (fileType === "csv") {
@@ -113,6 +116,8 @@ function Imoveis() {
   );
   const { pageIndex, pageSize } = state
 
+
+
   return (
     <div>
       <ToastContainer position="top-center" newestOnTop />
@@ -146,15 +151,15 @@ function Imoveis() {
           <li className="nav-item me-2 ms-auto">
             <FormImovel
               isModal={false}
-              // onModalChange={onLoading}              
               isUpdated={false}
               isId={''}
               row={''} />
+
           </li>
         </ul>
         <div className="tab-content p-4">
           <div className="tab-pane fade show active" id="allTab">
-            <TableFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} disabled={pageOptions.length > 0 ? false : true} />
+            <TableFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
             <div className="table-responsive mb-3">
               <table {...getTableProps()} className="table table-hover table-panel text-nowrap align-middle mb-0 table-sm" hidden={pageOptions.length > 0 ? false : true}>
                 <thead>

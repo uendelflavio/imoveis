@@ -19,4 +19,18 @@ defmodule Api.ImoveisFixtures do
 
     imovel
   end
+
+  @doc """
+  Generate a imovel_imagem.
+  """
+  def imovel_imagem_fixture(attrs \\ %{}) do
+    {:ok, imovel_imagem} =
+      attrs
+      |> Enum.into(%{
+        link: "some link"
+      })
+      |> Api.Imoveis.create_imovel_imagem()
+
+    imovel_imagem
+  end
 end

@@ -22,16 +22,16 @@ API.interceptors.request.use(async config => {
   return config;
 });
 
-// API.interceptors.response.use(response => {
-//   return response;
-// }, error => {
-//   if (error.response.status === 401) {
-//     window.location = '/login';
-//   }
-//   if (error.response.status >= 500) {
-//     window.location = '/app';
-//   }
-//   return error;
-// });
+API.interceptors.response.use(response => {
+  return response;
+}, error => {
+  if (error.response.status === 401) {
+    window.location = '/login';
+  }
+  if (error.response.status >= 500) {
+    window.location = '/app';
+  }
+  return error;
+});
 
 export default API;

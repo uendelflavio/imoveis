@@ -115,4 +115,100 @@ defmodule Api.Imoveis do
   def change_imovel(%Imovel{} = imovel, attrs \\ %{}) do
     Imovel.changeset(imovel, attrs)
   end
+
+  alias Api.Imoveis.ImovelImagem
+
+  @doc """
+  Returns the list of imovelimagens.
+
+  ## Examples
+
+      iex> list_imovelimagens()
+      [%ImovelImagem{}, ...]
+
+  """
+  def list_imovelimagens do
+    Repo.all(ImovelImagem)
+  end
+
+  @doc """
+  Gets a single imovel_imagem.
+
+  Raises `Ecto.NoResultsError` if the Imovel imagem does not exist.
+
+  ## Examples
+
+      iex> get_imovel_imagem!(123)
+      %ImovelImagem{}
+
+      iex> get_imovel_imagem!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_imovel_imagem!(id), do: Repo.get!(ImovelImagem, id)
+
+  @doc """
+  Creates a imovel_imagem.
+
+  ## Examples
+
+      iex> create_imovel_imagem(%{field: value})
+      {:ok, %ImovelImagem{}}
+
+      iex> create_imovel_imagem(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_imovel_imagem(attrs \\ %{}) do
+    %ImovelImagem{}
+    |> ImovelImagem.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a imovel_imagem.
+
+  ## Examples
+
+      iex> update_imovel_imagem(imovel_imagem, %{field: new_value})
+      {:ok, %ImovelImagem{}}
+
+      iex> update_imovel_imagem(imovel_imagem, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_imovel_imagem(%ImovelImagem{} = imovel_imagem, attrs) do
+    imovel_imagem
+    |> ImovelImagem.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a imovel_imagem.
+
+  ## Examples
+
+      iex> delete_imovel_imagem(imovel_imagem)
+      {:ok, %ImovelImagem{}}
+
+      iex> delete_imovel_imagem(imovel_imagem)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_imovel_imagem(%ImovelImagem{} = imovel_imagem) do
+    Repo.delete(imovel_imagem)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking imovel_imagem changes.
+
+  ## Examples
+
+      iex> change_imovel_imagem(imovel_imagem)
+      %Ecto.Changeset{data: %ImovelImagem{}}
+
+  """
+  def change_imovel_imagem(%ImovelImagem{} = imovel_imagem, attrs \\ %{}) do
+    ImovelImagem.changeset(imovel_imagem, attrs)
+  end
 end
