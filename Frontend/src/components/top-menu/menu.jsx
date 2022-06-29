@@ -1,8 +1,5 @@
 const Menu = [
   { path: '/app/imoveis', icon: 'fa fa-th', title: 'Imoveis' },
-  { path: '/app/locadores', icon: 'fa fa-th', title: 'Locadores' },
-
-
 
   
   // { path: '/menu', icon: 'fa fa-align-left', title: 'Menu Level',

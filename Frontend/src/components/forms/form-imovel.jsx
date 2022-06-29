@@ -12,7 +12,7 @@ import SelectInput from "../select-input/select-input";
 import MaskInput from "../mask-input/mask-input";
 import ImovelService from '../../services/ImovelService';
 import { toast } from 'react-toastify';
-// import FormImovelTabs from "./form-imovel-tabs";
+
 
 
 const FormImovel = (props) => {
@@ -102,7 +102,7 @@ const FormImovel = (props) => {
                 <FieldInput label="Endereço" name="endereco" focus={true} />
                 <FieldInput label="Número" name="numero"/>
                 <FieldInput label="Bairro" name="bairro"/>                           
-                <MaskInput label="Cep" name="cep" mask="99.999-999" value/>
+                <MaskInput label="Cep" name="cep" mask="99.999-999" value />
                 <FieldInput label="Cidade" name="cidade"/>                
                 <SelectInput label="Uf" name="uf" dados={dados} />
                 <SwitchInput label="Vistoria" name="vistoria" checkStatus={props.row.vistoria} />   

@@ -18,6 +18,7 @@ defmodule ApiWeb.Router do
     pipe_through(:api)
     post("/users", UserController, :register)
     post("/session/new", SessionController, :new)
+    resources("/imoveisdetalhe", ImovelDetalheController)
   end
 
   scope "/api", ApiWeb do
@@ -26,6 +27,9 @@ defmodule ApiWeb.Router do
     post("/session/refresh", SessionController, :refresh)
     delete("/session/delete", SessionController, :delete)
     resources("/imoveis", ImovelController)
+
+    resources("/imoveisdocumento", ImovelDocumentoController)
+    resources("/imoveisimagem", ImovelImagemController)
   end
 
   scope "/", ApiWeb do

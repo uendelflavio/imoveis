@@ -57,11 +57,11 @@ mix phx.gen.schema Imoveis.Imovel imoveis endereco:text  numero:integer bairro:s
 
 
 `
-mix phx.gen.json Imoveis ImovelDetalhe imoveldetalhes imovel_id:references:imoveis area_total_m2:integer area_total_construida_m2:integer numero_inscricao:string matricula_agua:integer matricula_energia:interger classificacao:string salas:integer quartos:integer banheiros:integer suites:integer vagas_garagem:integer area_lazer:boolean piscina:boolean agua_incluso:boolean gas_incluso:boolean seguranca_incluso:boolean
+mix phx.gen.json Imoveis ImovelDetalhe imoveldetalhes imovel_id:references:imoveis area_total_m2:integer area_total_construida_m2:integer numero_inscricao:string matricula_agua:integer matricula_energia:integer classificacao:string salas:integer quartos:integer banheiros:integer suites:integer vagas_garagem:integer area_lazer:boolean piscina:boolean agua_incluso:boolean gas_incluso:boolean seguranca_incluso:boolean
 `
 
 `
-mix phx.gen.schema Imoveis.ImovelDetalhe imoveldetalhes imovel_id:references:imoveis area_total_m2:integer area_total_construida_m2:integer numero_inscricao:string matricula_agua:integer matricula_energia:interger classificacao:string salas:integer quartos:integer banheiros:integer suites:integer vagas_garagem:integer area_lazer:boolean piscina:boolean agua_incluso:boolean gas_incluso:boolean seguranca_incluso:boolean
+mix phx.gen.schema Imoveis.ImovelDetalhe imoveldetalhes imovel_id:references:imoveis area_total_m2:integer area_total_construida_m2:integer numero_inscricao:string matricula_agua:integer matricula_energia:integer classificacao:string salas:integer quartos:integer banheiros:integer suites:integer vagas_garagem:integer area_lazer:boolean piscina:boolean agua_incluso:boolean gas_incluso:boolean seguranca_incluso:boolean
 `
 
 

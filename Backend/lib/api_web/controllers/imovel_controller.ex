@@ -4,10 +4,9 @@ defmodule ApiWeb.ImovelController do
   alias Api.Imoveis
   alias Api.Imoveis.Imovel
 
-  action_fallback(ApiWeb.FallbackController)
+  action_fallback ApiWeb.FallbackController
 
   def index(conn, _params) do
-    # imoveis = Imoveis.paginate_imoveis(_params)
     imoveis = Imoveis.list_imoveis()
     render(conn, "index.json", imoveis: imoveis)
   end

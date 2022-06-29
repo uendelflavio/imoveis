@@ -4,7 +4,7 @@ defmodule ApiWeb.UserController do
   alias Api.Account
   alias Api.Account.User
 
-  action_fallback ApiWeb.FallbackController
+  action_fallback(ApiWeb.FallbackController)
 
   def register(conn, %{"user" => user_params}) do
     with {:ok, user} <- Account.create_user(user_params) do

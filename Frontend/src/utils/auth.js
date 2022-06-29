@@ -1,6 +1,5 @@
-export const TOKEN_KEY = "@SysImoveis-Token";
-export const TOKEN_USER = "@SysImoveis-User";
-export const TOKEN_PASS = "@SysImoveis-Pass";
+
+import { TOKEN_KEY, TOKEN_USER, TOKEN_PASS } from '../constants/auth'
 export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const getUser = () => sessionStorage.getItem(TOKEN_USER);

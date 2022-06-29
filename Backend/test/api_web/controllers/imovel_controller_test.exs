@@ -9,6 +9,7 @@ defmodule ApiWeb.ImovelControllerTest do
     bairro: "some bairro",
     cep: 42,
     cidade: "some cidade",
+    complemento: "some complemento",
     endereco: "some endereco",
     numero: 42,
     ocupado: true,
@@ -19,22 +20,14 @@ defmodule ApiWeb.ImovelControllerTest do
     bairro: "some updated bairro",
     cep: 43,
     cidade: "some updated cidade",
+    complemento: "some updated complemento",
     endereco: "some updated endereco",
     numero: 43,
     ocupado: false,
     uf: "some updated uf",
     vistoria: false
   }
-  @invalid_attrs %{
-    bairro: nil,
-    cep: nil,
-    cidade: nil,
-    endereco: nil,
-    numero: nil,
-    ocupado: nil,
-    uf: nil,
-    vistoria: nil
-  }
+  @invalid_attrs %{bairro: nil, cep: nil, cidade: nil, complemento: nil, endereco: nil, numero: nil, ocupado: nil, uf: nil, vistoria: nil}
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -59,6 +52,7 @@ defmodule ApiWeb.ImovelControllerTest do
                "bairro" => "some bairro",
                "cep" => 42,
                "cidade" => "some cidade",
+               "complemento" => "some complemento",
                "endereco" => "some endereco",
                "numero" => 42,
                "ocupado" => true,
@@ -87,6 +81,7 @@ defmodule ApiWeb.ImovelControllerTest do
                "bairro" => "some updated bairro",
                "cep" => 43,
                "cidade" => "some updated cidade",
+               "complemento" => "some updated complemento",
                "endereco" => "some updated endereco",
                "numero" => 43,
                "ocupado" => false,

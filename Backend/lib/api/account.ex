@@ -14,7 +14,7 @@ defmodule Api.Account do
   end
 
   def get_by_email(email) do
-    query = from u in User, where: u.email == ^email
+    query = from(u in User, where: u.email == ^email)
 
     case Repo.one(query) do
       nil -> {:error, :not_found}

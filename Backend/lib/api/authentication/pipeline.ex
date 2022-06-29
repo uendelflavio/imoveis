@@ -1,4 +1,7 @@
 defmodule Api.Guardian.AuthPipeline do
+  @moduledoc """
+  Module Guardian Authentication Pipeline
+  """
   @claims %{typ: "access"}
 
   use Guardian.Plug.Pipeline,

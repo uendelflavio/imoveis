@@ -1,10 +1,13 @@
 defmodule Api.Account.User do
+  @moduledoc """
+  Module User
+  """
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "users" do
-    field :email, :string
-    field :password, :string
+    field(:email, :string)
+    field(:password, :string)
 
     timestamps()
   end

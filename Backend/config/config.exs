@@ -8,9 +8,9 @@
 import Config
 
 config :api, Api.Repo,
-  database: "api_repo",
-  username: "user",
-  password: "pass",
+  database: "imovel",
+  username: "uendel",
+  password: "1817698",
   hostname: "localhost"
 
 config :api,
@@ -52,7 +52,6 @@ config :api, Api.Guardian,
   secret_key: "V3wLx6F7abB7I5EdpGs9xDh0v6xS+7rGGxooU5Iv3Sgb0AHIPPlOXWr8vtwTHgOk"
 
 config :cors_plug,
-  # origin: ["*"],
   origin: ["http://localhost:3000"],
   max_age: 86400,
   methods: ["GET", "POST"]

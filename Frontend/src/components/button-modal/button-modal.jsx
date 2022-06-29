@@ -14,7 +14,7 @@ const ButtonModal = (props) => {
           <i className="fa fa-check "></i>
         </button>
       )}
-      </Fragment>
+  </Fragment>
   )
 }
 

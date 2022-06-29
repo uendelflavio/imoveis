@@ -7,6 +7,7 @@ defmodule Api.Imoveis do
   alias Api.Repo
 
   alias Api.Imoveis.Imovel
+  alias Api.Imoveis.ImovelDetalhe
 
   @doc """
   Returns the list of imoveis.
@@ -18,21 +19,7 @@ defmodule Api.Imoveis do
 
   """
   def list_imoveis do
-    query = from(i in Imovel, order_by: i.id)
-    Repo.all(query)
-  end
-
-  @doc """
-  Returns the list of imoveis with paginate.
-
-  ## Examples
-
-      iex> paginate_imoveis()
-      [%Imovel{}, ...]
-
-  """
-  def paginate_imoveis(params) do
-    Repo.paginate(Imovel, params)
+    Imovel |> order_by(asc: :inserted_at) |> Repo.all()
   end
 
   @doc """
@@ -116,6 +103,102 @@ defmodule Api.Imoveis do
     Imovel.changeset(imovel, attrs)
   end
 
+  alias Api.Imoveis.ImovelDetalhe
+
+  @doc """
+  Returns the list of imoveldetalhes.
+
+  ## Examples
+
+      iex> list_imoveldetalhes()
+      [%ImovelDetalhe{}, ...]
+
+  """
+  def list_imoveldetalhes do
+    ImovelDetalhe |> order_by(asc: :inserted_at) |> Repo.all()
+  end
+
+  @doc """
+  Gets a single imovel_detalhe.
+
+  Raises `Ecto.NoResultsError` if the Imovel detalhe does not exist.
+
+  ## Examples
+
+      iex> get_imovel_detalhe!(123)
+      %ImovelDetalhe{}
+
+      iex> get_imovel_detalhe!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_imovel_detalhe!(id), do: Repo.get!(ImovelDetalhe, id)
+
+  @doc """
+  Creates a imovel_detalhe.
+
+  ## Examples
+
+      iex> create_imovel_detalhe(%{field: value})
+      {:ok, %ImovelDetalhe{}}
+
+      iex> create_imovel_detalhe(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_imovel_detalhe(attrs \\ %{}) do
+    %ImovelDetalhe{}
+    |> ImovelDetalhe.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a imovel_detalhe.
+
+  ## Examples
+
+      iex> update_imovel_detalhe(imovel_detalhe, %{field: new_value})
+      {:ok, %ImovelDetalhe{}}
+
+      iex> update_imovel_detalhe(imovel_detalhe, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_imovel_detalhe(%ImovelDetalhe{} = imovel_detalhe, attrs) do
+    imovel_detalhe
+    |> ImovelDetalhe.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a imovel_detalhe.
+
+  ## Examples
+
+      iex> delete_imovel_detalhe(imovel_detalhe)
+      {:ok, %ImovelDetalhe{}}
+
+      iex> delete_imovel_detalhe(imovel_detalhe)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_imovel_detalhe(%ImovelDetalhe{} = imovel_detalhe) do
+    Repo.delete(imovel_detalhe)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking imovel_detalhe changes.
+
+  ## Examples
+
+      iex> change_imovel_detalhe(imovel_detalhe)
+      %Ecto.Changeset{data: %ImovelDetalhe{}}
+
+  """
+  def change_imovel_detalhe(%ImovelDetalhe{} = imovel_detalhe, attrs \\ %{}) do
+    ImovelDetalhe.changeset(imovel_detalhe, attrs)
+  end
+
   alias Api.Imoveis.ImovelImagem
 
   @doc """
@@ -128,7 +211,7 @@ defmodule Api.Imoveis do
 
   """
   def list_imovelimagens do
-    Repo.all(ImovelImagem)
+    ImovelImagem |> order_by(asc: :inserted_at) |> Repo.all()
   end
 
   @doc """
@@ -210,5 +293,101 @@ defmodule Api.Imoveis do
   """
   def change_imovel_imagem(%ImovelImagem{} = imovel_imagem, attrs \\ %{}) do
     ImovelImagem.changeset(imovel_imagem, attrs)
+  end
+
+  alias Api.Imoveis.ImovelDocumento
+
+  @doc """
+  Returns the list of imoveldocumentos.
+
+  ## Examples
+
+      iex> list_imoveldocumentos()
+      [%ImovelDocumento{}, ...]
+
+  """
+  def list_imoveldocumentos do
+    ImovelDocumento |> order_by(asc: :inserted_at) |> Repo.all()
+  end
+
+  @doc """
+  Gets a single imovel_documento.
+
+  Raises `Ecto.NoResultsError` if the Imovel documento does not exist.
+
+  ## Examples
+
+      iex> get_imovel_documento!(123)
+      %ImovelDocumento{}
+
+      iex> get_imovel_documento!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_imovel_documento!(id), do: Repo.get!(ImovelDocumento, id)
+
+  @doc """
+  Creates a imovel_documento.
+
+  ## Examples
+
+      iex> create_imovel_documento(%{field: value})
+      {:ok, %ImovelDocumento{}}
+
+      iex> create_imovel_documento(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_imovel_documento(attrs \\ %{}) do
+    %ImovelDocumento{}
+    |> ImovelDocumento.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a imovel_documento.
+
+  ## Examples
+
+      iex> update_imovel_documento(imovel_documento, %{field: new_value})
+      {:ok, %ImovelDocumento{}}
+
+      iex> update_imovel_documento(imovel_documento, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_imovel_documento(%ImovelDocumento{} = imovel_documento, attrs) do
+    imovel_documento
+    |> ImovelDocumento.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a imovel_documento.
+
+  ## Examples
+
+      iex> delete_imovel_documento(imovel_documento)
+      {:ok, %ImovelDocumento{}}
+
+      iex> delete_imovel_documento(imovel_documento)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_imovel_documento(%ImovelDocumento{} = imovel_documento) do
+    Repo.delete(imovel_documento)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking imovel_documento changes.
+
+  ## Examples
+
+      iex> change_imovel_documento(imovel_documento)
+      %Ecto.Changeset{data: %ImovelDocumento{}}
+
+  """
+  def change_imovel_documento(%ImovelDocumento{} = imovel_documento, attrs \\ %{}) do
+    ImovelDocumento.changeset(imovel_documento, attrs)
   end
 end

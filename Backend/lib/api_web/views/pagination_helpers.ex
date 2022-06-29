@@ -1,4 +1,7 @@
 defmodule ApiWeb.PaginationHelpers do
+  @moduledoc """
+  Module Pagination Helper
+  """
   def pagination(page) do
     %{
       page_number: page.page_number,

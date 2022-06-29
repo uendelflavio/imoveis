@@ -3,10 +3,7 @@ defmodule ApiWeb.ImovelView do
   alias ApiWeb.ImovelView
 
   def render("index.json", %{imoveis: imoveis}) do
-    %{
-      imoveis: render_many(imoveis, ImovelView, "imovel.json")
-      # pagination: ApiWeb.PaginationHelpers.pagination(imoveis)
-    }
+    %{imoveis: render_many(imoveis, ImovelView, "imovel.json")}
   end
 
   def render("show.json", %{imovel: imovel}) do
@@ -23,7 +20,8 @@ defmodule ApiWeb.ImovelView do
       cidade: imovel.cidade,
       uf: imovel.uf,
       vistoria: imovel.vistoria,
-      ocupado: imovel.ocupado
+      ocupado: imovel.ocupado,
+      complemento: imovel.complemento
     }
   end
 end
