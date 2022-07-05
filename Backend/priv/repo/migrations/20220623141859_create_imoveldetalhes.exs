@@ -19,9 +19,10 @@ defmodule Api.Repo.Migrations.CreateImoveldetalhes do
       add(:agua_incluso, :boolean, default: false, null: false)
       add(:gas_incluso, :boolean, default: false, null: false)
       add(:seguranca_incluso, :boolean, default: false, null: false)
-      add(:imovel_id, references(:imoveis, on_delete: :delete_all)), null: false
+      add(:imovel_id, references(:imoveis, on_delete: :delete_all), null: false)
       timestamps()
     end
+
     create(unique_index(:imoveldetalhes, [:imovel_id]))
   end
 end

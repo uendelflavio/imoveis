@@ -26,7 +26,9 @@ defmodule ApiWeb.ImovelDocumentoControllerTest do
 
   describe "create imovel_documento" do
     test "renders imovel_documento when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.imovel_documento_path(conn, :create), imovel_documento: @create_attrs)
+      conn =
+        post(conn, Routes.imovel_documento_path(conn, :create), imovel_documento: @create_attrs)
+
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, Routes.imovel_documento_path(conn, :show, id))
@@ -38,7 +40,9 @@ defmodule ApiWeb.ImovelDocumentoControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.imovel_documento_path(conn, :create), imovel_documento: @invalid_attrs)
+      conn =
+        post(conn, Routes.imovel_documento_path(conn, :create), imovel_documento: @invalid_attrs)
+
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -46,8 +50,15 @@ defmodule ApiWeb.ImovelDocumentoControllerTest do
   describe "update imovel_documento" do
     setup [:create_imovel_documento]
 
-    test "renders imovel_documento when data is valid", %{conn: conn, imovel_documento: %ImovelDocumento{id: id} = imovel_documento} do
-      conn = put(conn, Routes.imovel_documento_path(conn, :update, imovel_documento), imovel_documento: @update_attrs)
+    test "renders imovel_documento when data is valid", %{
+      conn: conn,
+      imovel_documento: %ImovelDocumento{id: id} = imovel_documento
+    } do
+      conn =
+        put(conn, Routes.imovel_documento_path(conn, :update, imovel_documento),
+          imovel_documento: @update_attrs
+        )
+
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.imovel_documento_path(conn, :show, id))
@@ -59,7 +70,11 @@ defmodule ApiWeb.ImovelDocumentoControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, imovel_documento: imovel_documento} do
-      conn = put(conn, Routes.imovel_documento_path(conn, :update, imovel_documento), imovel_documento: @invalid_attrs)
+      conn =
+        put(conn, Routes.imovel_documento_path(conn, :update, imovel_documento),
+          imovel_documento: @invalid_attrs
+        )
+
       assert json_response(conn, 422)["errors"] != %{}
     end
   end

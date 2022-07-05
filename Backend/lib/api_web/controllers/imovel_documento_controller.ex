@@ -12,7 +12,8 @@ defmodule ApiWeb.ImovelDocumentoController do
   end
 
   def create(conn, %{"imovel_documento" => imovel_documento_params}) do
-    with {:ok, %ImovelDocumento{} = imovel_documento} <- Imoveis.create_imovel_documento(imovel_documento_params) do
+    with {:ok, %ImovelDocumento{} = imovel_documento} <-
+           Imoveis.create_imovel_documento(imovel_documento_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.imovel_documento_path(conn, :show, imovel_documento))
@@ -28,7 +29,8 @@ defmodule ApiWeb.ImovelDocumentoController do
   def update(conn, %{"id" => id, "imovel_documento" => imovel_documento_params}) do
     imovel_documento = Imoveis.get_imovel_documento!(id)
 
-    with {:ok, %ImovelDocumento{} = imovel_documento} <- Imoveis.update_imovel_documento(imovel_documento, imovel_documento_params) do
+    with {:ok, %ImovelDocumento{} = imovel_documento} <-
+           Imoveis.update_imovel_documento(imovel_documento, imovel_documento_params) do
       render(conn, "show.json", imovel_documento: imovel_documento)
     end
   end

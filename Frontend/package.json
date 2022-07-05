@@ -82,7 +82,8 @@
   ],
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "react-error-overlay": "6.0.9"
   },
   "overrides": {
     "react-error-overlay": "6.0.9"

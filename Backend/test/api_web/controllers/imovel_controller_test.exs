@@ -27,7 +27,17 @@ defmodule ApiWeb.ImovelControllerTest do
     uf: "some updated uf",
     vistoria: false
   }
-  @invalid_attrs %{bairro: nil, cep: nil, cidade: nil, complemento: nil, endereco: nil, numero: nil, ocupado: nil, uf: nil, vistoria: nil}
+  @invalid_attrs %{
+    bairro: nil,
+    cep: nil,
+    cidade: nil,
+    complemento: nil,
+    endereco: nil,
+    numero: nil,
+    ocupado: nil,
+    uf: nil,
+    vistoria: nil
+  }
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}

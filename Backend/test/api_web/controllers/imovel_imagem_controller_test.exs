@@ -46,8 +46,15 @@ defmodule ApiWeb.ImovelImagemControllerTest do
   describe "update imovel_imagem" do
     setup [:create_imovel_imagem]
 
-    test "renders imovel_imagem when data is valid", %{conn: conn, imovel_imagem: %ImovelImagem{id: id} = imovel_imagem} do
-      conn = put(conn, Routes.imovel_imagem_path(conn, :update, imovel_imagem), imovel_imagem: @update_attrs)
+    test "renders imovel_imagem when data is valid", %{
+      conn: conn,
+      imovel_imagem: %ImovelImagem{id: id} = imovel_imagem
+    } do
+      conn =
+        put(conn, Routes.imovel_imagem_path(conn, :update, imovel_imagem),
+          imovel_imagem: @update_attrs
+        )
+
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.imovel_imagem_path(conn, :show, id))
@@ -59,7 +66,11 @@ defmodule ApiWeb.ImovelImagemControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, imovel_imagem: imovel_imagem} do
-      conn = put(conn, Routes.imovel_imagem_path(conn, :update, imovel_imagem), imovel_imagem: @invalid_attrs)
+      conn =
+        put(conn, Routes.imovel_imagem_path(conn, :update, imovel_imagem),
+          imovel_imagem: @invalid_attrs
+        )
+
       assert json_response(conn, 422)["errors"] != %{}
     end
   end

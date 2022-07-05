@@ -28,7 +28,6 @@ const FieldInput = (props) => {
         <ErrorMessage name={props.name} component={TextError} />
       </div>
     </div>
-
   );
 };
 

@@ -41,7 +41,24 @@ defmodule ApiWeb.ImovelDetalheControllerTest do
     suites: 43,
     vagas_garagem: 43
   }
-  @invalid_attrs %{agua_incluso: nil, area_lazer: nil, area_total_construida_m2: nil, area_total_m2: nil, banheiros: nil, classificacao: nil, gas_incluso: nil, matricula_agua: nil, matricula_energia: nil, numero_inscricao: nil, piscina: nil, quartos: nil, salas: nil, seguranca_incluso: nil, suites: nil, vagas_garagem: nil}
+  @invalid_attrs %{
+    agua_incluso: nil,
+    area_lazer: nil,
+    area_total_construida_m2: nil,
+    area_total_m2: nil,
+    banheiros: nil,
+    classificacao: nil,
+    gas_incluso: nil,
+    matricula_agua: nil,
+    matricula_energia: nil,
+    numero_inscricao: nil,
+    piscina: nil,
+    quartos: nil,
+    salas: nil,
+    seguranca_incluso: nil,
+    suites: nil,
+    vagas_garagem: nil
+  }
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
@@ -91,8 +108,15 @@ defmodule ApiWeb.ImovelDetalheControllerTest do
   describe "update imovel_detalhe" do
     setup [:create_imovel_detalhe]
 
-    test "renders imovel_detalhe when data is valid", %{conn: conn, imovel_detalhe: %ImovelDetalhe{id: id} = imovel_detalhe} do
-      conn = put(conn, Routes.imovel_detalhe_path(conn, :update, imovel_detalhe), imovel_detalhe: @update_attrs)
+    test "renders imovel_detalhe when data is valid", %{
+      conn: conn,
+      imovel_detalhe: %ImovelDetalhe{id: id} = imovel_detalhe
+    } do
+      conn =
+        put(conn, Routes.imovel_detalhe_path(conn, :update, imovel_detalhe),
+          imovel_detalhe: @update_attrs
+        )
+
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.imovel_detalhe_path(conn, :show, id))
@@ -119,7 +143,11 @@ defmodule ApiWeb.ImovelDetalheControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, imovel_detalhe: imovel_detalhe} do
-      conn = put(conn, Routes.imovel_detalhe_path(conn, :update, imovel_detalhe), imovel_detalhe: @invalid_attrs)
+      conn =
+        put(conn, Routes.imovel_detalhe_path(conn, :update, imovel_detalhe),
+          imovel_detalhe: @invalid_attrs
+        )
+
       assert json_response(conn, 422)["errors"] != %{}
     end
   end

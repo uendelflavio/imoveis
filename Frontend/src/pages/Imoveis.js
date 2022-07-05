@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,14 +15,21 @@ import ImovelService from '../services/ImovelService';
 
 
 function Imoveis() {
+  const isMounted = useRef(true);
   const [data, setData] = useState([]);
   const columns = useMemo(() => COLUMNS_IMOVEIS, []);
   const location = useLocation()
   useEffect(() => {
-    (async () => {
-      const result = await ImovelService.getAll('');
-      setData(result.data.imoveis);
-    })();
+    if (isMounted.current) {
+      (async () => {
+        const result = await ImovelService.getAll('');
+        setData(result.data.imoveis);
+        return () => {
+          isMounted.current = false;
+        };
+      })();
+    }
+
   }, [location.key]);
 
 
@@ -154,7 +161,6 @@ function Imoveis() {
               isUpdated={false}
               isId={''}
               row={''} />
-
           </li>
         </ul>
         <div className="tab-content p-4">
