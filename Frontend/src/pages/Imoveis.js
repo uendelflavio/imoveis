@@ -1,96 +1,49 @@
-import React, { useState, useMemo, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
+import { useTable, useGlobalFilter, usePagination, useRowSelect } from 'react-table';
+import { Button } from "reactstrap";
+import { COLUMNS_IMOVEIS } from "../components/table-column/table-column";
+import { useExportData } from "react-table-plugins";
+import TableFilter from '../components/table-filter/table-filter';
+import FormImovel from "../components/forms/form-imovel";
+import AlertDelete from "../components/sweet-alert/alert-delete";
+import FormImovelDetalhe from "../components/forms/form-imovel-detalhe";
+import FormImovelImagem from "../components/forms/form-imovel-imagem";
+import FormImovelDocumento from "../components/forms/form-imovel-documento";
+import ImovelService from '../services/ImovelService';
+import ButtonActionExport, { getExportFileBlob } from '../components/button-action-export/button-action-export';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useTable, useGlobalFilter, usePagination, useRowSelect } from 'react-table';
-import { useExportData } from "react-table-plugins";
-import Papa from "papaparse";
-import * as XLSX from 'xlsx/xlsx.mjs';
-import JsPDF from "jspdf";
-import "jspdf-autotable";
-import TableFilter from '../components/table-filter/table-filter';
-import FormImovel from '../components/forms/form-imovel';
-import { COLUMNS_IMOVEIS } from "../components/table-column/columns";
-import ImovelService from '../services/ImovelService';
-
 
 function Imoveis() {
-  const isMounted = useRef(true);
-  const [data, setData] = useState([]);
-  const columns = useMemo(() => COLUMNS_IMOVEIS, []);
-  const location = useLocation()
-  useEffect(() => {
-    if (isMounted.current) {
-      (async () => {
-        const result = await ImovelService.getAll('');
-        setData(result.data.imoveis);
-        return () => {
-          isMounted.current = false;
-        };
-      })();
-    }
+  const [data, setData] = React.useState([]);
+  const columns = React.useMemo(() => COLUMNS_IMOVEIS, []);
 
-  }, [location.key]);
-
-
-
-
-  const getExportFileBlob = ({ columns, data, fileType, fileName }) => {
-    if (fileType === "csv") {
-      const headerNames = columns.map((col) => col.exportValue);
-      const csvString = Papa.unparse({ fields: headerNames, data });
-      return new Blob([csvString], { type: "text/csv" });
-    } else if (fileType === "xlsx") {
-
-      const header = columns.map((c) => c.exportValue);
-      const compatibleData = data.map((row) => {
-        const obj = {};
-        header.forEach((col, index) => {
-          obj[col] = row[index];
-        });
-        return obj;
-      });
-
-      let wb = XLSX.utils.book_new();
-      let ws1 = XLSX.utils.json_to_sheet(compatibleData, {
-        header,
-      });
-      XLSX.utils.book_append_sheet(wb, ws1, "React Table Data");
-      XLSX.writeFile(wb, `${fileName}.xlsx`);
-      return false;
-    }
-
-    if (fileType === "pdf") {
-      const headerNames = columns.map((column) => column.exportValue);
-      const page = {
-        layout: 'l', //p=portrait, l=landscape
-        papersize: {
-          height: 297.0, //330.2mm
-          width: 210.0, //215.9mm
-          unit: 'mm'
-        }
-      }
-      const doc = new JsPDF(page.layout, page.papersize.unit, [page.papersize.width, page.papersize.height]);
-      doc.autoTable({
-        orientation: "landscape",
-        head: [headerNames],
-        body: data,
-        format: [4, 2],
-        margin: { top: 10 },
-        styles: {
-          minCellHeight: 9,
-          halign: "left",
-          valign: "center",
-          fontSize: 8,
+  React.useMemo(() => {
+    if (columns.length === 8) {
+      columns.push({
+        Header: () => 'AÇÕES INCLUIR/ATUALIZAR',
+        id: 'action',
+        Cell: ({ row }) => {
+          return (
+            <div class="d-flex flex-row">
+              <div class="bd-highlight"><FormImovel isModal={false} isUpdated={true} isId={row.original.id} row={row.original} loadingData={loadingData} /></div>
+              <div class="bd-highlight"><AlertDelete rowID={row.original.id} /></div>
+              <div class="bd-highlight"><FormImovelDetalhe isModal={false} isUpdated={true} isId={row.original.id} row={row.original} /></div>
+              <div class="bd-highlight"><FormImovelImagem isModal={false} isUpdated={true} isId={row.original.id} row={row.original} /></div>
+              <div class="bd-highlight"><FormImovelDocumento isModal={false} isUpdated={true} isId={row.original.id} row={row.original} /></div>
+            </div>
+          );
         },
       });
-
-      doc.save(`${fileName}.pdf`);
-
-      return false;
     }
+  }, [columns]);
 
-    return false;
+  React.useEffect(() => loadingData(), [])
+
+  const loadingData = async () => {
+    const result = await ImovelService.getAll('');
+    setData(result);
   }
 
   const {
@@ -123,8 +76,6 @@ function Imoveis() {
   );
   const { pageIndex, pageSize } = state
 
-
-
   return (
     <div>
       <ToastContainer position="top-center" newestOnTop />
@@ -144,23 +95,15 @@ function Imoveis() {
       </div>
       <div className="card border-0">
         <ul className="nav px-3 py-3 ">
-          <li>
-            <button type="button" disabled={pageOptions.length > 0 ? false : true} onClick={() => exportData("csv", false)} className="btn btn-indigo btn-icon btn-circle btn-lg me-2">
-              <i className="fa fa-file-csv"></i>
-            </button>
-            <button type="button" disabled={pageOptions.length > 0 ? false : true} onClick={() => exportData("pdf", false)} className="btn btn-primary btn-icon btn-circle btn-lg me-2">
-              <i className="fa fa-file-pdf"></i>
-            </button>
-            <button type="button" disabled={pageOptions.length > 0 ? false : true} onClick={() => exportData("xlsx", false)} className="btn btn-info btn-icon btn-circle btn-lg me-2">
-              <i className="fa fa-file-excel"></i>
-            </button>
-          </li>
+          <ButtonActionExport exportData={exportData} getExportFileBlob={getExportFileBlob} pageOptions={pageOptions} />
           <li className="nav-item me-2 ms-auto">
             <FormImovel
               isModal={false}
               isUpdated={false}
               isId={''}
-              row={''} />
+              row={''}
+              loadingData={loadingData}
+            />
           </li>
         </ul>
         <div className="tab-content p-4">
@@ -197,18 +140,18 @@ function Imoveis() {
               <div className="me-md-auto text-md-left text-center mb-2 mb-md-0" hidden={pageOptions.length > 0 ? false : true}>
                 Mostrando {pageIndex + 1} até {pageSize} com o total de {pageOptions.length} registros
               </div>
-              <button type="button" onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="btn btn-dark btn-icon btn-circle btn-lg me-2">
-                <i className="fas fa-angle-double-left"></i>
-              </button>
-              <button type="button" onClick={() => previousPage()} disabled={!canPreviousPage} className="btn btn-dark btn-icon btn-circle btn-lg me-2">
-                <i className="fas fa-angle-left"></i>
-              </button>
-              <button type="button" onClick={() => nextPage()} disabled={!canNextPage} className="btn btn-dark btn-icon btn-circle btn-lg me-2">
-                <i className="fas fa-angle-right"></i>
-              </button>
-              <button type="button" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className="btn btn-dark btn-icon btn-circle btn-lg me-2">
-                <i className="fas fa-angle-double-right"></i>
-              </button>
+              <Button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="btn btn-dark btn-icon btn-circle btn-lg me-2">
+                <i className="fas fa-angle-double-left" />
+              </Button>
+              <Button onClick={() => previousPage()} disabled={!canPreviousPage} className="btn btn-dark btn-icon btn-circle btn-lg me-2">
+                <i className="fas fa-angle-left" />
+              </Button>
+              <Button onClick={() => nextPage()} disabled={!canNextPage} className="btn btn-dark btn-icon btn-circle btn-lg me-2">
+                <i className="fas fa-angle-right" />
+              </Button>
+              <Button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className="btn btn-dark btn-icon btn-circle btn-lg me-2">
+                <i className="fas fa-angle-double-right" />
+              </Button>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
-import React, { Fragment }  from 'react'
+import React from 'react'
 import SweetAlert from 'react-bootstrap-sweetalert';
-
+import { Button } from "reactstrap";
 
 const AlertDelete = (props) => {  
     const onClickDelete = () => { setAlertDelete(true); }
@@ -8,13 +8,17 @@ const AlertDelete = (props) => {
     const [sweetAlertDelete, setAlertDelete] = React.useState(false);
     
     return (
-      <Fragment>
-        <button
-          type="button"
+      <React.Fragment>
+
+        <Button
           onClick={onClickDelete}
-          className="btn btn-danger btn-icon btn-circle btn-lg me-2">
-          <i className="fa fa-minus"></i>
-        </button>
+          className="btn btn-danger btn-icon btn-circle btn-lg me-2"
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          title="Excluir os Dados">
+          <i className="fa fa-minus"/>
+        </Button>
+        
         {(sweetAlertDelete &&
           <SweetAlert danger showCancel
             cancelBtnText="Cancelar"
@@ -25,9 +29,10 @@ const AlertDelete = (props) => {
             onCancel={() => toggleSweetAlert(false)}
             >
             Esta ação vai excluir permanentemente os dados.
-            </SweetAlert>
+          </SweetAlert>
         )}
-      </Fragment>
+        
+      </React.Fragment>
     )
 }
 

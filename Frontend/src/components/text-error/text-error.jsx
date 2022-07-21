@@ -1,10 +1,10 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 function TextError(props) {
   return (
-    <Fragment>
+    <React.Fragment>
       <div className="invalid-feedback bold">{props.children}</div>
-    </Fragment>
+    </React.Fragment>
   );
 }
 

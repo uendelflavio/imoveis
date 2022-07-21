@@ -38,6 +38,14 @@ defmodule Api.Imoveis do
   """
   def get_imovel!(id), do: Repo.get!(Imovel, id)
 
+  def get_imovel_with_imagem!(id, opts \\ []) do
+    preloads = Keyword.get(opts, :preloads, [])
+
+    Imovel
+    |> Repo.get!(id)
+    |> Repo.preload(preloads)
+  end
+
   @doc """
   Creates a imovel.
 
@@ -295,6 +303,21 @@ defmodule Api.Imoveis do
     ImovelImagem.changeset(imovel_imagem, attrs)
   end
 
+  @doc """
+  Returns an `%Ecto.Changeset{}` quantity images.
+
+  ## Examples
+      iex> count_imovel_imagem(id)
+      %Ecto.Changeset{data: %ImovelImagem{}}
+
+  """
+  def count_imovel_imagem!(id) do
+    Imovel
+    |> Repo.get(id)
+    |> Ecto.assoc(:imovel_imagem)
+    |> Repo.aggregate(:count, :id)
+  end
+
   alias Api.Imoveis.ImovelDocumento
 
   @doc """
@@ -389,5 +412,20 @@ defmodule Api.Imoveis do
   """
   def change_imovel_documento(%ImovelDocumento{} = imovel_documento, attrs \\ %{}) do
     ImovelDocumento.changeset(imovel_documento, attrs)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` quantity images.
+
+  ## Examples
+      iex> count_imovel_imagem(id)
+      %Ecto.Changeset{data: %ImovelImagem{}}
+
+  """
+  def count_imovel_documento!(id) do
+    Imovel
+    |> Repo.get(id)
+    |> Ecto.assoc(:imovel_documento)
+    |> Repo.aggregate(:count, :id)
   end
 end

@@ -6,9 +6,10 @@ import InputMask from 'react-input-mask';
 
 function MaskInput(props) {    
     return (
-        <div className="row mb-1">
-            <label className="form-label col-form-label col-md-2">{props.label}:</label>          
-            <div className="col-md-10">                
+        <React.Fragment>
+        <div className="mb-1">
+            <label className="form-label">{props.label}:</label>          
+            <div className="col-md-12">                
                 <Field name={props.name} label={props.label}>
                     {({ field, meta: { touched, error } }) => (
                         <InputMask                             
@@ -28,7 +29,8 @@ function MaskInput(props) {
                 </Field>                
                 <ErrorMessage name={props.name} component={TextError} />                
             </div>
-        </div>
+            </div>
+        </React.Fragment>
     );
 }
 

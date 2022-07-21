@@ -7,8 +7,8 @@ const PanelHeaderOption = (props) => {
       noButton={true}
     >
       {!props.isUpdated
-        ? "Novo Imóvel"
-        : "[" + props.isId.toString().padStart(3, "0") + "] - Atualizar Imóvel "}
+        ? props.titleInsert
+        : "[" + props.isId.toString().padStart(3, "0") + "] - " + props.titleUpdated}
     </PanelHeader>
   );
 };

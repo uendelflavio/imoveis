@@ -1,7 +1,7 @@
-import React, { useState, Fragment } from "react";
+import React from "react";
 import { Formik, Form } from "formik";
 import { Panel, PanelBody } from "../panel/panel";
-import { Modal } from "reactstrap";
+import { Modal,Button } from "reactstrap";
 import * as Yup from "yup";
 import SwitchInput from "../switch-input/switch-input";
 import FieldInput from "../field-input/field-input";
@@ -13,10 +13,9 @@ import MaskInput from "../mask-input/mask-input";
 import ImovelService from '../../services/ImovelService';
 import { toast } from 'react-toastify';
 
-
-
 const FormImovel = (props) => {
-
+  
+  const [modalOpen, setModalOpen] = React.useState(props.isModal);
   const dados = [
       { value: '',text: ''   },
       { value: 'AC', text: 'Acre'   },
@@ -51,12 +50,11 @@ const FormImovel = (props) => {
   const onSubmit =  (values) => {  
     if (props.isUpdated) {
       ImovelService.update(values.id, values);      
-      toast.success('O imovel: '+values.id+' foi atualizado com sucesso');
+      toast.success(`O imovel: ${values.id.toString().padStart(3, "0")} foi atualizado com sucesso`);
     } else {
       ImovelService.create(values);
       toast.success('O imovel foi criado com sucesso');
-    }    
-    setInterval(function () {window.location.reload();}, 500);
+    }       
   }
   
   const validationSchema = Yup.object({  
@@ -68,19 +66,16 @@ const FormImovel = (props) => {
     cidade: Yup.string().min(4,'4 caracteres no mínimo').required("A cidade é obrigatório!"),
   });
 
-
-  const [modalOpen, setModalOpen] = useState(props.isModal);
   const toggle = () => {
     setModalOpen(!modalOpen);    
   }  
 
-  
   return (
-    <Fragment>
+    <React.Fragment >
       <ButtonModal  isUpdated={props.isUpdated} toggle={toggle}/>
-      <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false} >
+      <Modal ref={props.formImovelRef} centered toggle={toggle} isOpen={modalOpen} autoFocus={false} onClosed={props.loadingData} >
         <Panel className="mb-0" >
-          <PanelHeaderOption isUpdated={props.isUpdated} isId={props.isId} />          
+          <PanelHeaderOption isUpdated={props.isUpdated} isId={props.isId} titleInsert="Novo Imovel" titleUpdated="Atualizar Imóvel"/>          
           <PanelBody>                                                    
             <Formik               
               onSubmit={(values) => onSubmit(values)}
@@ -98,7 +93,7 @@ const FormImovel = (props) => {
                 }}              
               validationSchema={validationSchema}             
               >
-              <Form>                                
+              <Form className="mb-0 border border-1 rounded p-2">                                
                 <FieldInput label="Endereço" name="endereco" focus={true} />
                 <FieldInput label="Número" name="numero"/>
                 <FieldInput label="Bairro" name="bairro"/>                           
@@ -109,13 +104,11 @@ const FormImovel = (props) => {
                 <SwitchInput label="Ocupado" name="ocupado" checkStatus={props.row.ocupado}/>                      
                 <ButtonActionInput toggle={toggle} isUpdated={props.isUpdated} onSubmit={(values) => onSubmit(values)}/>
               </Form>
-            </Formik>
-            
+            </Formik>            
           </PanelBody>
         </Panel>
-      </Modal>
-   
-    </Fragment>
+      </Modal>   
+     </React.Fragment>
   );
 };
 

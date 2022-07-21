@@ -1,6 +1,7 @@
 defmodule ApiWeb.ImovelView do
   use ApiWeb, :view
   alias ApiWeb.ImovelView
+  alias ApiWeb.ImovelImagemView
 
   def render("index.json", %{imoveis: imoveis}) do
     %{imoveis: render_many(imoveis, ImovelView, "imovel.json")}
@@ -22,6 +23,13 @@ defmodule ApiWeb.ImovelView do
       vistoria: imovel.vistoria,
       ocupado: imovel.ocupado,
       complemento: imovel.complemento
+    }
+  end
+
+  def render("imagens.json", %{imovel: imovel}) do
+    %{
+      imovel: render_one(imovel, ImovelView, "imovel.json"),
+      imovel_imagens: render_many(imovel.imovel_imagem, ImovelImagemView, "imovel_imagem.json")
     }
   end
 end

@@ -18,4 +18,10 @@ defmodule ApiWeb.ImovelImagemView do
       descricao: imovel_imagem.descricao
     }
   end
+
+  def render("count.json", %{imagems: imagems}) do
+    %{
+      imagens: imagems
+    }
+  end
 end

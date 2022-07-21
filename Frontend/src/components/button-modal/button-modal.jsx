@@ -1,20 +1,18 @@
-import React,{Fragment} from 'react'
-
-
+import React from 'react'
+import { Button } from "reactstrap";
 const ButtonModal = (props) => {
-  
   return (
-  <Fragment>
-          {!props.isUpdated ? (
-        <button type="button" onClick={props.toggle} className="btn btn-success btn-icon btn-circle btn-lg me-2" >
+  <React.Fragment>
+      {!props.isUpdated ? (
+        <Button onClick={props.toggle} className="btn btn-success btn-icon btn-circle btn-lg me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cadastra os Dados">
           <i className="fa fa-plus"></i>
-        </button>
+        </Button>
       ) : (
-        <button type="button" onClick={props.toggle} className="btn btn-warning btn-icon btn-circle btn-lg me-2" >
+        <Button  onClick={props.toggle} className="btn btn-warning btn-icon btn-circle btn-lg me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Atualiza os Dados">
           <i className="fa fa-check "></i>
-        </button>
+        </Button>
       )}
-  </Fragment>
+  </React.Fragment>
   )
 }
 

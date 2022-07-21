@@ -1,19 +1,26 @@
-import React from "react";
+import React,{ useState } from "react";
 import { Field, ErrorMessage  } from "formik";
 import TextError from "../text-error/text-error";
 
 const FieldInput = (props) => {
-  
+  const [value, setValue] = useState(props.initialValue);
+  const onChange = (e) => {
+    setValue(e.target.value);
+  };
   return (
-    <div className="row mb-1">
-      <label className="form-label col-form-label col-md-2">{props.label}:</label>
-      <div className="col-md-10">
+    <React.Fragment>
+    <div className="mb-1">
+      <label className="form-label">{props.label}:</label>
+      <div className="col-md-12">
         <Field
           type="text"
           name={props.name}
           id={props.name}>
           {({ field, meta: { touched, error } }) => (
             <input
+              ref={props.inputRef}
+              value={value}
+              onChange={onChange}
               className={
                 touched && error
                   ? "form-control is-invalid"
@@ -27,7 +34,8 @@ const FieldInput = (props) => {
         </Field>
         <ErrorMessage name={props.name} component={TextError} />
       </div>
-    </div>
+      </div>
+    </React.Fragment>
   );
 };
 

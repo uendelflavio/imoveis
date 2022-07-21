@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React from "react";
 import { Formik, Form } from "formik";
 import { Panel, PanelBody } from "../panel/panel";
 import { Modal } from "reactstrap";
@@ -56,19 +56,19 @@ const FormImovelDetalhe = (props) => {
     vagas_garagem:  Yup.string().min(10,'8 caracteres no mínimo').required("O cep é obrigatório!"),
   });
 
-  const [modalOpen, setModalOpen] = useState(props.isModal);
+  const [modalOpen, setModalOpen] = React.useState(props.isModal);
   const toggle = () => {
     setModalOpen(!modalOpen);    
   }  
 
   return (
-    <Fragment>
-      <button type="button" onClick={toggle} className="btn btn-lime btn-icon btn-circle btn-lg me-2" >
+    <React.Fragment>
+      <button type="button" onClick={toggle} className="btn btn-lime btn-icon btn-circle btn-lg me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cadastro dos Detalhes do Imóvel">
         <i className="fa fa-house-user"></i>
       </button>
       <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false} >
         <Panel className="mb-0" >
-          <PanelHeaderOption isUpdated={props.isUpdated} isId={props.isId} />          
+          <PanelHeaderOption isUpdated={props.isUpdated} isId={props.isId} titleInsert="Novo Detalhe do Imóvel" titleUpdated="Atualizar Detalhes do Imóvel"/>           
           <PanelBody>                                                    
             <Formik               
               onSubmit={(values) => onSubmit(values)}
@@ -94,13 +94,13 @@ const FormImovelDetalhe = (props) => {
                 }}              
               validationSchema={validationSchema}             
               >
-              <Form>                                
-                <FieldInput label="Area Total M2" name="area_total_m2" focus={true} />
-                <FieldInput label="Area Total Construida M2" name="area_total_construida_m2"/>
-                <FieldInput label="Numero Inscrição Imovel" name="numero_inscricao"/>                           
-                <MaskInput label="Matricula Agua" name="matricula_agua" mask="99.999-999" value />
-                <MaskInput label="Matricula Energia" name="matricula_energia" mask="99.999-999" value />                
-                <SelectInput label="Classificacao" name="classificacao" dados={dados_classificacao} />
+              <Form className="mb-0 border border-1 rounded p-2" >                                
+                <FieldInput label="Area Total M&sup2;" name="area_total_m2" focus={true} />
+                <FieldInput label="Area Total Construida M&sup2;" name="area_total_construida_m2"/>
+                <FieldInput label="Numero Inscrição Imovél" name="numero_inscricao"/>                           
+                <MaskInput label="Matrícula Agua" name="matricula_agua" mask="99.999-999" value />
+                <MaskInput label="Matrícula Energia" name="matricula_energia" mask="99.999-999" value />                
+                <SelectInput label="Classificação" name="classificacao" dados={dados_classificacao} />
                 <FieldInput label="Salas" name="salas" />
                 <FieldInput label="Quartos" name="quartos" />
                 <FieldInput label="Banheiros" name="banheiros" />
@@ -113,13 +113,11 @@ const FormImovelDetalhe = (props) => {
                 <SwitchInput label="Seguranca Incluso" name="seguranca_incluso" checkStatus={props.row.seguranca_incluso}/>   
                 <ButtonActionInput toggle={toggle} isUpdated={props.isUpdated} onSubmit={(values) => onSubmit(values)}/>
               </Form>
-            </Formik>
-            
+            </Formik>            
           </PanelBody>
         </Panel>
-      </Modal>
-   
-    </Fragment>
+      </Modal>   
+    </React.Fragment>
   );
 };
 

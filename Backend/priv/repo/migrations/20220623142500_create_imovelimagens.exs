@@ -3,7 +3,7 @@ defmodule Api.Repo.Migrations.CreateImovelimagens do
 
   def change do
     create table(:imovelimagens) do
-      add(:imagem, :string, size: 255)
+      add(:imagem, :text)
       add(:descricao, :string, size: 100)
       add(:imovel_id, references(:imoveis, on_delete: :delete_all), null: false)
       timestamps()

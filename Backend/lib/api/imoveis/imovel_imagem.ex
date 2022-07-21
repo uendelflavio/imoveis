@@ -8,7 +8,7 @@ defmodule Api.Imoveis.ImovelImagem do
   schema "imovelimagens" do
     field(:imagem, :string)
     field(:descricao, :string)
-    field(:imovel_id, :id)
+    belongs_to(:imovel, Api.Imoveis.Imovel)
     timestamps()
   end
 

@@ -524,7 +524,7 @@ class App extends React.Component {
 	tokenRefresh  = async () => {		
 		const data_json = { 'email': getUser(), 'password': getPass() }			
 		const response = await LoginService.post_refresh(data_json);
-		login(response.data.access_token);		
+		login(response);		
 	}
 
 	componentDidMount() {

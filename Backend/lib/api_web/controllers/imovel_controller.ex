@@ -4,7 +4,7 @@ defmodule ApiWeb.ImovelController do
   alias Api.Imoveis
   alias Api.Imoveis.Imovel
 
-  action_fallback ApiWeb.FallbackController
+  action_fallback(ApiWeb.FallbackController)
 
   def index(conn, _params) do
     imoveis = Imoveis.list_imoveis()
@@ -39,5 +39,11 @@ defmodule ApiWeb.ImovelController do
     with {:ok, %Imovel{}} <- Imoveis.delete_imovel(imovel) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  def imagens(conn, %{"id" => id} = params) do
+    preloads = [:imovel_imagem]
+    imovel = Imoveis.get_imovel_with_imagem!(id, preloads: preloads)
+    render(conn, "imagens.json", imovel: imovel)
   end
 end

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import {  useHistory } from "react-router-dom";
 import { Formik, Form, Field,ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -15,8 +15,8 @@ const FormLogin = () => {
             toast.warning('Preencha e-mail e senha para continuar!');
         } else {
             try {                
-                const response = await LoginService.post_new(values);
-                login(response.data.access_token);               
+                const response = await LoginService.post_new(values);       
+                login(response);               
                 setUser(values.email);
                 setPass(values.password)
                 history.push("/app");
@@ -38,7 +38,7 @@ const FormLogin = () => {
         password: Yup.string().min(6,'É necessario no mínimo 6 caracteres').required("A senha é obrigatória!"),
     });
   return (
-    <Fragment>
+    <React.Fragment>
         <Formik
             enableReinitialize={true}
             initialValues={{                  
@@ -94,7 +94,7 @@ const FormLogin = () => {
                 </div>
             </Form>
         </Formik>
-    </Fragment>
+    </React.Fragment>
   );
 };
 

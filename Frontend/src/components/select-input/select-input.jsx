@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import { Field, ErrorMessage } from "formik";
 import TextError from "../text-error/text-error";
 
@@ -6,10 +6,10 @@ function SelectInput(props) {
     
             
   return (
-    <Fragment>
-        <div className="row mb-1">
-            <label className="form-label col-form-label col-md-2">{props.label}:</label>
-            <div className="col-md-10">
+    <React.Fragment>
+        <div className="mb-1">
+            <label className="form-label">{props.label}:</label>
+            <div className="col-md-12">
                 <Field name={props.name} id={props.name}>
                     {({ field, meta: { touched, error } }) => (
                         <select
@@ -31,7 +31,7 @@ function SelectInput(props) {
                 <ErrorMessage name={props.name} component={TextError} />
            </div>
         </div>
-    </Fragment>
+    </React.Fragment>
   )
 }
 

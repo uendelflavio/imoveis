@@ -23,4 +23,10 @@ defmodule ApiWeb.ImovelDocumentoView do
       descricao: imovel_documento.descricao
     }
   end
+
+  def render("count.json", %{documentos: documentos}) do
+    %{
+      documentos: documentos
+    }
+  end
 end

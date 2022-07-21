@@ -18,16 +18,17 @@ defmodule ApiWeb.Router do
     pipe_through(:api)
     post("/users", UserController, :register)
     post("/session/new", SessionController, :new)
-    resources("/imoveisdetalhe", ImovelDetalheController)
+    get("/imoveisimagem/count/:id", ImovelImagemController, :count)
+    get("/imoveis/imagens/:id", ImovelController, :imagens)
   end
 
   scope "/api", ApiWeb do
     pipe_through([:api, :auth])
-
+    get("/imoveisdocumento/count/:id", ImovelDocumentoController, :count)
     post("/session/refresh", SessionController, :refresh)
     delete("/session/delete", SessionController, :delete)
     resources("/imoveis", ImovelController)
-
+    resources("/imoveisdetalhe", ImovelDetalheController)
     resources("/imoveisdocumento", ImovelDocumentoController)
     resources("/imoveisimagem", ImovelImagemController)
   end

@@ -19,6 +19,7 @@ import './scss/react.scss';
 import 'bootstrap-social/bootstrap-social.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
 
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}

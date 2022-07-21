@@ -23,7 +23,7 @@ defmodule Api.Imoveis.ImovelDetalhe do
     field(:seguranca_incluso, :boolean, default: false)
     field(:suites, :integer)
     field(:vagas_garagem, :integer)
-    field(:imovel_id, :id)
+    belongs_to(:imovel, Api.Imoveis.Imovel)
     timestamps()
   end
 
@@ -31,6 +31,7 @@ defmodule Api.Imoveis.ImovelDetalhe do
   def changeset(imovel_detalhe, attrs) do
     imovel_detalhe
     |> cast(attrs, [
+      :imovel_id,
       :area_total_m2,
       :area_total_construida_m2,
       :numero_inscricao,
@@ -46,8 +47,7 @@ defmodule Api.Imoveis.ImovelDetalhe do
       :piscina,
       :agua_incluso,
       :gas_incluso,
-      :seguranca_incluso,
-      :imovel_id
+      :seguranca_incluso
     ])
     |> validate_required([
       :area_total_m2,

@@ -1,28 +1,29 @@
-import React,{ Fragment } from "react";
+import React from "react";
 import { useFormikContext } from "formik";
-
+import { Button } from "reactstrap";
 export default function ButtonActionInput (props) {
   const { isValid } = useFormikContext();  
 
   return (
-    <Fragment>
-    <div className="mb-0 p-1 text-end border-0 hljs-wrapper">
-      <button
+    <React.Fragment>
+    <div className="p-0 text-end border border-1 hljs-wrapper rounded">
+      <Button
         type="submit"
         onClick={() => { props.toggle() }}
         disabled={!isValid}
-        className={`btn ${!props.isUpdated ? "btn-success btn-lg m-1" : "btn-warning btn-lg m-1"}`}                    
-      >
-      {!props.isUpdated ? "Incluir" : "Atualizar"}
-      </button>
-      <button
-        type="button"
+        className={`${!props.isUpdated ? "btn-success btn-lg m-1" : "btn-warning btn-lg m-1"}`}                    
+        >
+        <i className={!props.isUpdated ? "fa fa-plus me-2" : "fa fa-edit me-2"}></i> 
+        {!props.isUpdated ?"Incluir": "Atualizar"}
+      </Button>
+      <Button        
         onClick={props.toggle}
-        className="btn btn-gray btn-lg m-2"
-      >
+        className="btn-gray btn-lg m-2"
+        >
+        <i className="fa fa-door-open me-2"></i>
         Sair
-      </button>
+      </Button>
       </div>
-      </Fragment>
+      </React.Fragment>
   );
 };

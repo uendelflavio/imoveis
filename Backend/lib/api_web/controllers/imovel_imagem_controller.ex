@@ -42,4 +42,9 @@ defmodule ApiWeb.ImovelImagemController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def count(conn, %{"id" => id}) do
+    imagems = Imoveis.count_imovel_imagem!(id)
+    render(conn, "count.json", imagems: imagems)
+  end
 end

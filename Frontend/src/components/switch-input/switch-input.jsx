@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Switch from "react-switch";
 import { Field } from "formik";
 
 const SwitchInput = (props) => {
-  const [check, setCheck] = useState(typeof props.checkStatus === 'undefined' ? false :props.checkStatus);
+  const [check, setCheck] = React.useState(typeof props.checkStatus === 'undefined' ? false :props.checkStatus);
   const handleSwitch = (form) => {
     setCheck(!check);
     if (check) {
@@ -14,6 +14,7 @@ const SwitchInput = (props) => {
   };
 
   return (  
+    <React.Fragment>
     <div className="d-inline-flex flex-row flex-direction: row align-items: start">
       <div className="form-check">
         <label className="form-check-label">
@@ -30,7 +31,8 @@ const SwitchInput = (props) => {
           </Field> 
         </label>
       </div>   
-    </div>
+      </div>
+      </React.Fragment>
   );
 };
 

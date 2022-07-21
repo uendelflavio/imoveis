@@ -8,7 +8,7 @@ defmodule Api.Imoveis.ImovelDocumento do
   schema "imoveldocumentos" do
     field(:documento, :string)
     field(:descricao, :string)
-    field(:imovel_id, :id)
+    belongs_to(:imovel, Api.Imoveis.Imovel)
     timestamps()
   end
 

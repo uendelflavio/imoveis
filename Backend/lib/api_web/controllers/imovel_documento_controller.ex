@@ -4,7 +4,7 @@ defmodule ApiWeb.ImovelDocumentoController do
   alias Api.Imoveis
   alias Api.Imoveis.ImovelDocumento
 
-  action_fallback ApiWeb.FallbackController
+  action_fallback(ApiWeb.FallbackController)
 
   def index(conn, _params) do
     imoveldocumentos = Imoveis.list_imoveldocumentos()
@@ -41,5 +41,10 @@ defmodule ApiWeb.ImovelDocumentoController do
     with {:ok, %ImovelDocumento{}} <- Imoveis.delete_imovel_documento(imovel_documento) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  def count(conn, %{"id" => id}) do
+    documentos = Imoveis.count_imovel_documento!(id)
+    render(conn, "count.json", documentos: documentos)
   end
 end

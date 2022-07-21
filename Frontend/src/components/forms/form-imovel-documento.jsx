@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React from "react";
 import { Formik, Form } from "formik";
 import { Panel, PanelBody } from "../panel/panel";
 import { Modal } from "reactstrap";
@@ -31,20 +31,20 @@ const FormImovelDocumento = (props) => {
   });
 
 
-  const [modalOpen, setModalOpen] = useState(props.isModal);
+  const [modalOpen, setModalOpen] = React.useState(props.isModal);
   const toggle = () => {
     setModalOpen(!modalOpen);    
   }  
 
   
   return (
-    <Fragment>
-      <button type="button" onClick={toggle} className="btn btn-purple btn-icon btn-circle btn-lg me-2" >
+    <React.Fragment>
+      <button type="button" onClick={toggle} className="btn btn-purple btn-icon btn-circle btn-lg me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cadastro de Documentos do Imovel">
         <i className="fa fa-file"></i>
       </button>
       <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false} >
         <Panel className="mb-0" >
-          <PanelHeaderOption isUpdated={props.isUpdated} isId={props.isId} />          
+          <PanelHeaderOption isUpdated={props.isUpdated} isId={props.isId} titleInsert="Novo Documento do Imóvel" titleUpdated="Atualizar Documento do Imóvel"/>          
           <PanelBody>                                                    
             <Formik               
               onSubmit={(values) => onSubmit(values)}
@@ -58,7 +58,7 @@ const FormImovelDocumento = (props) => {
                 }}              
               validationSchema={validationSchema}             
               >
-              <Form>                                
+              <Form className="mb-0 border border-1 rounded p-2">                                
                 <FieldInput label="Link" name="link" focus={true} />
                 <FieldInput label="Descrição" name="descricao"/>                     
                 <ButtonActionInput toggle={toggle} isUpdated={props.isUpdated} onSubmit={(values) => onSubmit(values)}/>
@@ -68,7 +68,7 @@ const FormImovelDocumento = (props) => {
         </Panel>
       </Modal>
    
-    </Fragment>
+    </React.Fragment>
   );
 };
 
