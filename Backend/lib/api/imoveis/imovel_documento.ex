@@ -17,5 +17,6 @@ defmodule Api.Imoveis.ImovelDocumento do
     imovel_documento
     |> cast(attrs, [:documento, :descricao, :imovel_id])
     |> validate_required([:documento, :descricao, :imovel_id])
+    |> foreign_key_constraint(:imovel_id)
   end
 end

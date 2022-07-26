@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import { Panel, PanelBody } from "../panel/panel";
-import { Modal } from "reactstrap";
+import { Modal, Button } from "reactstrap";
 import * as Yup from "yup";
 import FieldInput from "../field-input/field-input";
 import PanelHeaderOption from "../panel-header-option/panel-header-option";
@@ -39,9 +39,9 @@ const FormImovelDocumento = (props) => {
   
   return (
     <React.Fragment>
-      <button type="button" onClick={toggle} className="btn btn-purple btn-icon btn-circle btn-lg me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cadastro de Documentos do Imovel">
-        <i className="fa fa-file"></i>
-      </button>
+      <Button type="button" onClick={toggle} className="btn btn-purple btn-icon btn-circle btn-lg me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cadastro de Documentos do Imovel">
+        <i className="fa fa-file"/>
+      </Button>
       <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false} >
         <Panel className="mb-0" >
           <PanelHeaderOption isUpdated={props.isUpdated} isId={props.isId} titleInsert="Novo Documento do Imóvel" titleUpdated="Atualizar Documento do Imóvel"/>          

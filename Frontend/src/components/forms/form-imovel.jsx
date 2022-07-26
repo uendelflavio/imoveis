@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import { Panel, PanelBody } from "../panel/panel";
-import { Modal,Button } from "reactstrap";
+import { Modal } from "reactstrap";
 import * as Yup from "yup";
 import SwitchInput from "../switch-input/switch-input";
 import FieldInput from "../field-input/field-input";
@@ -73,7 +73,7 @@ const FormImovel = (props) => {
   return (
     <React.Fragment >
       <ButtonModal  isUpdated={props.isUpdated} toggle={toggle}/>
-      <Modal ref={props.formImovelRef} centered toggle={toggle} isOpen={modalOpen} autoFocus={false} onClosed={props.loadingData} >
+      <Modal  centered toggle={toggle} isOpen={modalOpen} autoFocus={false} onClosed={props.loadingData} >
         <Panel className="mb-0" >
           <PanelHeaderOption isUpdated={props.isUpdated} isId={props.isId} titleInsert="Novo Imovel" titleUpdated="Atualizar Imóvel"/>          
           <PanelBody>                                                    

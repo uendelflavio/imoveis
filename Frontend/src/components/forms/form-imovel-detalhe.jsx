@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import { Panel, PanelBody } from "../panel/panel";
-import { Modal } from "reactstrap";
+import { Modal,Button } from "reactstrap";
 import * as Yup from "yup";
 import SwitchInput from "../switch-input/switch-input";
 import FieldInput from "../field-input/field-input";
@@ -11,8 +11,6 @@ import SelectInput from "../select-input/select-input";
 import MaskInput from "../mask-input/mask-input";
 import ImovelDetalheService from '../../services/ImovelDetalheService';
 import { toast } from 'react-toastify';
-
-
 
 const FormImovelDetalhe = (props) => {
 
@@ -63,9 +61,9 @@ const FormImovelDetalhe = (props) => {
 
   return (
     <React.Fragment>
-      <button type="button" onClick={toggle} className="btn btn-lime btn-icon btn-circle btn-lg me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cadastro dos Detalhes do Imóvel">
-        <i className="fa fa-house-user"></i>
-      </button>
+      <Button onClick={toggle} className="btn btn-lime btn-icon btn-circle btn-lg me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cadastro dos Detalhes do Imóvel">
+        <i className="fa fa-house-user"/>
+      </Button>
       <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false} >
         <Panel className="mb-0" >
           <PanelHeaderOption isUpdated={props.isUpdated} isId={props.isId} titleInsert="Novo Detalhe do Imóvel" titleUpdated="Atualizar Detalhes do Imóvel"/>           

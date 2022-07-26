@@ -25,6 +25,7 @@ defmodule Api.Account.User do
     user
     |> cast(attrs, [:email, :password])
     |> validate_required([:email, :password])
+    |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
     |> encrypt_and_put_password()
   end

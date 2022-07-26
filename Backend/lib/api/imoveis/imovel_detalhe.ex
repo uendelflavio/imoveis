@@ -69,5 +69,6 @@ defmodule Api.Imoveis.ImovelDetalhe do
       :imovel_id
     ])
     |> unique_constraint(:imovel_id)
+    |> foreign_key_constraint(:imovel_id)
   end
 end

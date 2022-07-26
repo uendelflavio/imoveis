@@ -8,7 +8,7 @@ const PanelHeaderOption = (props) => {
     >
       {!props.isUpdated
         ? props.titleInsert
-        : "[" + props.isId.toString().padStart(3, "0") + "] - " + props.titleUpdated}
+        : "[" + props.id.toString().padStart(3, "0") + "] - " + props.titleUpdated}
     </PanelHeader>
   );
 };

@@ -42,8 +42,12 @@ defmodule ApiWeb.ImovelController do
   end
 
   def imagens(conn, %{"id" => id} = params) do
-    preloads = [:imovel_imagem]
-    imovel = Imoveis.get_imovel_with_imagem!(id, preloads: preloads)
+    imovel = Imoveis.get_imovel_with_imagem!(id)
     render(conn, "imagens.json", imovel: imovel)
+  end
+
+  def detalhes(conn, %{"id" => id} = params) do
+    imovel = Imoveis.get_imovel_with_detalhe!(id)
+    render(conn, "detalhes.json", imovel: imovel)
   end
 end

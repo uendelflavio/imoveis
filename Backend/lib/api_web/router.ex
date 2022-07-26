@@ -20,6 +20,7 @@ defmodule ApiWeb.Router do
     post("/session/new", SessionController, :new)
     get("/imoveisimagem/count/:id", ImovelImagemController, :count)
     get("/imoveis/imagens/:id", ImovelController, :imagens)
+    get("/imoveis/detalhes/:id", ImovelController, :detalhes)
   end
 
   scope "/api", ApiWeb do

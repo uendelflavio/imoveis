@@ -17,5 +17,6 @@ defmodule Api.Imoveis.ImovelImagem do
     imovel_imagem
     |> cast(attrs, [:imagem, :descricao, :imovel_id])
     |> validate_required([:imagem, :descricao, :imovel_id])
+    |> foreign_key_constraint(:imovel_id)
   end
 end

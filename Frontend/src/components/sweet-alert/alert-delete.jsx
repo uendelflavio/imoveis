@@ -6,10 +6,9 @@ const AlertDelete = (props) => {
     const onClickDelete = () => { setAlertDelete(true); }
     const toggleSweetAlert = (state) => {setAlertDelete(!sweetAlertDelete);}
     const [sweetAlertDelete, setAlertDelete] = React.useState(false);
-    
+        
     return (
       <React.Fragment>
-
         <Button
           onClick={onClickDelete}
           className="btn btn-danger btn-icon btn-circle btn-lg me-2"
@@ -17,21 +16,19 @@ const AlertDelete = (props) => {
           data-bs-placement="bottom"
           title="Excluir os Dados">
           <i className="fa fa-minus"/>
-        </Button>
-        
+        </Button>        
         {(sweetAlertDelete &&
           <SweetAlert danger showCancel
             cancelBtnText="Cancelar"
             confirmBtnBsStyle="danger"
             cancelBtnBsStyle="default"
             title={<span>Deseja excluir o registro: {(props.rowID).toString().padStart(3, "0")}</span>}
-            onConfirm={() => toggleSweetAlert(false)}
-            onCancel={() => toggleSweetAlert(false)}
+            onConfirm={() => { toggleSweetAlert(false); props.deleteData(props.rowID)}}
+            onCancel={() => { toggleSweetAlert(false);}}
             >
             Esta ação vai excluir permanentemente os dados.
           </SweetAlert>
-        )}
-        
+        )}        
       </React.Fragment>
     )
 }

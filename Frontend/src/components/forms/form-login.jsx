@@ -9,8 +9,7 @@ import LoginService from '../../services/LoginService'
 const FormLogin = () => {
     let history = useHistory();
     
-    const onSubmit = async (values, actions) => {  
-        
+    const onSubmit = async (values, actions) => {          
         if (!values.email || !values.password) {
             toast.warning('Preencha e-mail e senha para continuar!');
         } else {

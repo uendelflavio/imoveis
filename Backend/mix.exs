@@ -51,7 +51,8 @@ defmodule Api.MixProject do
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:cors_plug, "~> 3.0"},
       {:scrivener_ecto, "~> 2.7"},
-      {:distillery, "~> 2.0"}
+      {:distillery, "~> 2.0"},
+      {:ex_doc, "~> 0.21", only: :dev, runtime: false}
     ]
   end
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, Input } from 'reactstrap';
 import { useFormikContext } from "formik";
 
 const FieldInputFileImagem = (props) => {
@@ -6,19 +7,6 @@ const FieldInputFileImagem = (props) => {
   const [baseFile, setBaseFile] = React.useState('');
   const fileRef = React.useRef(null);
   const formik = useFormikContext();
-
-  // React.useEffect(() => {
-  //   const init = () => {
-  //       if (props.isImage !== '') {        
-  //         setBaseFile(props.isImage);
-  //         props.onFile(baseFile.length)
-  //       } else {
-  //         setBaseFile('');
-  //         props.onFile('')
-  //       }
-  //   }
-  //   init();
-  //  });
   
   const resizeImage = (base64Str, maxWidth = 350, maxHeight = 350) => {
     return new Promise((resolve) => {
@@ -67,9 +55,9 @@ const FieldInputFileImagem = (props) => {
     <React.Fragment>
     <div className=" text-end border-0">
         <div className="col-md-12"> 
-        <input
+        <Input
           hidden
-          ref={fileRef}
+          innerRef={fileRef}
           name={props.name}         
           id={props.name}
           type="file"
@@ -78,13 +66,7 @@ const FieldInputFileImagem = (props) => {
             formik.touched[props.name] && formik.errors[props.name]
             ? "form-control is-invalid"
             : "form-control is-valid"
-          }
-          onClick={() => {
-            if (formik.errors[props.name]) {
-              setBaseFile('')
-              props.onFile(0)
-            }            
-          }}
+          }         
           onChange={(e) => {    
             formik.setFieldValue(props.name, e.target.files[0])             
             getBase64(e.target.files[0])
@@ -99,16 +81,17 @@ const FieldInputFileImagem = (props) => {
                   console.log(err);             
                 }
             );
-            props.onFile(baseFile.length)
+            
           }}
-          />  
+        />  
           <div className="d-flex justify-content-end">
-            <button
-              type="button"
+            <Button
+              outline
+              color={baseFile.length <= 1 ? "danger" : "success"}
               onClick={() => fileRef.current.click()}
               className={baseFile.length <= 1 
-                ? "btn btn-outline-danger position-relative border-2 m-0"
-                : "btn btn-outline-success position-relative border-2 m-0"
+                ? "position-relative border-2 m-0"
+                : "position-relative border-2 m-0"
               }
               >
               <i className="fa fa-upload me-1"></i>
@@ -118,8 +101,8 @@ const FieldInputFileImagem = (props) => {
                 : 
                 <span className="position-absolute top-0 start-100 translate-middle p-2 bg-success border border-light rounded-circle"/>
               }    
-              {console.log('tamanho do arquivo: ',baseFile.length, ' erro: ',formik.errors[props.name])}
-            </button>           
+              
+            </Button>           
           </div>         
           <div style={{width: '120px'}} >
               {formik.errors[props.name] ? <small className='bold text-danger '>{formik.errors[props.name]}</small> : null}                     

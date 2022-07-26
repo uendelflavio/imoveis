@@ -38,12 +38,16 @@ defmodule Api.Imoveis do
   """
   def get_imovel!(id), do: Repo.get!(Imovel, id)
 
-  def get_imovel_with_imagem!(id, opts \\ []) do
-    preloads = Keyword.get(opts, :preloads, [])
-
+  def get_imovel_with_imagem!(id) do
     Imovel
     |> Repo.get!(id)
-    |> Repo.preload(preloads)
+    |> Repo.preload([:imovel_imagem])
+  end
+
+  def get_imovel_with_detalhe!(id) do
+    Imovel
+    |> Repo.get!(id)
+    |> Repo.preload([:imovel_detalhe])
   end
 
   @doc """

@@ -21,4 +21,18 @@ defmodule ApiWeb.FallbackController do
     |> put_view(ApiWeb.ErrorView)
     |> render(:"404")
   end
+
+  def call(conn, {:error, :unauthorized}) do
+    conn
+    |> put_status(403)
+    |> put_view(ApiWeb.ErrorView)
+    |> render(:"403")
+  end
+
+  def call(conn, {:error, :server_error}) do
+    conn
+    |> put_status(500)
+    |> put_view(ApiWeb.ErrorView)
+    |> render(:"500")
+  end
 end

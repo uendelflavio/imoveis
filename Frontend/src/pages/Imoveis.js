@@ -1,15 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useTable, useGlobalFilter, usePagination, useRowSelect } from 'react-table';
-import { Button } from "reactstrap";
+import { Button, Table } from "reactstrap";
 import { COLUMNS_IMOVEIS } from "../components/table-column/table-column";
 import { useExportData } from "react-table-plugins";
 import TableFilter from '../components/table-filter/table-filter';
 import FormImovel from "../components/forms/form-imovel";
-import AlertDelete from "../components/sweet-alert/alert-delete";
-import FormImovelDetalhe from "../components/forms/form-imovel-detalhe";
+// import AlertDelete from "../components/sweet-alert/alert-delete";
+// import FormImovelDetalhe from "../components/forms/form-imovel-detalhe";
 import FormImovelImagem from "../components/forms/form-imovel-imagem";
-import FormImovelDocumento from "../components/forms/form-imovel-documento";
+// import FormImovelDocumento from "../components/forms/form-imovel-documento";
 import ImovelService from '../services/ImovelService';
 import ButtonActionExport, { getExportFileBlob } from '../components/button-action-export/button-action-export';
 import { ToastContainer } from 'react-toastify';
@@ -18,28 +18,27 @@ import 'react-toastify/dist/ReactToastify.css';
 function Imoveis() {
   const [data, setData] = React.useState([]);
   const columns = React.useMemo(() => COLUMNS_IMOVEIS, []);
+  React.useEffect(() => loadingData(), [])
 
   React.useMemo(() => {
     if (columns.length === 8) {
       columns.push({
-        Header: () => 'AÇÕES INCLUIR/ATUALIZAR',
+        Header: () => 'AÇÕES ATUALIZAR/APAGAR',
         id: 'action',
         Cell: ({ row }) => {
           return (
-            <div class="d-flex flex-row">
-              <div class="bd-highlight"><FormImovel isModal={false} isUpdated={true} isId={row.original.id} row={row.original} loadingData={loadingData} /></div>
-              <div class="bd-highlight"><AlertDelete rowID={row.original.id} /></div>
-              <div class="bd-highlight"><FormImovelDetalhe isModal={false} isUpdated={true} isId={row.original.id} row={row.original} /></div>
-              <div class="bd-highlight"><FormImovelImagem isModal={false} isUpdated={true} isId={row.original.id} row={row.original} /></div>
-              <div class="bd-highlight"><FormImovelDocumento isModal={false} isUpdated={true} isId={row.original.id} row={row.original} /></div>
+            <div className="d-flex flex-row">
+              {/* <div className="bd-highlight"><FormImovel isModal={false} isUpdated={true} isInserted={false} isDeleted={false} isId={row.original.id} row={row.original} loadingData={loadingData} /></div> */}
+              {/* <div className="bd-highlight"><AlertDelete rowID={row.original.id} deleteData={deleteData} /></div> */}
+              {/* <div className="bd-highlight"><FormImovelDetalhe isModal={false} isUpdated={true} isId={row.original.id} row={row.original} /></div> */}
+              <div className="bd-highlight"><FormImovelImagem isModal={false} isUpdated={true} id={row.original.id} /></div>
+              {/* <div className="bd-highlight"><FormImovelDocumento isModal={false} isUpdated={true} isId={row.original.id} row={row.original} /></div> */}
             </div>
           );
         },
       });
     }
   }, [columns]);
-
-  React.useEffect(() => loadingData(), [])
 
   const loadingData = async () => {
     const result = await ImovelService.getAll('');
@@ -110,7 +109,7 @@ function Imoveis() {
           <div className="tab-pane fade show active" id="allTab">
             <TableFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
             <div className="table-responsive mb-3">
-              <table {...getTableProps()} className="table table-hover table-panel text-nowrap align-middle mb-0 table-sm" hidden={pageOptions.length > 0 ? false : true}>
+              <Table {...getTableProps()} className="table table-hover table-panel text-nowrap align-middle mb-0 table-sm" hidden={pageOptions.length > 0 ? false : true} responsive>
                 <thead>
                   {headerGroups.map(headerGroup => (
                     <tr  {...headerGroup.getHeaderGroupProps()}>
@@ -134,7 +133,7 @@ function Imoveis() {
                     )
                   })}
                 </tbody>
-              </table>
+              </Table>
             </div>
             <div className="d-md-flex align-items-center">
               <div className="me-md-auto text-md-left text-center mb-2 mb-md-0" hidden={pageOptions.length > 0 ? false : true}>

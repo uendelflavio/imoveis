@@ -1,53 +1,43 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
-import ImovelImagemService from '../../services/ImovelImagemService';
-import ImovelService from '../../services/ImovelService';
+
 export const CarouselImageGallery = (props) => {
-  const [data, setData] = useState([]);
-  const [isIdImage, setIdImage] = useState(0);
-  const [isDescricao, setDescricao] = useState('');
-  const [isImage, setImage] = useState('');
+  const [data, setData] = React.useState([]);    
   const images = [];
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await ImovelImagemService.getAll();
-      const imovel_with_images = await ImovelService.getWithImages(props.isId)
-      console.log(imovel_with_images)
-      setData(result.imovel_imagens);
-    };
-    fetchData();
-  }, []);
-
-  for(let i = 0; i < data.length; i = i + 1 ) {
-    images.push({
-      original: data[i]['imagem'],
-      thumbnail: data[i]['imagem'],
-      descricao: data[i]['descricao'],
-      id: data[i]['id'],
-    })
-  }
+  React.useEffect(() => { 
+    const loadData = () => {    
+      setData(props.data.imovel_imagens)
+      data.forEach((v) => {
+        images.push({
+          original: v.imagem,
+          thumbnail: v.imagem,
+          descricao: v.descricao,
+          id: v.id,
+        });
+      });
+    }
+    loadData()
+  });
 
   const onImageLoad = () => {
-    setIdImage(images[0]['id']);
-    setDescricao(images[0]['descricao'])
-    setImage(images[0]['imagem'])
-    props.onDataImage(isIdImage,isDescricao,isImage)
+    props.setIdImagem(images[0].id);
+    props.setIsImagem(images[0].imagem);
+    props.setIsDescricao(images[0].descricao);
   }
 
-  const onSlide = (id) => {   
-    setIdImage(images[id]['id']);
-    setDescricao(images[id]['descricao']);   
-    setImage(images[id]['imagem']);
-    props.onDataImage(images[id]['id'], images[id]['descricao'], images[id]['imagem'])            
+  const onBeforeSlide = (id) => {
+    props.setIdImagem(images[id].id);   
+    props.setIsImagem(images[id].imagem);
+    props.setIsDescricao(images[id].descricao);
   }
 
   return (    
     <React.Fragment>
     <div className="mb-2 p-1 text-end border border-1 rounded">       
       <div className="col-md-12"> 
-        <ImageGallery  showThumbnails={false} onImageLoad={onImageLoad} onSlide={onSlide} showPlayButton={false} additionalClass="app-image-gallery" items={images}/>
+        <ImageGallery  showThumbnails={false} onImageLoad={onImageLoad} onBeforeSlide={onBeforeSlide} showPlayButton={false} additionalClass="app-image-gallery" items={images}/>
       </div>
       </div>      
     </React.Fragment>
