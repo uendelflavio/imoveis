@@ -1,41 +1,31 @@
 import React from 'react'
-import { useFormikContext } from "formik";
 import SweetAlert from 'react-bootstrap-sweetalert';
+import { useFormikContext } from "formik";
 import { Button } from "reactstrap";
 
 const ButtonActionInputCrud = (props) => {  
   const formik = useFormikContext();
   const [alertDelete, setAlertDelete] = React.useState(false);
   const [alertUpdate, setAlertUpdate] = React.useState(false);
-  const [isNew, setIsNew] = React.useState(true);
+  
   const toggleAlertDelete = (state) => { setAlertDelete(!alertDelete); }
   const toggleAlertUpdate = (state) => { setAlertUpdate(!alertUpdate); }
-  const onClickDelete = (event) => { event.preventDefault(); setAlertDelete(true); }
-  const onClickUpdate = (event) => { event.preventDefault(); setAlertUpdate(true); }
+  const onClickDelete = (event) => { event.preventDefault(); props.setDisableValidationImagem(true);setAlertDelete(true); }
+  const onClickUpdate = (event) => { event.preventDefault(); props.setDisableValidationImagem(false);setAlertUpdate(true); }
     
   return (
     <React.Fragment>
       <div className="d-flex justify-content-evenly hljs-wrapper rounded border border-1 p-1 mt-3">
-      {isNew ?
-          <Button
-            onClick={() => { props.sendAction('new'); setIsNew(false);formik.submitForm(); }}
-            className="btn-info btn-lg m-1"                    
-            >
-            <i className="fa fa-plus-circle me-2"/>
-            Novo
-          </Button>
-      :
-          <Button
-            onClick={() => { props.sendAction('create'); setIsNew(true); formik.submitForm(); }}
-            disabled={!formik.isValid}
-            className="btn-success btn-lg m-1"                    
-            >
-            <i className="fa fa-plus me-2"/>
-            Incluir
-          </Button>
-      }
       <Button
+        onClick={() => { props.setDisableValidationImagem(false); props.sendAction('create');  formik.submitForm(); }}
         disabled={!formik.isValid}
+        className="btn-success btn-lg m-1"                    
+        >
+        <i className="fa fa-plus me-2"/>
+        Incluir
+      </Button>      
+      <Button         
+        disabled={(props.id).toString().padStart(3, "0") === '000' || !formik.isValid}
         onClick={onClickUpdate}                  
         className="btn-warning btn-lg m-1"
       >
@@ -63,7 +53,7 @@ const ButtonActionInputCrud = (props) => {
             confirmBtnBsStyle="danger"
             cancelBtnBsStyle="default"
             title={<span>Deseja excluir o registro: {(props.id).toString().padStart(3, "0")}</span>}
-            onConfirm={() => {
+            onConfirm={() => {              
               props.sendAction('delete');             
               formik.submitForm();
               toggleAlertDelete(false);
@@ -79,7 +69,7 @@ const ButtonActionInputCrud = (props) => {
             confirmBtnBsStyle="warning"
             cancelBtnBsStyle="default"
             title={<span>Deseja atualizar o registro: {(props.id).toString().padStart(3, "0")}</span>}
-            onConfirm={() => {
+            onConfirm={() => {              
               props.sendAction('update');
               formik.submitForm();
               toggleAlertUpdate(false);

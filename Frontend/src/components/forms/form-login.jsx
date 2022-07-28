@@ -1,15 +1,17 @@
 import React from "react";
 import {  useHistory } from "react-router-dom";
 import { Formik, Form, Field,ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { login,setUser,setPass } from "../../utils/auth";
 import { toast } from 'react-toastify';
+
+import * as Yup from "yup";
 import TextError from "../text-error/text-error";
+
 import LoginService from '../../services/LoginService'
 const FormLogin = () => {
     let history = useHistory();
     
-    const onSubmit = async (values, actions) => {          
+    const onSubmit = async (values) => {          
         if (!values.email || !values.password) {
             toast.warning('Preencha e-mail e senha para continuar!');
         } else {
@@ -23,14 +25,7 @@ const FormLogin = () => {
                 if (error.response.status === 401) toast.error('Houve um problema com autenticação, verifique suas credenciais e tente novamente.');                    
                 if (error.response.status >= 500) toast.error('Houve falha de comunicação com o servidor, tente autenticar novamente.');                    
             }
-        }
-        actions.setSubmitting(false);
-        actions.resetForm({
-            values: {
-            email: '',
-            password: '',
-            },
-        });    
+        }    
     };    
     const validationSchema = Yup.object({  
         email: Yup.string().email('O email está inválido!').required("O email é obrigatório!"),
@@ -45,7 +40,7 @@ const FormLogin = () => {
                 password: '',
             }}              
             validationSchema={validationSchema}
-            onSubmit={onSubmit}
+            onSubmit={(values) => onSubmit(values)}
         >
             <Form> 
                   <div className="form-floating mb-20px">                   

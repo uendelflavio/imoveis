@@ -9,7 +9,8 @@ import FloatSubMenu from './components/float-sub-menu/float-sub-menu.jsx';
 import ThemePanel from './components/theme-panel/theme-panel.jsx';
 import LoginService from '../src/services/LoginService';
 import { getUser, getPass, login } from '../src/utils/auth';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class App extends React.Component {
 
@@ -560,6 +561,7 @@ class App extends React.Component {
 		return (
 			
 			<AppSettings.Provider value={this.state}>
+				<ToastContainer closeButton={false} closeOnClick={false} autoClose={2000} position="top-center" theme="colored" newestOnTop />
 				<div className={
 					'app ' +
 					(this.state.appGradientEnabled ? 'app-gradient-enabled ' : '') + 

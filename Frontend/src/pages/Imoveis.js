@@ -12,8 +12,7 @@ import FormImovelImagem from "../components/forms/form-imovel-imagem";
 // import FormImovelDocumento from "../components/forms/form-imovel-documento";
 import ImovelService from '../services/ImovelService';
 import ButtonActionExport, { getExportFileBlob } from '../components/button-action-export/button-action-export';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 
 function Imoveis() {
   const [data, setData] = React.useState([]);
@@ -77,7 +76,7 @@ function Imoveis() {
 
   return (
     <div>
-      <ToastContainer position="top-center" newestOnTop />
+
       <div className="d-flex align-items-center mb-3">
         <div>
           <ul className="breadcrumb">
