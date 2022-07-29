@@ -1,21 +1,33 @@
 import React from "react";
 import { Formik, Form } from "formik";
 import { Panel, PanelBody } from "../panel/panel";
-import { Modal,Button } from "reactstrap";
+import { Modal, Button } from "reactstrap";
+import { toast } from 'react-toastify';
 import * as Yup from "yup";
 import SwitchInput from "../switch-input/switch-input";
 import FieldInput from "../field-input/field-input";
 import PanelHeaderOption from "../panel-header-option/panel-header-option";
-import ButtonActionInput from "../button-action-input/button-action-input";
+import ButtonActionInputCrud from '../button-action-input-crud/button-action-input-crud';
 import SelectInput from "../select-input/select-input";
 import MaskInput from "../mask-input/mask-input";
+import ImovelService from '../../services/ImovelService';
 import ImovelDetalheService from '../../services/ImovelDetalheService';
-import { toast } from 'react-toastify';
+
 
 const FormImovelDetalhe = (props) => {
+  const [isAction, setAction] = React.useState('');
+  const [data, setData] = React.useState([]);
+  
+  const fetchData = React.useCallback(async () => {
+    const imovel_with_detalhes = await ImovelService.getWithDetalhes(props.id)   
+      setData(imovel_with_detalhes)      
+  }, [props]);
 
-  const dados_classificacao = [
-      { value: '',text: ''   },
+  React.useEffect(() => {
+    fetchData(); 
+  }, [fetchData]);
+  console.log(data)
+  const dados_classificacao = [          
       { value: 'APARTAMENTO', text: 'APARTAMENTO'   },
       { value: 'APARTAMENTO COM CONDOMINIO', text: 'APARTAMENTO COM CONDOMINIO'},
       { value: 'CASA', text: 'CASA' },
@@ -29,36 +41,47 @@ const FormImovelDetalhe = (props) => {
       { value: 'SALA COMERCIAL', text: 'SALA COMERCIAL' },     
   ];
 
-  const onSubmit =  (values) => {  
-    if (props.isUpdated) {
-      ImovelDetalheService.update(values.id, values);      
-      toast.success('O imovel: '+values.id+' foi atualizado com sucesso');
-    } else {
-      ImovelDetalheService.create(values);
-      toast.success('O imovel foi criado com sucesso');
-    }    
-    setInterval(function () {window.location.reload();}, 500);
+
+  const onSubmit =  async (values, actions) => {
+    console.log(isAction, '  ', values)       
+    switch(isAction) {
+      case 'create':        
+        await ImovelDetalheService.create(values); 
+        toast.success('A Imagem foi criado com sucesso');        
+        break;
+    case 'update':        
+        await ImovelDetalheService.update(values.id, values);
+        toast.warning('A Imagem foi atualizada com sucesso'); 
+      break;
+    case 'delete':       
+        await ImovelDetalheService.remove(values.id); 
+        toast.error('A Imagem foi apagada com sucesso');        
+        break;
+      default:
+        
+    }       
+    actions.resetForm();       
   }
-  
+
   const validationSchema = Yup.object({  
-    area_total_m2: Yup.number().typeError("Digite um numero válido").required("O número é obrigatório!"),                 
-    area_total_construida_m2:  Yup.number().typeError("Digite um numero válido").required("O número é obrigatório!"),
-    numero_inscricao: props.row.numero_inscricao ,
-    matricula_agua: Yup.number().typeError("Digite um numero válido").required("O número é obrigatório!"),
-    matricula_energia:  Yup.number().typeError("Digite um numero válido").required("O número é obrigatório!"),
-    classificacao: Yup.string().min(10,'8 caracteres no mínimo').required("O cep é obrigatório!"),                  
-    salas: Yup.string().min(10,'8 caracteres no mínimo').required("O cep é obrigatório!"),
-    quartos: Yup.string().min(10,'8 caracteres no mínimo').required("O cep é obrigatório!"),
-    banheiros:  Yup.string().min(10,'8 caracteres no mínimo').required("O cep é obrigatório!"),
-    suites:  Yup.string().min(10,'8 caracteres no mínimo').required("O cep é obrigatório!"),
-    vagas_garagem:  Yup.string().min(10,'8 caracteres no mínimo').required("O cep é obrigatório!"),
+    area_total_m2: Yup.number().typeError("Digite um numero válido").required("O número da area total é obrigatório!"),                 
+    area_total_construida_m2:  Yup.number().typeError("Digite um numero válido").required("O número da area total construida é obrigatório!"),
+    numero_inscricao: Yup.string().required("O número de inscricao da agua é obrigatório!"),
+    matricula_agua: Yup.string().required("O número da matricula da agua é obrigatório!"),
+    matricula_energia:  Yup.string().required("O número da matricula da energia é obrigatório!"),
+    classificacao: Yup.string().min(10,'8 caracteres no mínimo').required("A classificação é obrigatório!"),                  
+    salas: Yup.number().typeError("Digite um numero válido").required("O número de sala(s) é obrigatório!"),
+    quartos: Yup.number().typeError("Digite um numero válido").required("O número de quarto(s) é obrigatório!"),
+    banheiros:  Yup.number().typeError("Digite um numero válido").required("O número de banheiro(s) é obrigatório!"),
+    suites:  Yup.number().typeError("Digite um numero válido").required("O número de suíte(s) é obrigatório!"),
+    vagas_garagem:  Yup.number().typeError("Digite um numero válido").required("O número vaga(s) de garagem é obrigatório!"),
   });
 
   const [modalOpen, setModalOpen] = React.useState(props.isModal);
   const toggle = () => {
     setModalOpen(!modalOpen);    
   }  
-
+  const sendAction = action => setAction(action)
   return (
     <React.Fragment>
       <Button onClick={toggle} className="btn btn-lime btn-icon btn-circle btn-lg me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cadastro dos Detalhes do Imóvel">
@@ -66,30 +89,31 @@ const FormImovelDetalhe = (props) => {
       </Button>
       <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false} >
         <Panel className="mb-0" >
-          <PanelHeaderOption isUpdated={props.isUpdated} isId={props.isId} titleInsert="Novo Detalhe do Imóvel" titleUpdated="Atualizar Detalhes do Imóvel"/>           
+          <PanelHeaderOption  id={props.id} titleInsert="Novo Detalhe do Imóvel" titleUpdated="Atualizar Detalhes do Imóvel"/>           
           <PanelBody>                                                    
             <Formik               
-              onSubmit={(values) => onSubmit(values)}
+              onSubmit={(values, actions) => onSubmit(values, actions)}
               enableReinitialize={true}
               initialValues={{
-                area_total_m2: props.row.area_total_m2,                 
-                area_total_construida_m2:  props.row.area_total_construida_m2,
-                numero_inscricao: props.row.numero_inscricao ,
-                matricula_agua: props.row.matricula_agua,
-                matricula_energia:  props.row.matricula_energia,
-                classificacao: props.row.classificacao,                  
-                salas: props.row.salas,
-                quartos: props.row.quartos,
-                banheiros:  props.row.banheiros,
-                suites:  props.row.suites,
-                vagas_garagem:  props.row.vagas_garagem,
-                area_lazer:  props.row.area_lazer,
-                piscina:  props.row.piscina,
-                agua_incluso:  props.row.agua_incluso,
-                gas_incluso:  props.row.gas_incluso,
-                seguranca_incluso: props.row.seguranca_incluso,
-                imovel_id: props.isId,
-                }}              
+                id:data === null ? '' : data.id,
+                area_total_m2: data === null ? '' : data.area_total_m2,                 
+                area_total_construida_m2: data === null ? '' : data.area_total_construida_m2,
+                numero_inscricao: data === null ? '' : data.numero_inscricao,
+                matricula_agua: data === null ? '' : data.matricula_agua,
+                matricula_energia: data === null ? '' : data.matricula_energia,
+                classificacao: data === null ? '' : data.classificacao,                  
+                salas: data === null ? '' : data.salas,
+                quartos: data === null ? '' : data.quartos,
+                banheiros: data === null ? '' : data.banheiros,
+                suites: data === null ?'' : data.suites,
+                vagas_garagem: data === null ? '' :  data.vagas_garagem,
+                area_lazer: data === null ? false : data.area_lazer,
+                piscina: data === null ? false : data.piscina,
+                agua_incluso: data === null ? false :  data.agua_incluso,
+                gas_incluso: data === null ? false :  data.gas_incluso,
+                seguranca_incluso: data === null ? false : data.seguranca_incluso,
+                imovel_id: data === null ? false : data.imovel_id,
+              }}              
               validationSchema={validationSchema}             
               >
               <Form className="mb-0 border border-1 rounded p-2" >                                
@@ -103,13 +127,13 @@ const FormImovelDetalhe = (props) => {
                 <FieldInput label="Quartos" name="quartos" />
                 <FieldInput label="Banheiros" name="banheiros" />
                 <FieldInput label="Suites" name="suites" />
-                <FieldInput label="Vagas Garagem" name="vagas_garagem"/>      
-                <SwitchInput label="Área de Lazer" name="area_lazer" checkStatus={props.row.area_lazer} />   
-                <SwitchInput label="Piscina" name="piscina" checkStatus={props.row.piscina} />                      
-                <SwitchInput label="Agua Incluso" name="agua_incluso" checkStatus={props.row.agua_incluso} />           
-                <SwitchInput label="Gás Incluso" name="gas_incluso" checkStatus={props.row.gas_incluso} />           
-                <SwitchInput label="Seguranca Incluso" name="seguranca_incluso" checkStatus={props.row.seguranca_incluso}/>   
-                <ButtonActionInput toggle={toggle} isUpdated={props.isUpdated} onSubmit={(values) => onSubmit(values)}/>
+                <FieldInput label="Vagas Garagem" name="vagas_garagem" />                
+                <SwitchInput label="Lazer" name="area_lazer" checkStatus={data === null ? false : data.area_lazer} />   
+                <SwitchInput label="Piscina" name="piscina" checkStatus={data === null ? false : data.piscina} />                      
+                <SwitchInput label="Agua Incluso" name="agua_incluso" checkStatus={data === null ? false : data.agua_incluso} />           
+                <SwitchInput label="Gás Incluso" name="gas_incluso" checkStatus={data === null ? false : data.gas_incluso} />           
+                <SwitchInput label="Segurança" name="seguranca_incluso" checkStatus={data === null ? false : data.seguranca_incluso} />                   
+                <ButtonActionInputCrud toggle={toggle} id={props.id}  sendAction={sendAction} onSubmit={(values) => onSubmit(values)} />                  
               </Form>
             </Formik>            
           </PanelBody>

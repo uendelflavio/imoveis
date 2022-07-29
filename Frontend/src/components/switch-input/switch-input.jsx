@@ -14,25 +14,27 @@ const SwitchInput = (props) => {
   };
 
   return (  
-    <React.Fragment>
-    <div className="d-inline-flex flex-row flex-direction: row align-items: start">
-      <div className="form-check">
-        <label className="form-check-label">
-          <strong className="d-flex flex-wrap">{props.label}</strong>
-          <Field name={props.name}>
-            {({ form }) => (
-              <Switch
-                checked={check}
-                onChange={() => handleSwitch(form)}              
-                name={props.name}
-                className="react-switch"
-              />
-          )}
-          </Field> 
-        </label>
+  <React.Fragment>
+    <div className="d-inline-flex flex-row flex-direction: row align-items: start pt-2 pb-1">
+        <div className="form-check">          
+          <label>  
+              <div className="d-flex  justify-content-center" >
+              <strong>{props.label}</strong>   
+              </div>
+              <Field name={props.name}>
+                {({ form }) => (
+                  <Switch
+                    checked={check}
+                    onChange={() => handleSwitch(form)}              
+                    name={props.name}
+                    className="react-switch"
+                  />
+              )}
+              </Field>                         
+          </label>            
       </div>   
-      </div>
-      </React.Fragment>
+    </div>
+  </React.Fragment>
   );
 };
 

@@ -17,7 +17,6 @@ const FormImovel = (props) => {
   
   const [modalOpen, setModalOpen] = React.useState(props.isModal);
   const dados = [
-      { value: '',text: ''   },
       { value: 'AC', text: 'Acre'   },
       { value: 'AL', text: 'Alagoas'},
       { value: 'AP', text: 'Amapá' },
@@ -75,7 +74,7 @@ const FormImovel = (props) => {
       <ButtonModal  isUpdated={props.isUpdated} toggle={toggle}/>
       <Modal  centered toggle={toggle} isOpen={modalOpen} autoFocus={false} onClosed={props.loadingData} >
         <Panel className="mb-0" >
-          <PanelHeaderOption isUpdated={props.isUpdated} isId={props.isId} titleInsert="Novo Imovel" titleUpdated="Atualizar Imóvel"/>          
+          <PanelHeaderOption id={props.id} titleInsert="Novo Imovel" titleUpdated="Atualizar Imóvel"/>          
           <PanelBody>                                                    
             <Formik               
               onSubmit={(values) => onSubmit(values)}
@@ -90,7 +89,7 @@ const FormImovel = (props) => {
                 uf: props.row.uf,
                 vistoria: props.row.vistoria,
                 ocupado:  props.row.ocupado,
-                }}              
+              }}              
               validationSchema={validationSchema}             
               >
               <Form className="mb-0 border border-1 rounded p-2">                                
@@ -99,9 +98,9 @@ const FormImovel = (props) => {
                 <FieldInput label="Bairro" name="bairro"/>                           
                 <MaskInput label="Cep" name="cep" mask="99.999-999" value />
                 <FieldInput label="Cidade" name="cidade"/>                
-                <SelectInput label="Uf" name="uf" dados={dados} />
-                <SwitchInput label="Vistoria" name="vistoria" checkStatus={props.row.vistoria} />   
-                <SwitchInput label="Ocupado" name="ocupado" checkStatus={props.row.ocupado}/>                      
+                <SelectInput label="Uf" name="uf" dados={dados} />                
+                <SwitchInput label="Vistoria" name="vistoria" checkStatus={props.row.vistoria} />
+                <SwitchInput label="Ocupado" name="ocupado" checkStatus={props.row.ocupado} />                
                 <ButtonActionInput toggle={toggle} isUpdated={props.isUpdated} onSubmit={(values) => onSubmit(values)}/>
               </Form>
             </Formik>            

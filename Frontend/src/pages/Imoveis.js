@@ -1,17 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
 import { useTable, useGlobalFilter, usePagination, useRowSelect } from 'react-table';
-import { Button, Table } from "reactstrap";
+import { Table } from "reactstrap";
 import { COLUMNS_IMOVEIS } from "../components/table-column/table-column";
 import { useExportData } from "react-table-plugins";
-import TableFilter from '../components/table-filter/table-filter';
-import FormImovel from "../components/forms/form-imovel";
-// import AlertDelete from "../components/sweet-alert/alert-delete";
-// import FormImovelDetalhe from "../components/forms/form-imovel-detalhe";
-import FormImovelImagem from "../components/forms/form-imovel-imagem";
-// import FormImovelDocumento from "../components/forms/form-imovel-documento";
-import ImovelService from '../services/ImovelService';
+
+import AlertDelete from "../components/alert-delete/alert-delete";
 import ButtonActionExport, { getExportFileBlob } from '../components/button-action-export/button-action-export';
+import BreadcrumbIcon from '../components/breadcrumb-icon/breadcrumb-icon';
+import FormImovel from "../components/forms/form-imovel";
+import FormImovelDetalhe from "../components/forms/form-imovel-detalhe";
+// import FormImovelDocumento from "../components/forms/form-imovel-documento";
+import FormImovelImagem from "../components/forms/form-imovel-imagem";
+import TableFilter from '../components/table-filter/table-filter';
+import TablePagination from '../components/table-pagination/table-pagination';
+
+
+import ImovelService from '../services/ImovelService';
+
 
 
 function Imoveis() {
@@ -27,11 +33,11 @@ function Imoveis() {
         Cell: ({ row }) => {
           return (
             <div className="d-flex flex-row">
-              {/* <div className="bd-highlight"><FormImovel isModal={false} isUpdated={true} isInserted={false} isDeleted={false} isId={row.original.id} row={row.original} loadingData={loadingData} /></div> */}
-              {/* <div className="bd-highlight"><AlertDelete rowID={row.original.id} deleteData={deleteData} /></div> */}
-              {/* <div className="bd-highlight"><FormImovelDetalhe isModal={false} isUpdated={true} isId={row.original.id} row={row.original} /></div> */}
+              <div className="bd-highlight"><FormImovel isModal={false} isUpdated={true} isInserted={false} isDeleted={false} row={row.original} loadingData={loadingData} /></div>
+              <div className="bd-highlight"><AlertDelete id={row.original.id} /></div>
+              <div className="bd-highlight"><FormImovelDetalhe isModal={false} isUpdated={true} id={row.original.id} /></div>
               <div className="bd-highlight"><FormImovelImagem isModal={false} isUpdated={true} id={row.original.id} /></div>
-              {/* <div className="bd-highlight"><FormImovelDocumento isModal={false} isUpdated={true} isId={row.original.id} row={row.original} /></div> */}
+              {/* <div className="bd-highlight"><FormImovelDocumento isModal={false} isUpdated={true} id={row.original.id} /></div> */}
             </div>
           );
         },
@@ -75,36 +81,24 @@ function Imoveis() {
   const { pageIndex, pageSize } = state
 
   return (
-    <div>
-
+    <React.Fragment>
       <div className="d-flex align-items-center mb-3">
-        <div>
-          <ul className="breadcrumb">
-            <li className="breadcrumb-item">
-              <Link to="/app">Principal</Link>
-            </li>
-            <li className="breadcrumb-item active">Imoveis</li>
-          </ul>
-          <h2 className="page-header mb-0"><strong><span className='fa-stack fa-lg'>
-            <i className='fas fa-circle fa-stack-2x'></i>
-            <i className='fa fa-home fa-stack-1x fa-inverse'></i>
-          </span>Imóveis</strong></h2>
-        </div>
+        <BreadcrumbIcon description="Gerência de Imóveis" title='Imóveis' classIcon='fa fa-home fa-stack-1x fa-inverse' />
       </div>
       <div className="card border-0">
-        <ul className="nav px-3 py-3 ">
+        <ul className="nav ps-4 pe-4 pb-2 pt-3">
           <ButtonActionExport exportData={exportData} getExportFileBlob={getExportFileBlob} pageOptions={pageOptions} />
-          <li className="nav-item me-2 ms-auto">
+          <li className="nav-item ms-auto pt-1">
             <FormImovel
               isModal={false}
               isUpdated={false}
-              isId={''}
+              id={''}
               row={''}
               loadingData={loadingData}
             />
           </li>
         </ul>
-        <div className="tab-content p-4">
+        <div className="tab-content ps-4 pe-4 pb-4 pt-0">
           <div className="tab-pane fade show active" id="allTab">
             <TableFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
             <div className="table-responsive mb-3">
@@ -134,27 +128,21 @@ function Imoveis() {
                 </tbody>
               </Table>
             </div>
-            <div className="d-md-flex align-items-center">
-              <div className="me-md-auto text-md-left text-center mb-2 mb-md-0" hidden={pageOptions.length > 0 ? false : true}>
-                Mostrando {pageIndex + 1} até {pageSize} com o total de {pageOptions.length} registros
-              </div>
-              <Button onClick={() => gotoPage(0)} disabled={!canPreviousPage} className="btn btn-dark btn-icon btn-circle btn-lg me-2">
-                <i className="fas fa-angle-double-left" />
-              </Button>
-              <Button onClick={() => previousPage()} disabled={!canPreviousPage} className="btn btn-dark btn-icon btn-circle btn-lg me-2">
-                <i className="fas fa-angle-left" />
-              </Button>
-              <Button onClick={() => nextPage()} disabled={!canNextPage} className="btn btn-dark btn-icon btn-circle btn-lg me-2">
-                <i className="fas fa-angle-right" />
-              </Button>
-              <Button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage} className="btn btn-dark btn-icon btn-circle btn-lg me-2">
-                <i className="fas fa-angle-double-right" />
-              </Button>
-            </div>
+            <TablePagination
+              nextPage={nextPage}
+              previousPage={previousPage}
+              canPreviousPage={canPreviousPage}
+              canNextPage={canNextPage}
+              gotoPage={gotoPage}
+              pageCount={pageCount}
+              pageIndex={pageIndex}
+              pageSize={pageSize}
+              pageOptions={pageOptions}
+            />
           </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 }
 

@@ -10,14 +10,14 @@ const ButtonActionInputCrud = (props) => {
   
   const toggleAlertDelete = (state) => { setAlertDelete(!alertDelete); }
   const toggleAlertUpdate = (state) => { setAlertUpdate(!alertUpdate); }
-  const onClickDelete = (event) => { event.preventDefault(); props.setDisableValidationImagem(true);setAlertDelete(true); }
-  const onClickUpdate = (event) => { event.preventDefault(); props.setDisableValidationImagem(false);setAlertUpdate(true); }
+  const onClickDelete = (event) => { event.preventDefault(); setAlertDelete(true); }
+  const onClickUpdate = (event) => { event.preventDefault(); setAlertUpdate(true); }
     
   return (
     <React.Fragment>
       <div className="d-flex justify-content-evenly hljs-wrapper rounded border border-1 p-1 mt-3">
       <Button
-        onClick={() => { props.setDisableValidationImagem(false); props.sendAction('create');  formik.submitForm(); }}
+        onClick={() => {props.sendAction('create');  formik.submitForm(); }}
         disabled={!formik.isValid}
         className="btn-success btn-lg m-1"                    
         >

@@ -8,14 +8,20 @@ const getAll = async (data) => {
 };
 
 const get = async (id) => {
-  return await API.get(`${URL_IMOVEIS}${id}`)
+  return await API.get(`${URL_IMOVEIS}/${id}`)
     .then(response => response.data.imoveis)
     .catch(error => error);
 };
 
 const getWithImages = async (id) => {
   return await API.get(`${URL_IMOVEIS}/imagens/${id}`)
-    .then(response => response.data)
+    .then(response => response.data.imovel_imagens)
+    .catch(error => error);
+};
+
+const getWithDetalhes = async (id) => {
+  return await API.get(`${URL_IMOVEIS}/detalhes/${id}`)
+    .then(response => response.data.imovel_detalhe)
     .catch(error => error);
 };
 
@@ -26,13 +32,13 @@ const create = async (data) => {
 };
 
 const update = async (id, data) => {
-  return await API.put(`${URL_IMOVEIS}${id}`, { "imovel": data })
+  return await API.put(`${URL_IMOVEIS}/${id}`, { "imovel": data })
     .then(response => response)
     .catch(error => error);
 };
 
 const remove = async (id) => {
-  return await API.delete(`${URL_IMOVEIS}${id}`)
+  return await API.delete(`${URL_IMOVEIS}/${id}`)
     .then(response => response.data.imoveis)
     .catch(error => error);
 };
@@ -54,6 +60,7 @@ const ImovelService = {
   getAll,
   get,
   getWithImages,
+  getWithDetalhes,
   create,
   update,
   remove,

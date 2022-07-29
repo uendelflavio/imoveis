@@ -8,7 +8,7 @@ const getAll = async (data) => {
 };
 
 const get = async (id) => {
-  return await API.get(`${URL_IMAGEM_IMOVEIS}${id}`)
+  return await API.get(`${URL_IMAGEM_IMOVEIS}/${id}`)
     .then(response => response.data)
     .catch(error => error);
 };
@@ -29,13 +29,13 @@ const create = async (data) => {
 
 const update = async (id, data) => {
   data = { "imovel_imagem": data }
-  return await API.put(`${URL_IMAGEM_IMOVEIS}${id}`, data)
+  return await API.put(`${URL_IMAGEM_IMOVEIS}/${id}`, data)
     .then(response => response.data)
     .catch(error => error);
 };
 
 const remove = async (id) => {
-  return await API.delete(`${URL_IMAGEM_IMOVEIS}${id}`)
+  return await API.delete(`${URL_IMAGEM_IMOVEIS}/${id}`)
     .then(response => response.data)
     .catch(error => error);
 };

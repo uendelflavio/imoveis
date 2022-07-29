@@ -8,11 +8,11 @@ import FieldInputFileImagem from "../field-input-file-imagem/field-input-file-im
 import PanelHeaderOption from "../panel-header-option/panel-header-option";
 import ButtonActionInputCrud from '../button-action-input-crud/button-action-input-crud';
 import CarouselImageGallery from '../carousel-image-gallery/carousel-image-gallery';
-// import ButtonActionInputNew from '../button-action-input-new/button-action-input-new';
 import { toast } from 'react-toastify';
 
 import ImovelService from '../../services/ImovelService';
-// import ImovelImagemService from '../../services/ImovelImagemService';
+import ImovelImagemService from '../../services/ImovelImagemService';
+import { FILE_SIZE,SUPPORTED_FORMATS } from '../../constants/util';
 
 
 const FormImovelImagem = (props) => {
@@ -27,47 +27,38 @@ const FormImovelImagem = (props) => {
   const [isDisableValidationImagem, setDisableValidationImagem] = React.useState(false);
   
   const ref = React.useRef();
-  // console.log(isDisableValidationImagem);
- 
-
+  
   const fetchData = React.useCallback(async () => {
     const imovel_with_images = await ImovelService.getWithImages(props.id)
-    setWithImage(imovel_with_images.imovel_imagens.length)
+    setWithImage(imovel_with_images.length)
     setData(imovel_with_images)
+    console.log(imovel_with_images)
   }, [props]);
 
   React.useEffect(() => {
     fetchData(); 
   }, [fetchData]);
 
-  const clearForm = actions => {    
-    setIdImagem(0);
-    setIsDescricao('');   
-    setIsImagem(undefined);
-    actions.resetForm();
-    ref.current.focus();
-  }
-  
   const onSubmit =  async (values, actions) => {
-    console.log(isAction, '  ', values)
+    
     if (typeof values.imagem !== 'undefined' ) values.imagem = values.imagem.base64;    
     switch(isAction) {
-    case 'create':
-        //await ImovelImagemService.create(values);   
-        toast.success('A Imagem foi criado com sucesso');
+      case 'create':
+        setDisableValidationImagem(false);
+        await ImovelImagemService.create(values);   
+        toast.success('A Imagem foi armazenada com sucesso!!!');        
         break;
     case 'update':
-        //await ImovelImagemService.update(values.id, values);
-        toast.warning('A Imagem foi atualizada com sucesso'); 
+        setDisableValidationImagem(false);
+        await ImovelImagemService.update(values.id, values);
+        toast.warning('A Imagem foi atualizada com sucesso!!!'); 
       break;
     case 'delete':
-        //await ImovelImagemService.remove(values.id); 
-        toast.error('A Imagem foi apagada com sucesso');
+        setDisableValidationImagem(true);
+        await ImovelImagemService.remove(values.id); 
+        toast.error('A Imagem foi apagada com sucesso!!!');
         ref.current.focus();
         break;
-      // case 'new':     
-      //   ref.current.focus();
-      //   break;
       default:
         
     }       
@@ -75,14 +66,6 @@ const FormImovelImagem = (props) => {
     fetchData();
   }
 
-  const FILE_SIZE = 5 * 1024 * 1024; 
-  
-  const SUPPORTED_FORMATS = [
-    "image/jpg",
-    "image/jpeg",    
-    "image/png"
-  ];
-  
   const validationSchema = Yup.object({  
     id: Yup.number().required(),
     imovel_id: Yup.number().required(),
@@ -100,6 +83,14 @@ const FormImovelImagem = (props) => {
     })    
   });
 
+  const clearForm = actions => {    
+    setIdImagem(0);
+    setIsDescricao('');   
+    setIsImagem(undefined);
+    actions.resetForm();
+    ref.current.focus();
+  }
+
   const toggle = () => setModalOpen(!modalOpen)  
   const sendAction = action => setAction(action)
   
@@ -110,7 +101,7 @@ const FormImovelImagem = (props) => {
       </Button>      
       <Modal  centered  toggle={toggle} isOpen={modalOpen} autoFocus={false} style={{maxWidth: '600px', width: '100%'}} >
         <Panel className="mb-0" >
-          <PanelHeaderOption isUpdated={props.isUpdated} id={idImage} titleInsert="Nova Imagem de Vistoria do Imóvel" titleUpdated="Atualizar Imagem do Imóvel"/>          
+          <PanelHeaderOption  id={idImage} titleInsert="Nova Imagem de Vistoria do Imóvel" titleUpdated="Atualizar Imagem do Imóvel"/>          
           <PanelBody>              
             <Formik               
               onSubmit={(values, actions) => onSubmit(values, actions)}
@@ -127,12 +118,9 @@ const FormImovelImagem = (props) => {
                 <Field type="hidden" className="form-control" name="imovel_id" />              
                 {isWithImage > 0 ? <CarouselImageGallery setIsImagem={setIsImagem} setIdImagem={setIdImagem} setIsDescricao={setIsDescricao} data={data} /> : ''}
                 <FieldInputFileImagem name="imagem" />
-                <Field type="text" className="form-control border-2 border-primary text-center" name="id" hidden />                                  
-                  {/* <div className="p-0 bd-highlight col-sm-2">
-                    <ButtonActionInputNew sendAction={sendAction} setDisableValidationImagem={(value) => setDisableValidationImagem(value)} />
-                  </div> */}              
-                <FieldInput ref={ref} label="Descrição" name="descricao"  />                                                                                         
-                <ButtonActionInputCrud toggle={toggle} id={idImage} setIsImagem={setIsImagem} setDisableValidationImagem={(value) => setDisableValidationImagem(value)} sendAction={sendAction} onSubmit={(values) => onSubmit(values)} />                  
+                <Field type="text" className="form-control border-2 border-primary text-center" name="id" hidden />                                               
+                <FieldInput ref={ref} label="Descrição" name="descricao" focus={true} />                                                                                         
+                <ButtonActionInputCrud toggle={toggle} id={idImage} setIsImagem={setIsImagem} sendAction={sendAction} onSubmit={(values) => onSubmit(values)} />                  
               </Form>
             </Formik> 
           </PanelBody>

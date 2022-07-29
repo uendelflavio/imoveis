@@ -44,7 +44,7 @@ const FormImovelDocumento = (props) => {
       </Button>
       <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false} >
         <Panel className="mb-0" >
-          <PanelHeaderOption isUpdated={props.isUpdated} isId={props.isId} titleInsert="Novo Documento do Imóvel" titleUpdated="Atualizar Documento do Imóvel"/>          
+          <PanelHeaderOption  id={props.id} titleInsert="Novo Documento do Imóvel" titleUpdated="Atualizar Documento do Imóvel"/>          
           <PanelBody>                                                    
             <Formik               
               onSubmit={(values) => onSubmit(values)}
