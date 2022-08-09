@@ -6,7 +6,7 @@ import { COLUMNS_IMOVEIS } from "../components/table-column/table-column";
 import { useExportData } from "react-table-plugins";
 
 import AlertDelete from "../components/alert-delete/alert-delete";
-import ButtonActionExport, { getExportFileBlob } from '../components/button-action-export/button-action-export';
+import ExportActionButton, { getExportFileBlob } from '../components/export_action_button/export_action_button';
 import BreadcrumbIcon from '../components/breadcrumb-icon/breadcrumb-icon';
 import FormImovel from "../components/forms/form-imovel";
 import FormImovelDetalhe from "../components/forms/form-imovel-detalhe";
@@ -33,7 +33,9 @@ function Imoveis() {
         Cell: ({ row }) => {
           return (
             <div className="d-flex flex-row">
-              <div className="bd-highlight"><FormImovel isModal={false} isUpdated={true} isInserted={false} isDeleted={false} row={row.original} loadingData={loadingData} /></div>
+              <div className="bd-highlight">
+                <FormImovel isUpdated={true} isModal={false} row={row.original} loadingData={loadingData} />
+              </div>
               <div className="bd-highlight"><AlertDelete id={row.original.id} /></div>
               <div className="bd-highlight"><FormImovelDetalhe isModal={false} isUpdated={true} id={row.original.id} /></div>
               <div className="bd-highlight"><FormImovelImagem isModal={false} isUpdated={true} id={row.original.id} /></div>
@@ -87,12 +89,11 @@ function Imoveis() {
       </div>
       <div className="card border-0">
         <ul className="nav ps-4 pe-4 pb-2 pt-3">
-          <ButtonActionExport exportData={exportData} getExportFileBlob={getExportFileBlob} pageOptions={pageOptions} />
+          <ExportActionButton exportData={exportData} getExportFileBlob={getExportFileBlob} pageOptions={pageOptions} />
           <li className="nav-item ms-auto pt-1">
             <FormImovel
               isModal={false}
               isUpdated={false}
-              id={''}
               row={''}
               loadingData={loadingData}
             />

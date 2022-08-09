@@ -1,9 +1,9 @@
 import React from "react";
 
-function TextError(props) {
+const  TextError = (props) => {
   return (
     <React.Fragment>
-      <div className="invalid-feedback bold">{props.children}</div>
+      <div className="text-danger bold" >{props.children}</div>
     </React.Fragment>
   );
 }

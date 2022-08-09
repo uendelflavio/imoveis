@@ -1,4 +1,3 @@
-
 import { TOKEN_KEY, TOKEN_USER, TOKEN_PASS } from '../constants/auth'
 export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
 export const getToken = () => localStorage.getItem(TOKEN_KEY);

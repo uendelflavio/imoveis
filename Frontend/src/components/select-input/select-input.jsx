@@ -1,46 +1,78 @@
-import React from 'react'
-import { Field, ErrorMessage } from "formik";
-import TextError from "../text-error/text-error";
-import { Input,Label } from "reactstrap";
-function SelectInput(props) {
-    const [selected, setSelected] = React.useState('');  
-    const handleChange = event => {
-        console.log('Label 👉️', event.target.selectedOptions[0].label);
-        console.log(event.target.value);
-        setSelected(event.target.value);
-    };
+import React from 'react';
+import Select from 'react-select';
+import { useFormikContext, useField } from "formik";
+
+const SelectInput = (props) => {
+  
+  const [field] = useField(props.name);
+  const formik = useFormikContext();  
 
   return (
     <React.Fragment>
-        <div className="mb-1">              
-            <Label  >{props.label}</Label>
-            <div className="col-md-12">
-                <Field name={props.name} id={props.name}>
-                    {({ field, meta: { touched, error } }) => (
-                        <Input 
-                        type="select"
-                        onChange={handleChange}
-                        value={selected}  
-                        defaultValue={{ key: props.label, value: props.label }}           
-                        className={
-                        touched && error
-                        ? "form-select is-invalid"
-                        : "form-select is-valid"
-                        }                        
-                        {...field}
-                    >      
-                    <option value={props.label}>{props.label}</option>          
-                    {props.dados.map(item => {
-                        return (<option key={item.value} value={item.value}>{item.text}</option>);
-                    })}
-                    </Input>     
-                    )}              
-                </Field>
-                <ErrorMessage name={props.name} component={TextError} />
-           </div>
+      <div className="mb-1">
+        <div className="col-md-12">
+          <div className="form-group">
+            <label htmlFor={props.label} className="form-label">
+              {props.label}
+            </label>    
+                <Select            
+                  name={props.name}       
+                  options={props.options}
+                  placeholder={props.label}
+                  onChange={(v) => formik.setFieldValue(props.name, v.value)}               
+                  value={props.options ? props.options.find((option) => option.value === field.value) : ''}
+                  styles={{
+                    container: (base) => ({
+                      ...base,
+                      borderRadius: '5px',
+                      backgroundColor: formik.errors[props.name] ? '#ff5b57' : '#00acac',
+                      padding: 1,
+                    }),
+                  }}                 
+                />      
+          </div>          
+          <div className="mt-1" style={{ width: '400px' }} >                  
+            { formik.errors[props.name]  ? <small className="bold text-danger">{formik.errors[props.name]}</small> : null}                     
+          </div>         
         </div>
+      </div>
     </React.Fragment>
   )
-}
+};
+
+
+
+
+
+
+// import React from 'react';
+// import Select from 'react-select';
+// import { useField } from 'formik';
+// import { FormGroup, Label } from "reactstrap";
+// function SelectInput({ name,options,label, ...props }) {
+//   const [field, meta, { setValue, setTouched }] = useField(props);
+//   const onChange = value => setValue(value);
+  
+//   return (
+//     <React.Fragment>
+//       <FormGroup>
+//         <Label for={props.label}>{props.label}</Label>
+//         <Select
+//         name={props.name}
+//         defaultValue={options.find((option) => option.value === field.value)}
+//         options={options}
+//         onChange={onChange}
+//         onBlur={setTouched}
+//         />       
+//       </FormGroup>
+//       {meta.touched && meta.error ? (
+//         <div className="form-text text-danger">{meta.error}</div>
+//       ) : null}
+
+//     </React.Fragment>
+//   );
+// }
+
+
 
 export default SelectInput

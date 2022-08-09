@@ -1,17 +1,12 @@
 import React from "react";
 import Switch from "react-switch";
-import { Field } from "formik";
+import { useFormikContext } from "formik";
+import { useToggle } from 'react-use';
 
 const SwitchInput = (props) => {
-  const [check, setCheck] = React.useState(typeof props.checkStatus === 'undefined' ? false :props.checkStatus);
-  const handleSwitch = (form) => {
-    setCheck(!check);
-    if (check) {
-      form.setFieldValue(props.name, false,true);  
-    } else {
-      form.setFieldValue(props.name, true,false);
-    }    
-  };
+
+  const formik = useFormikContext();
+  const [checked, setCheck] = useToggle(typeof formik.values[props.name] === 'undefined'? false:formik.values[props.name]);
 
   return (  
   <React.Fragment>
@@ -20,17 +15,13 @@ const SwitchInput = (props) => {
           <label>  
               <div className="d-flex  justify-content-center" >
               <strong>{props.label}</strong>   
-              </div>
-              <Field name={props.name}>
-                {({ form }) => (
+              </div>           
                   <Switch
-                    checked={check}
-                    onChange={() => handleSwitch(form)}              
+                    checked={checked}
+                    onChange={() => { setCheck(); checked ? formik.setFieldValue(props.name, false, true) : formik.setFieldValue(props.name, true, false)}}                                                       
                     name={props.name}
                     className="react-switch"
-                  />
-              )}
-              </Field>                         
+                  />                                      
           </label>            
       </div>   
     </div>

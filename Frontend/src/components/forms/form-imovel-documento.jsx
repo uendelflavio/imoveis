@@ -3,7 +3,7 @@ import { Formik, Form } from "formik";
 import { Panel, PanelBody } from "../panel/panel";
 import { Modal, Button } from "reactstrap";
 import * as Yup from "yup";
-import FieldInput from "../field-input/field-input";
+import InputField from "../input-field/input-field";
 import PanelHeaderOption from "../panel-header-option/panel-header-option";
 import ButtonActionInput from "../button-action-input/button-action-input";
 import ImovelService from '../../services/ImovelService';
@@ -13,6 +13,8 @@ import { toast } from 'react-toastify';
 
 const FormImovelDocumento = (props) => {
 
+  const [modalOpen, setModalOpen] = React.useState(props.isModal);
+  const toggle = () => setModalOpen(!modalOpen); 
 
   const onSubmit =  (values) => {  
     if (props.isUpdated) {
@@ -29,46 +31,40 @@ const FormImovelDocumento = (props) => {
     link: Yup.string().min(4,'4 caracteres no mínimo').required("O endereço é obrigatório!"),
     descricao: Yup.string().min(4,'4 caracteres no mínimo').required("O endereço é obrigatório!"),
   });
-
-
-  const [modalOpen, setModalOpen] = React.useState(props.isModal);
-  const toggle = () => {
-    setModalOpen(!modalOpen);    
-  }  
-
   
   return (
     <React.Fragment>
       <Button type="button" onClick={toggle} className="btn btn-purple btn-icon btn-circle btn-lg me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Cadastro de Documentos do Imovel">
         <i className="fa fa-file"/>
       </Button>
+      <Formik               
+        onSubmit={(values) => onSubmit(values)}
+        enableReinitialize={true}
+        initialValues={{
+          id: props.row.id,   
+          imovel_id: props.isId,
+          link:  props.row.link,
+          descricao: props.row.descricao,
+          
+          }}              
+        validationSchema={validationSchema}             
+        >
       <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false} >
         <Panel className="mb-0" >
           <PanelHeaderOption  id={props.id} titleInsert="Novo Documento do Imóvel" titleUpdated="Atualizar Documento do Imóvel"/>          
           <PanelBody>                                                    
-            <Formik               
-              onSubmit={(values) => onSubmit(values)}
-              enableReinitialize={true}
-              initialValues={{
-                id: props.row.id,   
-                imovel_id: props.isId,
-                link:  props.row.link,
-                descricao: props.row.descricao,
-                
-                }}              
-              validationSchema={validationSchema}             
-              >
+      
               <Form className="mb-0 border border-1 rounded p-2">                                
-                <FieldInput label="Link" name="link" focus={true} />
-                <FieldInput label="Descrição" name="descricao"/>                     
+                <InputField label="Link" name="link" focus={true} />
+                <InputField label="Descrição" name="descricao"/>                     
                 <ButtonActionInput toggle={toggle} isUpdated={props.isUpdated} onSubmit={(values) => onSubmit(values)}/>
               </Form>
-            </Formik>            
+                        
           </PanelBody>
         </Panel>
       </Modal>
-   
-    </React.Fragment>
+   </Formik>
+  </React.Fragment>
   );
 };
 

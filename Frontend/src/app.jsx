@@ -79,8 +79,7 @@ class App extends React.Component {
 			this.setState(state => ({
 				appSidebarGrid: value
 			}));
-		}
-		
+		}		
 		this.toggleAppSidebarEnd = (e) => {
 			e.preventDefault();
 			this.setState(state => ({
@@ -528,16 +527,16 @@ class App extends React.Component {
 		login(response);		
 	}
 
-	componentDidMount() {
+	componentDidMount() {		
 		this.handleSetColor();
 		this.handleSetFont();
 		this.handleSetAppTheme(this.state.appTheme);
-		window.addEventListener('scroll', this.handleScroll)
+		window.addEventListener('scroll', this.handleScroll, {passive:false})
 		setInterval(() => this.tokenRefresh(),60000);
 	} 
 	
 	componentWillUnmount() {
-		window.removeEventListener('scroll', this.handleScroll)
+		window.removeEventListener('scroll', this.handleScroll, {passive:false})
 	}
   
 	handleScroll = () => {

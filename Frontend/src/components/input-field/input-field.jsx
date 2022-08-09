@@ -1,14 +1,14 @@
 import React from "react";
 import { Field, ErrorMessage  } from "formik";
 import TextError from "../text-error/text-error";
+import { useToggle } from 'react-use';
 
-
-const FieldInput = React.forwardRef((props, ref) => {  
-  const [value, setValue] = React.useState(props.initialValue);
-    
+const InputField = React.forwardRef((props, ref) => {    
+  const [value, setValue] = useToggle(props.initialValue);    
   const onChange = (e) => {
     setValue(e.target.value);
   };
+
   return (
     <React.Fragment>
     <div className="mb-1">
@@ -41,4 +41,4 @@ const FieldInput = React.forwardRef((props, ref) => {
   );
 });
 
-export default FieldInput;
+export default InputField;

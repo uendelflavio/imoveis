@@ -15,7 +15,7 @@ const get = async (id) => {
 
 const getCount = async (id) => {
   return await API.get(`${URL_IMAGEM_IMOVEIS}/count/${id}`)
-    .then(response => response.data)
+    .then(response => response.data.imagens)
     .catch(error => error);
 };
 
