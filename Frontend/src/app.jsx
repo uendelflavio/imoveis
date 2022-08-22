@@ -7,10 +7,11 @@ import TopMenu from './components/top-menu/top-menu.jsx';
 import Content from './components/content/content.jsx';
 import FloatSubMenu from './components/float-sub-menu/float-sub-menu.jsx';
 import ThemePanel from './components/theme-panel/theme-panel.jsx';
-import LoginService from '../src/services/LoginService';
+import LoginService from '../src/services/login-service';
 import { getUser, getPass, login } from '../src/utils/auth';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 class App extends React.Component {
 
@@ -531,8 +532,10 @@ class App extends React.Component {
 		this.handleSetColor();
 		this.handleSetFont();
 		this.handleSetAppTheme(this.state.appTheme);
-		window.addEventListener('scroll', this.handleScroll, {passive:false})
-		setInterval(() => this.tokenRefresh(),60000);
+		window.addEventListener('scroll', this.handleScroll, {passive:false})		
+		const myTimeout = setTimeout(this.tokenRefresh(), 60000);
+		clearTimeout(myTimeout);
+				
 	} 
 	
 	componentWillUnmount() {
@@ -557,8 +560,7 @@ class App extends React.Component {
 	
 
 	render() {		
-		return (
-			
+		return (	
 			<AppSettings.Provider value={this.state}>
 				<ToastContainer closeButton={false} closeOnClick={false} autoClose={2000} position="top-center" theme="colored" newestOnTop />
 				<div className={
@@ -588,8 +590,7 @@ class App extends React.Component {
 					<FloatSubMenu />
 					<ThemePanel />			
 				</div>
-				</AppSettings.Provider>
-				
+			</AppSettings.Provider>		
 		)
 	}
 }

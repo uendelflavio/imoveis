@@ -3,7 +3,6 @@ import axios from "axios";
 import { getToken } from "./auth";
 const apiUrl = 'http://localhost:4000/api';
 
-
 export const API = axios.create({
   baseURL: apiUrl,
   timeout: 3000,

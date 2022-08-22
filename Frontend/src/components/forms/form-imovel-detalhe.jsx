@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Formik, Form } from "formik";
 import { Panel, PanelBody } from "../panel/panel";
 import { Modal, Button } from "reactstrap";
@@ -11,10 +12,10 @@ import PanelHeaderOption from "../panel-header-option/panel-header-option";
 import CrudInputActionButton from '../crud-input-action-button/crud-input-action-button';
 import SelectInput from "../select-input/select-input";
 import MaskInput from "../mask-input/mask-input";
-import ImovelService from '../../services/ImovelService';
-import ImovelDetalheService from '../../services/ImovelDetalheService';
+import ImovelService from '../../services/imovel-service';
+import ImovelDetalheService from '../../services/imovel-detalhe-service';
 import InputNumberField from '../input-number-field/input-number-field';
-import { classificacao } from '../../constants/util';
+import { classificacao } from '../../utils/util'
 
 const FormImovelDetalhe = (props) => {
   const [isAction, setAction] = React.useState('');

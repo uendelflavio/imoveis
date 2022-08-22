@@ -1,13 +1,11 @@
 import React from "react";
-import {  useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Formik, Form, Field,ErrorMessage } from "formik";
 import { login,setUser,setPass } from "../../utils/auth";
 import { toast } from 'react-toastify';
-
 import * as Yup from "yup";
 import TextError from "../text-error/text-error";
-
-import LoginService from '../../services/LoginService'
+import LoginService from '../../services/login-service'
 const FormLogin = () => {
     let history = useHistory();
     

@@ -1,20 +1,17 @@
 import React from "react";
 import { useAsyncDebounce } from 'react-table';
-import { useToggle } from 'react-use';
+
 const  TableFilter = (props) => {
   const count = props.preGlobalFilteredRows.length
-  const [value, setValue] = useToggle(props.globalFilter);
-
-    const onChange = useAsyncDebounce(value => {
-      props.setGlobalFilter(value || undefined)
-    }, 200)
+  const [value, setValue] = React.useState(props.globalFilter);
+  const onChange = useAsyncDebounce(value => { props.setGlobalFilter(value || undefined) }, 200)
+  
     return (
       <React.Fragment>
       <div className="input-group mb-3">
           <div className="flex-fill position-relative">
             <div className="input-group">
-              <div className="input-group-text position-absolute top-0 bottom-0 bg-none border-0 start-0" style={{ zIndex: 10 }}
-              >
+              <div className="input-group-text position-absolute top-0 bottom-0 bg-none border-0 start-0" style={{ zIndex: 10 }}>
               <i className="fa fa-search opacity-5"></i>
               </div>
                 <input

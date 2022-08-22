@@ -1,5 +1,5 @@
 import API from '../utils/api';
-import { URL_IMAGEM_IMOVEIS } from '../constants/urls';
+import { URL_IMAGEM_IMOVEIS } from '../constants/url-constants';
 
 const getAll = async (data) => {
   return await API.get(URL_IMAGEM_IMOVEIS, data)
@@ -21,7 +21,6 @@ const getCount = async (id) => {
 
 const create = async (data) => {
   data = { "imovel_imagem": data }
-  console.log(data)
   return await API.post(URL_IMAGEM_IMOVEIS, data)
     .then(response => response.data)
     .catch(error => error);

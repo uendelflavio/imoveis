@@ -3,7 +3,7 @@ import { Formik, Form } from "formik";
 import { Panel, PanelBody } from "../panel/panel";
 import { Modal } from "reactstrap";
 import { toast } from 'react-toastify';
-import { uf } from '../../constants/util';
+import { uf } from '../../utils/util'
 import * as Yup from "yup";
 import SwitchInput from "../switch-input/switch-input";
 import InputField from "../input-field/input-field";
@@ -12,22 +12,25 @@ import ActionButtonInput from "../action-button-input/action-button-input";
 import ButtonModal from "../button-modal/button-modal";
 import SelectInput from "../select-input/select-input";
 import MaskInput from "../mask-input/mask-input";
-import ImovelService from '../../services/ImovelService';
-
+import ImovelService from '../../services/imovel-service'
+import { useDispatch } from 'react-redux'
+import { listImovel } from '../../slices/imovel-slice'
 
 const FormImovel = props => {
-  
-  const [modalOpen, setModalOpen] = React.useState(props.isModal);
-  const toggle = () => setModalOpen(!modalOpen);    
 
-  const onSubmit =  (values) => {  
-    if (props.isUpdated) {
-      ImovelService.update(values.id, values);      
+  const [modalOpen, setModalOpen] = React.useState(props.isModal);
+  const toggle = () => setModalOpen(!modalOpen);
+  const dispatch = useDispatch();
+  const refreshData = () => dispatch(listImovel());
+ 
+  const onSubmit = (values) => {  
+    if (props.isUpdated) { 
+      ImovelService.update(values.id, values); 
       toast.success(`O imovel: ${values.id.toString().padStart(3, "0")} foi atualizado com sucesso`);
-    } else {
+    } else {                
       ImovelService.create(values);
       toast.success('O imovel foi criado com sucesso');
-    }       
+    }    
   }
   
   const validationSchema = Yup.object({  
@@ -38,7 +41,7 @@ const FormImovel = props => {
     uf: Yup.string().ensure().required('A uf é obrigatório'),
     cidade: Yup.string().min(4,'4 caracteres no mínimo').required("A cidade é obrigatório!"),
   });
-
+  
   return (
     <React.Fragment >
       <ButtonModal isUpdated={props.isUpdated} toggle={toggle} />
@@ -46,19 +49,19 @@ const FormImovel = props => {
       onSubmit={(values) => onSubmit(values)}
       enableReinitialize={true}
       initialValues={{
-        id: props.row.id,                 
-        endereco:  props.row.endereco,
-        numero: props.row.numero ,
-        bairro: props.row.bairro,
-        cep:  props.row.cep,
-        cidade: props.row.cidade,                  
-        uf: props.row.uf,
-        vistoria: props.row.vistoria,
-        ocupado:  props.row.ocupado,
+        id: props.row.id || undefined,                 
+        endereco:  props.row.endereco || '',
+        numero: props.row.numero || '',
+        bairro: props.row.bairro || '',
+        cep:  props.row.cep || '',
+        cidade: props.row.cidade || '',                  
+        uf: props.row.uf|| '',
+        vistoria: props.row.vistoria|| false,
+        ocupado:  props.row.ocupado|| false,
       }}              
       validationSchema={validationSchema}             
       >
-      <Modal  centered toggle={toggle} isOpen={modalOpen} autoFocus={false} onClosed={props.loadingData} >
+        <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false} onClosed={refreshData} >        
         <Panel className="mb-0" >
           <PanelHeaderOption titleInsert="Novo Imovel" titleUpdated="Atualizar Imóvel"/>          
           <PanelBody>                                                         
@@ -72,13 +75,12 @@ const FormImovel = props => {
                 <SwitchInput label="Vistoria" name="vistoria" />
                 <SwitchInput label="Ocupado" name="ocupado" />                
                 <ActionButtonInput toggle={toggle} isUpdated={props.isUpdated} onSubmit={(values) => onSubmit(values)}/>
-              </Form>
-                        
+              </Form>                        
           </PanelBody>
         </Panel>
-        </Modal>   
-        </Formik>
-     </React.Fragment>
+      </Modal>   
+    </Formik>
+  </React.Fragment>
   );
 };
 

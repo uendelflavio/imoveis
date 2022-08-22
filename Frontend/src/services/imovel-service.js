@@ -1,5 +1,5 @@
 import API from '../utils/api';
-import { URL_IMOVEIS } from '../constants/urls';
+import { URL_IMOVEIS } from '../constants/url-constants';
 
 const getAll = async (data) => {
   return await API.get(URL_IMOVEIS, data)

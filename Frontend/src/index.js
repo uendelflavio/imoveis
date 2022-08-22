@@ -1,5 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
+
+import { Provider } from 'react-redux'
+import store from './store';
+
 import App from './app.jsx';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { isAuthenticated } from "./utils/auth";
@@ -34,13 +39,15 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 );
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Switch>
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/" component={Logout} />
-      <PrivateRoute path="/app" component={App} />
-      <Route path="*" component={() => <h1>Page not found</h1>} />
-    </Switch>
-  </BrowserRouter>,
+  <Provider store={store}>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/" component={Logout} />
+        <PrivateRoute path="/app" component={App} />
+        <Route path="*" component={() => <h1>Page not found</h1>} />
+      </Switch>
+    </BrowserRouter>,
+  </Provider>,
   document.getElementById('root')
 );

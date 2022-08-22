@@ -1,5 +1,5 @@
 import API from '../utils/api';
-import { URL_SESSION_REFRESH, URL_SESSION_NEW } from '../constants/urls';
+import { URL_SESSION_REFRESH, URL_SESSION_NEW } from '../constants/url-constants';
 
 
 const post_new = async (params) => {
@@ -13,6 +13,7 @@ const post_refresh = async (params) => {
         .then(response => response.data.access_token)
         .catch(error => error);
 };
+
 const LoginService = {
     post_new,
     post_refresh

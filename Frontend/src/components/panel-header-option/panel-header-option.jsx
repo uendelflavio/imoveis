@@ -3,6 +3,7 @@ import { PanelHeader } from "../panel/panel";
 import { useFormikContext } from "formik";
 const PanelHeaderOption = (props) => {  
   const formik = useFormikContext();
+  console.log()
   return (
     <PanelHeader
       className="panel-heading bg-teal-700 text-white"

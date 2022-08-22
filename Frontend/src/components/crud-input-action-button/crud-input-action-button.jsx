@@ -2,13 +2,12 @@ import React from 'react'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import { useFormikContext } from "formik";
 import { Button } from "reactstrap";
-import { useToggle } from 'react-use';
 
 const CrudInputActionButton = (props) => {  
   const formik = useFormikContext();
   const [alertDelete, setAlertDelete] = React.useState(false);
   const [alertUpdate, setAlertUpdate] = React.useState(false);
-  const [on, toggle] = useToggle(true);
+  const [isId, setId] = React.useState(formik.values.id);
 
   const toggleAlertDelete = (state) => { setAlertDelete(!alertDelete); }
   const toggleAlertUpdate = (state) => { setAlertUpdate(!alertUpdate); }
@@ -16,13 +15,16 @@ const CrudInputActionButton = (props) => {
   const onClickDelete = (event) => { event.preventDefault(); setAlertDelete(true); }
   const onClickUpdate = (event) => { event.preventDefault(); setAlertUpdate(true); }
 
-  console.log(typeof formik.values.id)
+  React.useEffect(() => {
+    setId(formik.values.id);    
+  }, [formik.values.id]);
+  
   return (
     <React.Fragment>
       <div className="d-flex justify-content-evenly hljs-wrapper rounded border border-1 p-1 mt-3">
-        {on ?
+        {isId > 0 ?
           <Button
-            onClick={() => {props.sendAction('new');  formik.submitForm(); toggle(false)}}
+            onClick={() => {props.setAction('new');  formik.submitForm();  }}
             className="btn-info btn-lg m-1"                    
             >
             <i className="fas fa-plus-circle me-2"/>
@@ -30,16 +32,16 @@ const CrudInputActionButton = (props) => {
           </Button> 
         :
           <Button
-            onClick={() => {props.sendAction('create');  formik.submitForm(); toggle(true)}}
+            onClick={() => {props.setAction('create');  formik.submitForm(); }}
             disabled={!formik.isValid}
             className="btn-success btn-lg m-1"                    
             >
             <i className="fa fa-plus me-2"/>
             Incluir
           </Button>      
-        }
+      }
       <Button         
-        disabled={typeof formik.values.id !== 'undefined' || !formik.isValid}
+        disabled={typeof isId !== 'undefined' && formik.isValid && isId === 0 }
         onClick={onClickUpdate}                  
         className="btn-warning btn-lg m-1"
       >
@@ -47,7 +49,7 @@ const CrudInputActionButton = (props) => {
       Atualizar
       </Button>
       <Button       
-        disabled={formik.values.id > 0}            
+        disabled={typeof isId !== 'undefined' && isId === 0 }            
         onClick={onClickDelete}
         className="btn-danger btn-lg m-1"
       >
@@ -60,15 +62,15 @@ const CrudInputActionButton = (props) => {
         >
         <i className="fa fa-door-open me-2"/>
         Sair
-        </Button>
-        {(alertDelete &&
+      </Button>
+      {(alertDelete &&
           <SweetAlert danger showCancel
             cancelBtnText="Cancelar"
             confirmBtnBsStyle="danger"
             cancelBtnBsStyle="default"
-            title={<span>Deseja excluir o registro: {formik.values.id.toString().padStart(3, "0")}</span>}
+            title={<span>Deseja excluir o registro: {isId.toString().padStart(3, "0")}</span>}
             onConfirm={() => {              
-              props.sendAction('delete');   
+              props.setAction('delete');   
               formik.setSubmitting(true);
               formik.submitForm();
               toggleAlertDelete(false);
@@ -83,9 +85,9 @@ const CrudInputActionButton = (props) => {
             cancelBtnText="Cancelar"
             confirmBtnBsStyle="warning"
             cancelBtnBsStyle="default"
-            title={<span>Deseja atualizar o registro: {formik.values.id.toString().padStart(3, "0")}</span>}
+            title={<span>Deseja atualizar o registro: {isId.toString().padStart(3, "0")}</span>}
             onConfirm={() => {              
-              props.sendAction('update');
+              props.setAction('update');
               formik.submitForm();
               toggleAlertUpdate(false);
             }}
