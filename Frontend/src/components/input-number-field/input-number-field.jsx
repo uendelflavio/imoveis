@@ -9,8 +9,7 @@ const InputNumberField = (props) => {
   NumericInput.style['btnDown.mobile'].width = '5ex';
   NumericInput.style['btnUp.mobile'].borderRadius = '5px';
   NumericInput.style['btnDown.mobile'].borderRadius = '5px';
-  NumericInput.style.input.color = 'green';
-  console.log(formik.errors[props.name]);
+  NumericInput.style.input.color = 'green';  
   return (
     <React.Fragment>
     <div className="mb-1">

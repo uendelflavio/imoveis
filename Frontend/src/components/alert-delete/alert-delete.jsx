@@ -21,14 +21,14 @@ const AlertDelete = (props) => {
           <SweetAlert danger showCancel
             cancelBtnText="Cancelar"
             confirmBtnBsStyle="danger"
-            cancelBtnBsStyle="default"
+            cancelBtnBsStyle="default"            
             title={<span>Deseja excluir o registro: {(props.id).toString().padStart(3, "0")}</span>}
-            onConfirm={() => { toggleSweetAlert(false); props.deleteData(props.id)}}
-            onCancel={() => { toggleSweetAlert(false);}}
+            onConfirm={() => { toggleSweetAlert(false); props.deleteData(props.id); }}
+            onCancel={() => toggleSweetAlert(false) }            
             >
             Esta ação vai excluir permanentemente os dados.
           </SweetAlert>
-        )}        
+        )}
       </React.Fragment>
     )
 }

@@ -12,25 +12,52 @@ import ActionButtonInput from "../action-button-input/action-button-input";
 import ButtonModal from "../button-modal/button-modal";
 import SelectInput from "../select-input/select-input";
 import MaskInput from "../mask-input/mask-input";
-import ImovelService from '../../services/imovel-service'
-import { useDispatch } from 'react-redux'
-import { listImovel } from '../../slices/imovel-slice'
 
 const FormImovel = props => {
 
   const [modalOpen, setModalOpen] = React.useState(props.isModal);
+  const [initialValues, setInitialValues] = React.useState(props.isModal);
   const toggle = () => setModalOpen(!modalOpen);
-  const dispatch = useDispatch();
-  const refreshData = () => dispatch(listImovel());
  
-  const onSubmit = (values) => {  
+  React.useEffect(() => {
+    if (typeof props.row === 'undefined') {
+      setInitialValues({
+        id:  undefined,                 
+        endereco:   '',
+        numero:  '',
+        bairro:  '',
+        cep:   '',
+        cidade:  '',                  
+        uf:  '',
+        vistoria:  false,
+        ocupado:   false,
+      })          
+    } else {
+      setInitialValues({
+        id: props.row.id,                 
+        endereco:  props.row.endereco,
+        numero: props.row.numero,
+        bairro: props.row.bairro,
+        cep:  props.row.cep,
+        cidade: props.row.cidade,                  
+        uf: props.row.uf,
+        vistoria: props.row.vistoria|| false,
+        ocupado:  props.row.ocupado|| false,
+      })       
+    } 
+   }, [props.row,setInitialValues]);
+
+  const onSubmit = (values,actions) => {  
     if (props.isUpdated) { 
-      ImovelService.update(values.id, values); 
+      props.updateData(values.id, values)
       toast.success(`O imovel: ${values.id.toString().padStart(3, "0")} foi atualizado com sucesso`);
     } else {                
-      ImovelService.create(values);
+      props.createData(values)
       toast.success('O imovel foi criado com sucesso');
-    }    
+    }      
+    actions.resetForm();
+    actions.setSubmitting(false); 
+    props.refreshData();
   }
   
   const validationSchema = Yup.object({  
@@ -42,26 +69,17 @@ const FormImovel = props => {
     cidade: Yup.string().min(4,'4 caracteres no mínimo').required("A cidade é obrigatório!"),
   });
   
+  
   return (
     <React.Fragment >
       <ButtonModal isUpdated={props.isUpdated} toggle={toggle} />
       <Formik               
-      onSubmit={(values) => onSubmit(values)}
+      onSubmit={(values, actions) => onSubmit(values, actions)}
       enableReinitialize={true}
-      initialValues={{
-        id: props.row.id || undefined,                 
-        endereco:  props.row.endereco || '',
-        numero: props.row.numero || '',
-        bairro: props.row.bairro || '',
-        cep:  props.row.cep || '',
-        cidade: props.row.cidade || '',                  
-        uf: props.row.uf|| '',
-        vistoria: props.row.vistoria|| false,
-        ocupado:  props.row.ocupado|| false,
-      }}              
+      initialValues={initialValues}
       validationSchema={validationSchema}             
-      >
-        <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false} onClosed={refreshData} >        
+      >        
+        <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false}> 
         <Panel className="mb-0" >
           <PanelHeaderOption titleInsert="Novo Imovel" titleUpdated="Atualizar Imóvel"/>          
           <PanelBody>                                                         

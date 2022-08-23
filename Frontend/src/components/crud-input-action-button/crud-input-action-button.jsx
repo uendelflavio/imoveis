@@ -3,7 +3,7 @@ import SweetAlert from 'react-bootstrap-sweetalert';
 import { useFormikContext } from "formik";
 import { Button } from "reactstrap";
 
-const CrudInputActionButton = (props) => {  
+const CrudInputActionButton = props => {  
   const formik = useFormikContext();
   const [alertDelete, setAlertDelete] = React.useState(false);
   const [alertUpdate, setAlertUpdate] = React.useState(false);

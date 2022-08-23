@@ -20,7 +20,7 @@ export const updateImovel = createAsyncThunk(
 
 export const deleteImovel = createAsyncThunk(
     "imovel/delete",
-    async ({ id }) => { return await ImovelService.remove(id); }
+    async ({ id }) => { await ImovelService.remove(id); return { id }; }
 );
 
 const imovelSlice = createSlice({
