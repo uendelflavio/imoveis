@@ -27,17 +27,23 @@ defmodule ApiWeb.ImovelView do
     }
   end
 
+  def render("imovel_id.json", %{imovel: imovel}) do
+    %{
+      id: imovel.id
+    }
+  end
+
   def render("imagens.json", %{imovel: imovel}) do
     %{
-      imovel: render_one(imovel, ImovelView, "imovel.json"),
+      imovel: render_one(imovel, ImovelView, "imovel_id.json"),
       imovel_imagens: render_many(imovel.imovel_imagem, ImovelImagemView, "imovel_imagem.json")
     }
   end
 
   def render("detalhes.json", %{imovel: imovel}) do
     %{
-      imovel: render_one(imovel, ImovelView, "imovel.json"),
-      imovel_detalhe: render_one(imovel.imovel_detalhe, ImovelDetalheView, "imovel_detalhe.json")
+      imovel: render_one(imovel, ImovelView, "imovel_id.json"),
+      imovel_detalhe: render_one(imovel, ImovelDetalheView, "imovel_detalhe.json")
     }
   end
 end

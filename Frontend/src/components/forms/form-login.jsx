@@ -4,7 +4,6 @@ import { Formik, Form, Field,ErrorMessage } from "formik";
 import { login,setUser,setPass } from "../../utils/auth";
 import { toast } from 'react-toastify';
 import * as Yup from "yup";
-import TextError from "../text-error/text-error";
 import LoginService from '../../services/login-service'
 const FormLogin = () => {
     let history = useHistory();
@@ -56,7 +55,7 @@ const FormLogin = () => {
                     )}
                     </Field>
                       <label htmlFor="email" className="d-flex align-items-center py-0">Email</label>
-                      <ErrorMessage name="email" component={TextError} />
+                      <ErrorMessage name="email" component="div" />
                 </div>
                   <div className="form-floating mb-20px">                    
                     <Field type="password" name="password" id="password" placeholder="Senha" >
@@ -73,7 +72,7 @@ const FormLogin = () => {
                     )}
                     </Field>
                       <label htmlFor="password" className="d-flex align-items-center py-0">Password</label>                    
-                      <ErrorMessage name="password" component={TextError} />
+                      <ErrorMessage name="password" component="div"/>
                 </div>
                 <div className="form-check mb-20px">
                     <input className="form-check-input" type="checkbox" value="" id="rememberMe" />

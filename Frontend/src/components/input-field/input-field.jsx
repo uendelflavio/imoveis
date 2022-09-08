@@ -1,44 +1,34 @@
 import React from "react";
-import { Field, ErrorMessage  } from "formik";
-import TextError from "../text-error/text-error";
-import { useToggle } from 'react-use';
+import { useFormikContext } from "formik";
 
-const InputField = React.forwardRef((props, ref) => {    
-  const [value, setValue] = useToggle(props.initialValue);    
-  const onChange = (e) => {
-    setValue(e.target.value);
-  };
-
+const InputField = props => {  
+  
+  const formik = useFormikContext();      
   return (
     <React.Fragment>
     <div className="mb-1">
       <label className="form-label">{props.label}:</label>
-      <div className="col-md-12">
-        <Field          
-          type="text"          
-          name={props.name}
-          id={props.name}>
-          {({ field, meta: { touched, error } }) => (
-              <input              
-              value={value}
-              ref={ref}
-              onChange={onChange}              
-              className={
-              touched && error
-                  ? "form-control is-invalid"
-                  : "form-control is-valid"
-              }
-              {...field}
-              autoFocus={props.focus}
-              placeholder={props.label}
-            />
-          )}        
-        </Field>
-        <ErrorMessage name={props.name} component={TextError} />
+      <div className="col-md-12">         
+          <input    
+          id={props.name} 
+          name={props.name}    
+          value={formik.values[props.name]}              
+          onChange={(e) =>  formik.setFieldValue(props.name, e.target.value) }              
+          className={
+          formik.touched[props.name] && formik.errors[props.name]
+              ? "form-control is-invalid"
+              : "form-control is-valid"
+          }    
+          autoFocus={props.focus}
+          placeholder={props.label}
+        />        
+        </div>
       </div>
+      <div className="mt-1" style={{ width: '400px' }} >                  
+        { formik.errors[props.name]  ? <small className="bold text-danger">{formik.errors[props.name]}</small> : null}                     
       </div>
     </React.Fragment>
   );
-});
+};
 
 export default InputField;

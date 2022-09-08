@@ -29,8 +29,8 @@ const FormImovel = props => {
         cep:   '',
         cidade:  '',                  
         uf:  '',
-        vistoria:  false,
-        ocupado:   false,
+        vistoria: false,
+        ocupado: false,
       })          
     } else {
       setInitialValues({
@@ -79,7 +79,7 @@ const FormImovel = props => {
       initialValues={initialValues}
       validationSchema={validationSchema}             
       >        
-        <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false}> 
+        <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false} > 
         <Panel className="mb-0" >
           <PanelHeaderOption titleInsert="Novo Imovel" titleUpdated="Atualizar Imóvel"/>          
           <PanelBody>                                                         

@@ -1,9 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { combineReducers } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import imovelSlice from './slices/imovel-slice'
+import imovelDetalheSlice from './slices/imovel-detalhe-slice'
 
 const reducer = combineReducers({
     imovelSlice,
+    imovelDetalheSlice,
 })
 
 const store = configureStore({

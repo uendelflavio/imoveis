@@ -1,12 +1,18 @@
 import React from "react";
 import Switch from "react-switch";
 import { useFormikContext } from "formik";
-import { useToggle } from 'react-use';
 
-const SwitchInput = (props) => {
 
-  const formik = useFormikContext();
-  const [checked, setCheck] = useToggle(typeof formik.values[props.name] === 'undefined'? false:formik.values[props.name]);
+const SwitchInput = props => {  
+  const formik = useFormikContext();  
+
+  const checked = React.useMemo(() => {
+    if (typeof formik.values[props.name] === 'undefined'){
+      return false
+    } else {
+      return formik.values[props.name]
+    }
+  }, [formik, props.name]);
 
   return (  
   <React.Fragment>
@@ -18,8 +24,9 @@ const SwitchInput = (props) => {
               </div>           
                   <Switch
                     checked={checked}
-                    onChange={() => { setCheck(); checked ? formik.setFieldValue(props.name, false, true) : formik.setFieldValue(props.name, true, false)}}                                                       
+                    onChange={() => {  checked ? formik.setFieldValue(props.name, false, true) : formik.setFieldValue(props.name, true, false)}}                                                       
                     name={props.name}
+                    id={props.name}
                     className="react-switch"
                   />                                      
           </label>            

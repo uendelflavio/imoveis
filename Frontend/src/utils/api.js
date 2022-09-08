@@ -8,7 +8,7 @@ export const API = axios.create({
   timeout: 3000,
   withCredentials: true,
   headers: {
-    "Content-type": "application/json"
+    "Content-type": "application/json;charset=utf-8"
   }
 });
 

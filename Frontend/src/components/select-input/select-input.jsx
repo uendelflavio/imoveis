@@ -15,25 +15,25 @@ const SelectInput = (props) => {
             <label htmlFor={props.label} className="form-label">
               {props.label}
             </label>    
-                <Select            
-                  name={props.name}       
-                  options={props.options}
-                  placeholder={props.label}
-                  onChange={(v) => formik.setFieldValue(props.name, v.value)}               
-                  value={props.options ? props.options.find((option) => option.value === field.value) : ''}
-                  styles={{
-                    container: (base) => ({
-                      ...base,
-                      borderRadius: '5px',
-                      backgroundColor: formik.errors[props.name] ? '#ff5b57' : '#00acac',
-                      padding: 1,
-                    }),
-                  }}                 
-                />      
+            <Select            
+              name={props.name}       
+              options={props.options}
+              placeholder={props.label}
+              onChange={(v) => formik.setFieldValue(props.name, v.value)}               
+              value={props.options ? props.options.find((option) => option.value === field.value) : ''}
+              styles={{
+                container: (base) => ({
+                  ...base,
+                  borderRadius: '5px',
+                  backgroundColor: formik.errors[props.name] ? '#ff5b57' : '#00acac',
+                  padding: 1,
+                }),
+              }}                 
+            />      
           </div>          
           <div className="mt-1" style={{ width: '400px' }} >                  
             { formik.errors[props.name]  ? <small className="bold text-danger">{formik.errors[props.name]}</small> : null}                     
-          </div>         
+          </div>            
         </div>
       </div>
     </React.Fragment>

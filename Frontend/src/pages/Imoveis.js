@@ -6,8 +6,8 @@ import { useExportData } from "react-table-plugins"
 import ExportActionButton, { getExportFileBlob } from '../components/export_action_button/export_action_button'
 import BreadcrumbIcon from '../components/breadcrumb-icon/breadcrumb-icon'
 
-import FormImovel from "../components/forms/form-imovel";
 import AlertDelete from "../components/alert-delete/alert-delete"
+import FormImovel from "../components/forms/form-imovel";
 import FormImovelDetalhe from "../components/forms/form-imovel-detalhe"
 // import FormImovelImagem from "../components/forms/form-imovel-imagem"
 
@@ -16,13 +16,12 @@ import TablePagination from '../components/table-pagination/table-pagination'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { listImovel, createImovel, deleteImovel, updateImovel } from '../slices/imovel-slice'
-import { createImovelDetalhe, updateImovelDetalhe, deleteImovelDetalhe, listImovelWithDetalhes } from '../slices/imovel-detalhe-slice'
 
-function Imoveis(props) {
+
+const Imoveis = props => {
 
   const columns = React.useMemo(() => COLUMNS_IMOVEIS, [])
   const imovel = useSelector(state => state.imovelSlice);
-  const imovel_detalhe = useSelector(state => state.imovelDetalheSlice);
   const dispatch = useDispatch();
   const data = React.useMemo(() => imovel, [imovel]);
   const getSubRows = (row) => [] || row.subRows;
@@ -53,11 +52,6 @@ function Imoveis(props) {
                 <FormImovelDetalhe
                   isModal={false}
                   isUpdated={true}
-                  refreshData={() => dispatch(listImovelWithDetalhes())}
-                  createData={(data) => dispatch(createImovelDetalhe({ data }))}
-                  updateData={(id, data) => dispatch(updateImovelDetalhe({ id, data }))}
-                  deleteData={(id) => { dispatch(deleteImovelDetalhe({ id })) }}
-                  data={imovel_detalhe}
                   id={row?.original?.id}
                 />
               </div>

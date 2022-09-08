@@ -14,13 +14,13 @@ const get = async (id) => {
 };
 
 const create = async (data) => {
-  return await API.post(URL_DETALHE_IMOVEIS, { "imovel_detalhes": data })
+  return await API.post(URL_DETALHE_IMOVEIS, { "imovel_detalhe": data })
     .then(response => response.data)
     .catch(error => error);
 };
 
 const update = async (id, data) => {
-  return await API.put(`${URL_DETALHE_IMOVEIS}/${id}`, { "imovel_detalhes": data })
+  return await API.put(`${URL_DETALHE_IMOVEIS}/${id}`, { "imovel_detalhe": data })
     .then(response => response.data)
     .catch(error => error);
 };

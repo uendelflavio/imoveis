@@ -9,8 +9,8 @@ export const createImovel = createAsyncThunk(
 );
 
 export const listImovel = createAsyncThunk(
-    "imovel/retrieve",
-    async () => { return await ImovelService.getAll(''); }
+    "imovel/getall",
+    async () => { return await ImovelService.getAll(); }
 );
 
 export const updateImovel = createAsyncThunk(

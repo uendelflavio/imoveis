@@ -2,7 +2,7 @@ import React from 'react'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import { Button } from "reactstrap";
 import { useToggle } from 'react-use';
-const AlertDelete = (props) => {  
+const AlertDelete = props => {  
     const onClickDelete = () => { setAlertDelete(true); }
     const toggleSweetAlert = (state) => {setAlertDelete(!sweetAlertDelete);}
     const [sweetAlertDelete, setAlertDelete] = useToggle(false);
