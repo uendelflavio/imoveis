@@ -3,31 +3,25 @@ import { Route, Link } from 'react-router-dom';
 import TopMenuNavList from './top-menu-nav-list.jsx';
 import menus from './menu.jsx';
 
-class TopMenuNav extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			active: -1,
-			controlLeft: false,
-			controlRight: false,
-			marginLeft: 0,
-			marginRight: 0,
-			navWidth: 0
-		};
-
-		this.topMenu = React.createRef();
-		this.handleExpand = this.handleExpand.bind(this);
-		this.controlLeft = this.controlLeft.bind(this);
-		this.controlRight = this.controlRight.bind(this);
-	}
-	
-	componentDidMount () {
-		var windowWidth = this.topMenu.current.offsetWidth - 128;
+const TopMenuNav = props => {
+	const [state, setState] = React.useState({
+		active: -1,
+		controlLeft: false,
+		controlRight: false,
+		marginLeft: 0,
+		marginRight: 0,
+		navWidth: 0
+	});
+	const topMenu = React.createRef();
+	React.useEffect(() => {
+		
+		var windowWidth = topMenu.current.offsetWidth - 128;
 		var listFullWidth = 0;
 		var listPrevWidth = 0;
 		var listActive = false;
 		
-		document.querySelectorAll('.app-top-menu .menu > .menu-item').forEach(function(elm) {
+		document.querySelectorAll('.app-top-menu .menu > .menu-item')
+			.forEach(function (elm) {
 			listFullWidth += elm.offsetWidth;
 			listPrevWidth += (!listActive) ? elm.offsetWidth : 0;
 			listActive = (elm.classList.contains('active')) ? true : listActive;
@@ -45,115 +39,104 @@ class TopMenuNav extends React.Component {
 				finalRight = finalScrollWidth;
 				finalLeft = 0;
 			}
-			this.setState(state => ({
+			topMenu.current.setState({
 				marginLeft: finalLeft,
 				marginRight: finalRight
-			}));
+			});
 		}
 		
-		this.setState(state => ({
+		topMenu.current.setState({
 			navWidth: listFullWidth,
 			controlLeft: (listPrevWidth >= windowWidth && listFullWidth >= windowWidth) ? true : false,
 			controlRight: (listPrevWidth !== listFullWidth && listFullWidth >= windowWidth) ? true : false
-		}));
-	}
+		});
+	})
+
+
 	
-	handleExpand(e, i, match) {
+	const handleExpand = (e, i, match) => {
 		e.preventDefault();
-		this.setState(state => ({
-			active: (this.state.active === i ? -1 : i)
-		}));
+		setState({active: (state.active === i ? -1 : i)});
 	}
 	
-	controlRight(e) {
+	const controlRight = (e) => {
 		e.preventDefault();
 		var containerWidth = document.querySelector('.app-top-menu').offsetWidth - 88;
-		var widthLeft = this.state.navWidth + (-this.state.marginLeft) - containerWidth;
+		var widthLeft = state.navWidth + (-state.marginLeft) - containerWidth;
 		var finalScrollWidth = 0;
 
 		if (widthLeft <= containerWidth) {
-			finalScrollWidth = widthLeft - (-this.state.marginLeft) + 128;
-			this.setState(state => ({
-				controlRight: false
-			}));
+			finalScrollWidth = widthLeft - (-state.marginLeft) + 128;
+			setState({controlRight: false});
 		} else {
-			finalScrollWidth = containerWidth - (-this.state.marginLeft) - 128;
+			finalScrollWidth = containerWidth - (-state.marginLeft) - 128;
 		}
 
 		if (finalScrollWidth !== 0) {
 			if (!document.body.classList.contains('rtl-mode')) { 
-				this.setState(state => ({
+				setState({
 					marginRight: 0,
 					marginLeft: finalScrollWidth
-				}));
+				});
 			} else {
-				this.setState(state => ({
+				setState({
 					marginLeft: 0,
 					marginRight: finalScrollWidth
-				}));
+				});
 			}
-			this.setState(state => ({
-				controlLeft: true
-			}));
+			setState({controlLeft: true});
 		}
 	}
 
-	controlLeft(e) {
+	const controlLeft = (e) => {
 		e.preventDefault();
-		var widthLeft = this.state.marginLeft;
+		var widthLeft = state.marginLeft;
 		var containerWidth = document.querySelector('.app-top-menu').offsetWidth;
 		var finalScrollWidth = 0;
 
 		if (widthLeft <= containerWidth) {
 			finalScrollWidth = 0;
-			this.setState(state => ({
-				controlLeft: false
-			}));
+			setState({controlLeft: false});
 		} else {
 			finalScrollWidth = widthLeft - containerWidth - 88;
-			this.setState(state => ({
-				controlLeft: true
-			}));
+			setState({controlLeft: true});
 		}
 		if (!document.body.classList.contains('rtl-mode')) { 
-			this.setState(state => ({
+			setState({
 				marginLeft: finalScrollWidth,
 				marginRight: 0,
 				controlRight: true
-			}));
+			});
 		} else {
-			this.setState(state => ({
+			setState({
 				marginLeft: 0,
 				marginRight: finalScrollWidth,
 				controlRight: true
-			}));
+			});
 		}
 	}
-
-  
-	render() {
-		return (
-			<div ref={this.topMenu} className="menu" style={{ marginLeft: '-' + this.state.marginLeft + 'px', marginRight: '-'+ this.state.marginRight + 'px' }}>
-				{menus.map((menu, i) => (
-					<Route path={menu.path} exact={menu.exact} key={i} children={({ match }) => (
-						<TopMenuNavList
-							data={menu} 
-							key={i} 
-							expand={(e) => this.handleExpand(e, i, match)}
-							active={i === this.state.active} 
-							clicked={this.state.clicked}
-						/>
-					)} />
-				))}
-				<div className={'menu-item menu-control menu-control-start ' + (this.state.controlLeft ? 'show' : '')}>
-					<Link className="menu-link" to="/" onClick={this.controlLeft}><i className="fa fa-angle-left"></i></Link>
-				</div>
-				<div className={'menu-item menu-control menu-control-end ' + (this.state.controlRight ? 'show' : '')}>
-					<Link className="menu-link" to="/" onClick={this.controlRight}><i className="fa fa-angle-right"></i></Link>
-				</div>
+	return (
+		<div ref={topMenu} className="menu" style={{ marginLeft: '-' + state.marginLeft + 'px', marginRight: '-'+ state.marginRight + 'px' }}>
+			{menus.map((menu, i) => (
+				<Route path={menu.path} exact={menu.exact} key={i} children={({ match }) => (
+					<TopMenuNavList
+						data={menu} 
+						key={i} 
+						expand={(e) => handleExpand(e, i, match)}
+						active={i === state.active} 
+						clicked={state.clicked}
+					/>
+				)} />
+			))}
+			<div className={'menu-item menu-control menu-control-start ' + (state.controlLeft ? 'show' : '')}>
+				<Link className="menu-link" to="/" onClick={controlLeft}><i className="fa fa-angle-left"></i></Link>
 			</div>
-		);
-	}
+			<div className={'menu-item menu-control menu-control-end ' + (state.controlRight ? 'show' : '')}>
+				<Link className="menu-link" to="/" onClick={controlRight}><i className="fa fa-angle-right"></i></Link>
+			</div>
+		</div>
+	);
+	
 }
 
 export default TopMenuNav;

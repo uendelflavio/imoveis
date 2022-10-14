@@ -7,11 +7,9 @@ import TopMenu from './components/top-menu/top-menu.jsx';
 import Content from './components/content/content.jsx';
 import FloatSubMenu from './components/float-sub-menu/float-sub-menu.jsx';
 import ThemePanel from './components/theme-panel/theme-panel.jsx';
-import LoginService from '../src/services/login-service';
-import { getUser, getPass, login } from '../src/utils/auth';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 
 class App extends React.Component {
 
@@ -522,20 +520,11 @@ class App extends React.Component {
 		};
 	}
 
-	tokenRefresh  = async () => {		
-		const data_json = { 'email': getUser(), 'password': getPass() }			
-		const response = await LoginService.post_refresh(data_json);
-		login(response);		
-	}
-
 	componentDidMount() {		
 		this.handleSetColor();
 		this.handleSetFont();
 		this.handleSetAppTheme(this.state.appTheme);
 		window.addEventListener('scroll', this.handleScroll, {passive:false})		
-		const myTimeout = setTimeout(this.tokenRefresh(), 60000);
-		clearTimeout(myTimeout);
-				
 	} 
 	
 	componentWillUnmount() {
@@ -558,7 +547,6 @@ class App extends React.Component {
 		}
 	}
 	
-
 	render() {		
 		return (	
 			<AppSettings.Provider value={this.state}>

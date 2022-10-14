@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux'
 import store from './store';
 
-import App from './app.jsx';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { isAuthenticated } from "./utils/auth";
+import TokenService from './services/token-service';
+// import App from './app.jsx';
+import AppHooks from './app-hooks';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 
@@ -29,7 +28,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      isAuthenticated() ? (
+      TokenService.isAuthenticated() ? (
         <Component {...props} />
       ) : (
         <Redirect to={{ pathname: "/", state: { from: props.location } }} />
@@ -44,7 +43,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path="/" component={Logout} />
-        <PrivateRoute path="/app" component={App} />
+        <PrivateRoute path="/app" component={AppHooks} />
         <Route path="*" component={() => <h1>Page not found</h1>} />
       </Switch>
     </BrowserRouter>,

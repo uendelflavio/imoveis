@@ -1,27 +1,28 @@
 import React from "react";
+import {  } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { Formik, Form, Field,ErrorMessage } from "formik";
-import { login,setUser,setPass } from "../../utils/auth";
+
 import { toast } from 'react-toastify';
 import * as Yup from "yup";
-import LoginService from '../../services/login-service'
+import AuthService from '../../services/auth-service'
+import TokenService from '../../services/token-service';
 const FormLogin = () => {
-    let history = useHistory();
-    
-    const onSubmit = async (values) => {          
+     
+    let history = useHistory();  
+    const onSubmit = async (values) => {         
         if (!values.email || !values.password) {
             toast.warning('Preencha e-mail e senha para continuar!');
-        } else {
-            try {                
-                const response = await LoginService.post_new(values);       
-                login(response);               
-                setUser(values.email);
-                setPass(values.password)
-                history.push("/app");
-            } catch (error) {
-                if (error.response.status === 401) toast.error('Houve um problema com autenticação, verifique suas credenciais e tente novamente.');                    
-                if (error.response.status >= 500) toast.error('Houve falha de comunicação com o servidor, tente autenticar novamente.');                    
-            }
+        } else {             
+            const p1 = await AuthService.login(values);
+            const p2 = TokenService.setToken(p1);
+            const p3 = TokenService.setUser(values.email);
+            const p4 = await AuthService.refresh();
+            const p5 = TokenService.setRefreshToken(p4);            
+            const p6 = history.push("/app");
+            Promise.all([p1, p2, p3, p4, p5, p6])
+                .then((values) => console.log )
+                .catch(console.log)          
         }    
     };    
     const validationSchema = Yup.object({  
@@ -33,8 +34,8 @@ const FormLogin = () => {
         <Formik
             enableReinitialize={true}
             initialValues={{                  
-                email: '',
-                password: '',
+                email: 'uendel.flavio@gmail.com',
+                password: '123456',
             }}              
             validationSchema={validationSchema}
             onSubmit={(values) => onSubmit(values)}

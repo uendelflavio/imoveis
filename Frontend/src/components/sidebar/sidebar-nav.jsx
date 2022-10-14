@@ -4,41 +4,35 @@ import { AppSettings } from './../../config/app-settings.js';
 import SidebarNavList from './sidebar-nav-list.jsx';
 import menus from './menu.jsx';
 
-class SidebarNav extends React.Component {
-	static contextType = AppSettings;
-	
-	constructor(props) {
-		super(props);
-		this.state = {
+const SidebarNav = props => {
+	const context = AppSettings;
+	const [state, setState] = React.useState({
 			active: -1,
 			clicked: -1,
 			menus: menus
-		};
-		
-		this.handleSidebarSearch = this.handleSidebarSearch.bind(this);
-	}
+	});
+	
 
-	handleExpand(e, i, match) {
+	const handleExpand = (e, i, match) => {
 		e.preventDefault();
 
-		if (this.state.clicked === -1 && match) {
-			this.setState(state => ({
+		if (state.clicked === -1 && match) {
+			setState({
 				active: -1,
 				clicked: 1
-			}));
+			});
 		} else {
-			this.setState(state => ({
-				active: (this.state.active === i ? -1 : i),
+			setState({
+				active: (state.active === i ? -1 : i),
 				clicked: 1
-			}));
+			});
 		}
 	}
 	
-	handleSidebarSearch(e) {
-		let searchValue = e.target.value;
-				searchValue = searchValue.toLowerCase();
+	const handleSidebarSearch = (e) => {
+		let searchValue = e.target.value.toLowerCase();		
 				
-		this.setState(state => {
+		setState(state => {
 			let newMenus = [];
 			if (searchValue !== '') {
 				newMenus = menus.filter(item => {
@@ -73,30 +67,28 @@ class SidebarNav extends React.Component {
 			};
 		});
 	}
-  
-	render() {
-		return (
-			<div className="menu">
-				{this.context.appSidebarSearch && (
-					<div className="menu-search mb-n3">
-						<input type="text" class="form-control" placeholder="Sidebar menu filter..." onKeyUp={this.handleSidebarSearch} />
-					</div>
-				)}
-				<div className="menu-header">Navigação</div>
-				{this.state.menus.map((menu, i) => (
-					<Route path={menu.path} exact={menu.exact} key={i} children={({ match }) => (
-						<SidebarNavList
-							data={menu} 
-							key={i} 
-							expand={(e) => this.handleExpand(e, i, match)}
-							active={i === this.state.active} 
-							clicked={this.state.clicked}
-						/>
-					)} />
-				))}
-			</div>
-		);
-	}
+	return (
+		<div className="menu">
+			{context.appSidebarSearch && (
+				<div className="menu-search mb-n3">
+					<input type="text" class="form-control" placeholder="Sidebar menu filter..." onKeyUp={handleSidebarSearch} />
+				</div>
+			)}
+			<div className="menu-header">Navigação</div>
+			{state.menus.map((menu, i) => (
+				<Route path={menu.path} exact={menu.exact} key={i} children={({ match }) => (
+					<SidebarNavList
+						data={menu} 
+						key={i} 
+						expand={(e) => handleExpand(e, i, match)}
+						active={i === state.active} 
+						clicked={state.clicked}
+					/>
+				)} />
+			))}
+		</div>
+	);
+	
 }
 
 export default SidebarNav;

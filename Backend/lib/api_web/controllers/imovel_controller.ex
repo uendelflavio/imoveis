@@ -48,6 +48,12 @@ defmodule ApiWeb.ImovelController do
 
   def detalhes(conn, %{"id" => id} = params) do
     imovel = Imoveis.get_imovel_with_detalhe!(id)
+    IO.inspect(imovel)
     render(conn, "detalhes.json", imovel: imovel)
+  end
+
+  def documentos(conn, %{"id" => id} = params) do
+    imovel = Imoveis.get_imovel_with_documento!(id)
+    render(conn, "documentos.json", imovel: imovel)
   end
 end

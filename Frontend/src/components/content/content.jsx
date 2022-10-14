@@ -2,23 +2,19 @@ import React from 'react';
 import { Route ,withRouter, Redirect } from 'react-router-dom';
 import routes from './../../config/app-route.jsx';
 import { AppSettings } from './../../config/app-settings.js';
-import { isAuthenticated } from "./../../utils/auth";
+import TokenService from '../../services/token-service.js';
 
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      isAuthenticated() ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={{ pathname: "/", state: { from: props.location } }} />
-      )
+      TokenService.isAuthenticated() ? (<Component {...props} />) : (<Redirect to={{ pathname: "/", state: { from: props.location } }} />)
     }
   />
 );
 
-function setTitle(path, routeArray) {
+const setTitle = (path, routeArray) => {
 	var appTitle;
 	for (var i=0; i < routeArray.length; i++) {
 		if (routeArray[i].path === path) {
@@ -28,41 +24,35 @@ function setTitle(path, routeArray) {
 	document.title = (appTitle) ? appTitle : 'Aluguel de Imoveis';
 }
 
-class Content extends React.Component {
-	componentDidMount() {
-		setTitle(this.props.history.location.pathname, routes);
-	}
-	UNSAFE_componentWillMount() {
-    this.props.history.listen(() => {
-			setTitle(this.props.history.location.pathname, routes);
-    });
-  }
-  
-	render() {
-		return (
-			<AppSettings.Consumer>
-				{({appContentClass}) => (
-					<div className={'app-content '+ appContentClass}>
-						{routes.map((route, index) => (
-							/*<Route
-								key={index}
-								path={route.path}
-								exact={route.exact}
-								component={route.component}
-							/>*/
-							<PrivateRoute 
-								key={index}
-								path={route.path}
-								exact={route.exact}
-								component={route.component}
-							/>
-						))}
-					</div>
-				)
-			}
-			</AppSettings.Consumer>
-		)
-	}
+const Content = (props) => {
+	
+	React.useEffect(() => {
+		setTitle(props.history.location.pathname, routes);
+		return () => {
+			props.history.listen(() => {
+				setTitle(props.history.location.pathname, routes);
+			});
+		}
+	});
+
+	return (
+		<AppSettings.Consumer>
+			{({appContentClass}) => (
+				<div className={'app-content '+ appContentClass}>
+					{routes.map((route, index) => (		
+						<PrivateRoute 
+							key={index}
+							path={route.path}
+							exact={route.exact}
+							component={route.component}
+						/>
+					))}
+				</div>
+			)
+		}
+		</AppSettings.Consumer>
+	)
+	
 }
 
 export default withRouter(Content);

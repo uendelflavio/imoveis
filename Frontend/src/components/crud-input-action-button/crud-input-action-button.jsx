@@ -15,7 +15,9 @@ const CrudInputActionButton = props => {
   const onClickDelete = (event) => { event.preventDefault(); setAlertDelete(true); }
   const onClickUpdate = (event) => { event.preventDefault(); setAlertUpdate(true); }
 
-  React.useEffect(() => {setId(formik.values.id)}, [formik.values.id]);
+  React.useEffect(() => {
+    setId(formik.values.id)
+  }, [formik.values.id]);
   
   return (
     <React.Fragment>

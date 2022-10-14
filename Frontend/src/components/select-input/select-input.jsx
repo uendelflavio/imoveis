@@ -2,8 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 import { useFormikContext, useField } from "formik";
 
-const SelectInput = (props) => {
-  
+const SelectInput = props => {  
   const [field] = useField(props.name);
   const formik = useFormikContext();  
 

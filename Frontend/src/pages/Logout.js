@@ -1,13 +1,13 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { isAuthenticated } from "../utils/auth";
+import TokenService from '../services/token-service';
 
 class Logout extends React.Component {
 
 	constructor(props) {
 		super(props);
 		try {
-			if (isAuthenticated) {
+			if (TokenService.isAuthenticated) {
 				this.props.history.push("/login");
 			} else {
 				this.props.history.push("/app");
@@ -28,3 +28,11 @@ class Logout extends React.Component {
 
 //export default Login;
 export default withRouter(Logout);
+
+
+
+
+
+
+
+

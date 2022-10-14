@@ -1,7 +1,7 @@
 import React from "react";
 import { useAsyncDebounce } from 'react-table';
 
-const  TableFilter = (props) => {
+const  TableFilter = props => {
   const count = props.preGlobalFilteredRows.length
   const [value, setValue] = React.useState(props.globalFilter);
   const onChange = useAsyncDebounce(value => { props.setGlobalFilter(value || undefined) }, 200)

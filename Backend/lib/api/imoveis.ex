@@ -48,6 +48,14 @@ defmodule Api.Imoveis do
     Imovel
     |> Repo.get!(id)
     |> Repo.preload([:imovel_detalhe])
+
+    # |> Ecto.assoc(imovel_detalhe, :imovel_detalhe)
+  end
+
+  def get_imovel_with_documento!(id) do
+    Imovel
+    |> Repo.get!(id)
+    |> Repo.preload([:imovel_documento])
   end
 
   @doc """

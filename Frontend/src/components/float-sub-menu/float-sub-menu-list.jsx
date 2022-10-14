@@ -2,57 +2,55 @@ import React from 'react';
 import { Route, Link } from 'react-router-dom';
 import { AppSettings } from './../../config/app-settings.js';
 
-class FloatSubMenuList extends React.Component {
-	static contextType = AppSettings;
+const  FloatSubMenuList = props => {
+	const context = AppSettings;
+
+	const [state, setState] = React.useState({
+		active: -1,
+		clicked: -1
+	});
 	
-	constructor(props) {
-		super(props);
-		this.state = {
-			active: -1,
-			clicked: -1
-		};
-	}
 	
-	handleExpand(e, i, match) {
+	const handleExpand = (e, i, match) =>  {
 		e.preventDefault();
 	
-		this.setState(state => ({
-			active: (this.state.active === i ? -1 : i),
+		setState(state => ({
+			active: (state.active === i ? -1 : i),
 			clicked: 1
 		}));
 		setTimeout(() => {
-			this.context.handleAppSidebarFloatSubMenuClick();
+			context.handleAppSidebarFloatSubMenuClick();
 		}, 0);
 	}
   
-	render() {
-		var icon = this.props.data.icon && <div className="menu-icon"><i className={this.props.data.icon}></i></div>;
-		var img = this.props.data.img && <div className="menu-icon-img"><img src={this.props.data.img} alt="" /></div>;
-		var caret = (this.props.data.children && !this.props.data.badge) && <div className="menu-caret"></div>;
-		var label = this.props.data.label && <span className="menu-label">{this.props.data.label}</span>;
-		var badge = this.props.data.badge && <div className="menu-badge">{this.props.data.badge}</div>;
-		var highlight = this.props.data.highlight && <i className="fa fa-paper-plane text-theme"></i>;
-		var title = this.props.data.title && <div className="menu-text">{this.props.data.title} {label} {highlight}</div>;
+	
+		var icon = props.data.icon && <div className="menu-icon"><i className={props.data.icon}></i></div>;
+		var img = props.data.img && <div className="menu-icon-img"><img src={props.data.img} alt="" /></div>;
+		var caret = (props.data.children && !props.data.badge) && <div className="menu-caret"></div>;
+		var label = props.data.label && <span className="menu-label">{props.data.label}</span>;
+		var badge = props.data.badge && <div className="menu-badge">{props.data.badge}</div>;
+		var highlight = props.data.highlight && <i className="fa fa-paper-plane text-theme"></i>;
+		var title = props.data.title && <div className="menu-text">{props.data.title} {label} {highlight}</div>;
 		
 		return (
 			<AppSettings.Consumer>
 				{({appSidebarMinified}) => (
-					<Route path={this.props.data.path} exact={this.props.data.exact} children={({ match }) => (
-						<div className={ "menu-item " + (match ? "active " : "") + ((this.props.active || (this.props.clicked === -1 && match)) ? 'expand ' : 'closed ') + (this.props.data.children ? "has-sub " : "")}>
-							{this.props.data.children ? (
-								<Link className="menu-link" to={this.props.data.path} onClick={this.props.expand}>{ img } { icon } { title } { badge } { caret }</Link>
+					<Route path={props.data.path} exact={props.data.exact} children={({ match }) => (
+						<div className={ "menu-item " + (match ? "active " : "") + ((props.active || (props.clicked === -1 && match)) ? 'expand ' : 'closed ') + (props.data.children ? "has-sub " : "")}>
+							{props.data.children ? (
+								<Link className="menu-link" to={props.data.path} onClick={props.expand}>{ img } { icon } { title } { badge } { caret }</Link>
 							):(
-								<Link className="menu-link" to={this.props.data.path}>{ img } { icon } { title } { badge } { caret }</Link>
+								<Link className="menu-link" to={props.data.path}>{ img } { icon } { title } { badge } { caret }</Link>
 							)}
-							{this.props.data.children && (
-								<div className={"menu-submenu " + (((this.props.active || (this.props.clicked === -1 && match)) && !appSidebarMinified) ? 'd-block ' : 'd-none')}>
-									{this.props.data.children && this.props.data.children.map((submenu, i) => (
+							{props.data.children && (
+								<div className={"menu-submenu " + (((props.active || (props.clicked === -1 && match)) && !appSidebarMinified) ? 'd-block ' : 'd-none')}>
+									{props.data.children && props.data.children.map((submenu, i) => (
 										<FloatSubMenuList
 											data={submenu} 
 											key={i} 
-											expand={(e) => this.handleExpand(e, i, match)}
-											active={i === this.state.active} 
-											clicked={this.state.clicked}
+											expand={(e) => handleExpand(e, i, match)}
+											active={i === state.active} 
+											clicked={state.clicked}
 										/>
 									))}
 								</div>
@@ -62,7 +60,7 @@ class FloatSubMenuList extends React.Component {
 				)}
 			</AppSettings.Consumer>
 		);
-	}
+	
 }
 
 export default FloatSubMenuList;

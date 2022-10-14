@@ -15,7 +15,6 @@ import MaskInput from "../mask-input/mask-input"
 
 import InputNumberField from '../input-number-field/input-number-field'
 import { classificacao } from '../../utils/util'
-
 import { useDispatch, useSelector } from 'react-redux'
 import { createImovelDetalhe, updateImovelDetalhe, deleteImovelDetalhe, listImovelWithDetalhes, resetImovelDetalhe } from '../../slices/imovel-detalhe-slice'
 
@@ -44,7 +43,7 @@ const FormImovelDetalhe = props => {
         toast.success('Os Detalhes do Imovel foi criado com sucesso');        
         break;
       case 'update':                        
-        dispatch(updateImovelDetalhe({ id: values.id, data: values }))
+        dispatch(updateImovelDetalhe({ id: values.id, data: values }));
         toast.warning('Os Detalhes do Imovel foi atualizada com sucesso'); 
       break;
       case 'delete':                       
@@ -57,7 +56,8 @@ const FormImovelDetalhe = props => {
     } 
     actions.resetForm();
     actions.setSubmitting(false);
-    dispatch(listImovelWithDetalhes({ id: props.id }))  
+    dispatch(resetImovelDetalhe());
+    dispatch(listImovelWithDetalhes({ id: props.id }));
   }
   
   const validationSchema = Yup.object({  

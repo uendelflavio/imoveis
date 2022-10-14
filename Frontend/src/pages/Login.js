@@ -1,8 +1,20 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import FormLogin from "../components/forms/form-login"
+
+
+const withRouter = WrappedComponent => props => {
+	const params = useParams();
+	return (
+		<WrappedComponent
+			{...props}
+			params={params}
+
+		/>
+	);
+};
 
 const Login = () => {
 	return (

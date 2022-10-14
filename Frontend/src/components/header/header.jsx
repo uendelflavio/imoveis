@@ -7,20 +7,10 @@ import SearchForm from "./search/form.jsx";
 import DropdownMegaMenu from "./dropdown/mega.jsx";
 import { AppSettings } from "./../../config/app-settings.js";
 
-class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.toggleAppHeaderMegaMenuMobile =
-      this.toggleAppHeaderMegaMenuMobile.bind(this);
-    this.state = { appHeaderMegaMenuMobile: false };
-  }
+const Header = props => {
+  const [state,setState] = React.useState({appHeaderMegaMenuMobile: false})
+  const toggleAppHeaderMegaMenuMobile = () => setState(!state.appHeaderMegaMenuMobile);
 
-  toggleAppHeaderMegaMenuMobile() {
-    this.setState({
-      appHeaderMegaMenuMobile: !this.state.appHeaderMegaMenuMobile,
-    });
-  }
-  render() {
     return (
       <AppSettings.Consumer>
         {({
@@ -61,7 +51,7 @@ class Header extends React.Component {
                 <button
                   type="button"
                   className="navbar-mobile-toggler"
-                  onClick={this.toggleAppHeaderMegaMenuMobile}
+                  onClick={toggleAppHeaderMegaMenuMobile}
                 >
                   <span className="fa-stack fa-lg text-inverse">
                     <i className="far fa-square fa-stack-2x"></i>
@@ -106,7 +96,7 @@ class Header extends React.Component {
             </div>
 
             {appHeaderMegaMenu && (
-              <DropdownMegaMenu collapse={this.state.appHeaderMegaMenuMobile} />
+              <DropdownMegaMenu collapse={state.appHeaderMegaMenuMobile} />
             )}
 
             <div className="navbar-nav">
@@ -137,7 +127,7 @@ class Header extends React.Component {
         )}
       </AppSettings.Consumer>
     );
-  }
+ 
 }
 
 export default Header;

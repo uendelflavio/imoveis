@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Collapse } from 'reactstrap';
 
-class DropdownMegaMenu extends React.Component {
-	render() {
+const DropdownMegaMenu = props => {	
 		return (
-			<Collapse className="collapse d-md-block me-auto" isOpen={this.props.collapse}>
+			<Collapse className="collapse d-md-block me-auto" isOpen={props.collapse}>
 				<div className="navbar-nav">
 					<UncontrolledDropdown tag="div" className="navbar-item dropdown dropdown-lg flex-1">
 						<DropdownToggle tag="a" className="navbar-link dropdown-toggle d-flex align-items-center">
@@ -99,7 +98,7 @@ class DropdownMegaMenu extends React.Component {
 				</div>
 			</Collapse>
 		)
-	}
+	
 }
 
 export default DropdownMegaMenu;
