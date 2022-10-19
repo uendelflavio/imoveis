@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import PrivateRoute from 'config/private-route';
 import { Provider } from 'react-redux'
-import store from './store';
+import store from 'store';
 
-import TokenService from './services/token-service';
-// import App from './app.jsx';
-import AppHooks from './app-hooks';
-import Login from './pages/Login';
-import Logout from './pages/Logout';
+
+import AppHooks from 'app-hooks';
+import Login from 'pages/Login';
+import Logout from 'pages/Logout';
 
 // css
 import 'bootstrap/dist/css/bootstrap.css';
@@ -22,20 +22,18 @@ import './index.css';
 import './scss/react.scss';
 import 'bootstrap-social/bootstrap-social.css';
 import 'bootstrap-daterangepicker/daterangepicker.css';
-
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      TokenService.isAuthenticated() ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={{ pathname: "/", state: { from: props.location } }} />
-      )
+import { passiveSupport } from 'passive-events-support/src/utils'
+passiveSupport({
+  debug: false,
+  listeners: [
+    {
+      element: 'div.some-element',
+      event: 'touchstart'
     }
-  />
-);
+  ]
+})
+
+
 
 ReactDOM.render(
   <Provider store={store}>

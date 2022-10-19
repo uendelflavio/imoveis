@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { AppSettings } from './../../config/app-settings.js';
-import SidebarNavList from './sidebar-nav-list.jsx';
+import { AppSettings } from 'config/app-settings';
+import SidebarNavList from 'components/sidebar/sidebar-nav-list';
 import menus from './menu.jsx';
 
 const SidebarNav = props => {
@@ -15,7 +15,6 @@ const SidebarNav = props => {
 
 	const handleExpand = (e, i, match) => {
 		e.preventDefault();
-
 		if (state.clicked === -1 && match) {
 			setState({
 				active: -1,
@@ -32,12 +31,12 @@ const SidebarNav = props => {
 	const handleSidebarSearch = (e) => {
 		let searchValue = e.target.value.toLowerCase();		
 				
-		setState(state => {
+		setState(() => {
 			let newMenus = [];
 			if (searchValue !== '') {
 				newMenus = menus.filter(item => {
 					let title = item.title;
-							title = title.toLowerCase();
+						title = title.toLowerCase();
 					if (title.search(searchValue) > -1) {
 						item.search = true;
 						return true;
@@ -45,7 +44,7 @@ const SidebarNav = props => {
 						if (item.children) {
 							for (var i = 0; i < item.children.length; i++) {
 								let title2 = item.children[i]['title'];
-										title2 = title2.toLowerCase();
+								title2 = title2.toLowerCase();
 										
 								if (title2.search(searchValue) > -1) {
 									item.search = true;

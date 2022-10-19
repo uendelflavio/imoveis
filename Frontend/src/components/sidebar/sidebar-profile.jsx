@@ -1,31 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AppSettings } from './../../config/app-settings.js';
+import { AppSettings } from 'config/app-settings';
 
-class SidebarProfile extends React.Component {
+const SidebarProfile = props => {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			profileActive: 0
-		};
-		this.handleProfileExpand = this.handleProfileExpand.bind(this);
-	}
+	const [state, setState] = React.useState({ profileActive: 0 })
+	const context = React.useContext(AppSettings);
+	
 
-	handleProfileExpand(e) {
+	const handleProfileExpand = e => {
 		e.preventDefault();
-		this.setState(state => ({
-			profileActive: !this.state.profileActive,
-		}));
+		setState({profileActive: !state.profileActive,});
 	}
-  
-	render() {
-		return (
+
+	return (
 			<AppSettings.Consumer>
 				{({appSidebarMinify}) => (
 					<div>
-						<div className={"menu-profile " + (this.state.profileActive ? "expand " : "")}>
-							<Link to="/" onClick={this.handleProfileExpand} className="menu-profile-link">
+						<div className={"menu-profile " + (state.profileActive ? "expand " : "")}>
+							<Link to="/" onClick={handleProfileExpand} className="menu-profile-link">
 								<div className="menu-profile-cover with-shadow"></div>
 								<div className="menu-profile-image menu-profile-image-icon bg-gray-900 text-gray-600">
 									<i className="fa fa-user"></i>
@@ -41,7 +34,7 @@ class SidebarProfile extends React.Component {
 								</div>
 							</Link>
 						</div>
-						<div className={"collapse " + (this.state.profileActive && !appSidebarMinify ? "show " : "")}>
+						<div className={"collapse " + (state.profileActive && !context.appSidebarMinify ? "show " : "")}>
 							<div className="menu-item pt-5px">
 								<Link to="/" className="menu-link">
 									<div className="menu-icon"><i className="fa fa-cog"></i></div>
@@ -65,8 +58,7 @@ class SidebarProfile extends React.Component {
 					</div>
 				)}
 			</AppSettings.Consumer>
-		)
-	}
+	)	
 }
 
 export default SidebarProfile;

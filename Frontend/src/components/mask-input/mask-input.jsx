@@ -1,12 +1,11 @@
 import React from 'react';
-import { useFormikContext, useField } from "formik";
+import { useFormikContext } from "formik";
 import InputMask from 'react-input-mask';
 
 const MaskInput = props => {
-
-    const [field] = useField(props.name);
+    const [state, setState] = React.useState();    
     const formik = useFormikContext();  
-    // console.log(field.value)
+
     return (
     <React.Fragment>
         <div className="mb-1">
@@ -16,12 +15,12 @@ const MaskInput = props => {
                         mask={props.mask}
                         name={props.name}
                         id={props.name}
-                        value={field.value}
+                        value={state}
                         type="text"                                                      
                         placeholder={props.label}
                         maskPlaceholder={null}
                         autoFocus={props.focus}
-                        onChange={(e) =>  formik.setFieldValue(props.name, e.target.value) }                        
+                        onChange={(e) => {setState(e.target.value); formik.setFieldValue(props.name, state);} }                        
                         className={ formik.errors[props.name]? "form-control is-invalid": "form-control is-valid"}                                      
                     />               
                     <div className="mt-1" style={{ width: '400px' }} >                  

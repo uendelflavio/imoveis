@@ -1,9 +1,10 @@
 import React from "react";
 import { useFormikContext } from "formik";
 
-const InputField = props => {  
-  
-  const formik = useFormikContext();      
+const InputField = props => {    
+  const formik = useFormikContext();   
+  const [state, setState] = React.useState('')
+ 
   return (
     <React.Fragment>
     <div className="mb-1">
@@ -11,9 +12,9 @@ const InputField = props => {
       <div className="col-md-12">         
           <input    
           id={props.name} 
-          name={props.name}    
-          value={formik.values[props.name]}              
-          onChange={(e) =>  formik.setFieldValue(props.name, e.target.value) }              
+          name={props.name}              
+          value={state}
+            onChange={(e) => { e.preventDefault(); setState(e.target.value); formik.setFieldValue(props.name, state); }}           
           className={
           formik.touched[props.name] && formik.errors[props.name]
               ? "form-control is-invalid"

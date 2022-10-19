@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import ImovelDetalheService from '../services/imovel-detalhe-service';
-import ImovelService from '../services/imovel-service'
+import ImovelDetalheService from 'services/imovel-detalhe-service';
+import ImovelService from 'services/imovel-service'
 const initialState = [];
 
 export const createImovelDetalhe = createAsyncThunk(

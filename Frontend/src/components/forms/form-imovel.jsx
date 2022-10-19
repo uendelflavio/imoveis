@@ -3,15 +3,15 @@ import { Formik, Form } from "formik";
 import { Panel, PanelBody } from "../panel/panel";
 import { Modal } from "reactstrap";
 import { toast } from 'react-toastify';
-import { uf } from '../../utils/util'
+import { uf } from 'utils/util'
 import * as Yup from "yup";
-import SwitchInput from "../switch-input/switch-input";
-import InputField from "../input-field/input-field";
-import PanelHeaderOption from "../panel-header-option/panel-header-option";
-import ActionButtonInput from "../action-button-input/action-button-input";
-import ButtonModal from "../button-modal/button-modal";
-import SelectInput from "../select-input/select-input";
-import MaskInput from "../mask-input/mask-input";
+import SwitchInput from "components/switch-input/switch-input";
+import InputField from "components/input-field/input-field";
+import PanelHeaderOption from "components/panel-header-option/panel-header-option";
+import ActionButtonInput from "components/action-button-input/action-button-input";
+import ButtonModal from "components/button-modal/button-modal";
+import SelectInput from "components/select-input/select-input";
+import MaskInput from "components/mask-input/mask-input";
 
 const FormImovel = props => {
 
@@ -55,9 +55,12 @@ const FormImovel = props => {
       props.createData(values)
       toast.success('O imovel foi criado com sucesso');
     }      
-    actions.resetForm();
-    actions.setSubmitting(false); 
-    props.refreshData();
+     Promise.all([
+      actions.resetForm(),
+      actions.setSubmitting(false),
+      props.refreshData()      
+    ])
+
   }
   
   const validationSchema = Yup.object({  

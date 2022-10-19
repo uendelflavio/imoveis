@@ -1,21 +1,21 @@
 import React from "react"
 import { useTable, useGlobalFilter, usePagination, useRowSelect } from 'react-table'
 import { Table } from "reactstrap"
-import { COLUMNS_IMOVEIS } from "../components/table-column/table-column"
+import { COLUMNS_IMOVEIS } from "components/table-column/table-column"
 import { useExportData } from "react-table-plugins"
-import ExportActionButton, { getExportFileBlob } from '../components/export_action_button/export_action_button'
-import BreadcrumbIcon from '../components/breadcrumb-icon/breadcrumb-icon'
+import ExportActionButton, { getExportFileBlob } from 'components/export_action_button/export_action_button'
+import BreadcrumbIcon from 'components/breadcrumb-icon/breadcrumb-icon'
 
-import AlertDelete from "../components/alert-delete/alert-delete"
-import FormImovel from "../components/forms/form-imovel";
-import FormImovelDetalhe from "../components/forms/form-imovel-detalhe"
-// import FormImovelImagem from "../components/forms/form-imovel-imagem"
+import AlertDelete from "components/alert-delete/alert-delete"
+import FormImovel from "components/forms/form-imovel";
+import FormImovelDetalhe from "components/forms/form-imovel-detalhe"
+// import FormImovelImagem from "components/forms/form-imovel-imagem"
 
-import TableFilter from '../components/table-filter/table-filter'
-import TablePagination from '../components/table-pagination/table-pagination'
+import TableFilter from 'components/table-filter/table-filter'
+import TablePagination from 'components/table-pagination/table-pagination'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { listImovel, createImovel, deleteImovel, updateImovel } from '../slices/imovel-slice'
+import { listImovel, createImovel, deleteImovel, updateImovel } from 'slices/imovel-slice'
 
 
 const Imoveis = props => {

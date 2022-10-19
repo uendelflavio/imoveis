@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import TokenService from '../services/token-service';
+import TokenService from 'services/token-service';
 
 class Logout extends React.Component {
 

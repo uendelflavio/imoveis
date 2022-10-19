@@ -7,14 +7,14 @@ const InputNumberField =  props => {
   
   const [field] = useField(props.name);
   const formik = useFormikContext();
-  
-  NumericInput.style.btn.right = '32px';
-  NumericInput.style['btnUp.mobile'].width = '5ex';
-  NumericInput.style['btnDown.mobile'].width = '5ex';
-  NumericInput.style['btnUp.mobile'].borderRadius = '5px';
-  NumericInput.style['btnDown.mobile'].borderRadius = '5px';
-  NumericInput.style.input.color = 'green';   
-  
+  React.useMemo(() => {
+    NumericInput.style.btn.right = '32px';
+    NumericInput.style['btnUp.mobile'].width = '5ex';
+    NumericInput.style['btnDown.mobile'].width = '5ex';
+    NumericInput.style['btnUp.mobile'].borderRadius = '5px';
+    NumericInput.style['btnDown.mobile'].borderRadius = '5px';
+    NumericInput.style.input.color = 'green';
+  },[]);
   
   return (
     <React.Fragment>

@@ -1,28 +1,27 @@
 import React from "react";
-import {  } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { Formik, Form, Field,ErrorMessage } from "formik";
 
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { toast } from 'react-toastify';
 import * as Yup from "yup";
-import AuthService from '../../services/auth-service'
-import TokenService from '../../services/token-service';
+import AuthService from 'services/auth-service'
+
 const FormLogin = () => {
-     
-    let history = useHistory();  
+    const history = useHistory();
     const onSubmit = async (values) => {         
         if (!values.email || !values.password) {
             toast.warning('Preencha e-mail e senha para continuar!');
-        } else {             
-            const p1 = await AuthService.login(values);
-            const p2 = TokenService.setToken(p1);
-            const p3 = TokenService.setUser(values.email);
-            const p4 = await AuthService.refresh();
-            const p5 = TokenService.setRefreshToken(p4);            
-            const p6 = history.push("/app");
-            Promise.all([p1, p2, p3, p4, p5, p6])
-                .then((values) => console.log )
-                .catch(console.log)          
+        } else {  
+            try {
+                await AuthService.login(values.email,values.password)
+                    .then((response) => {                          
+                        history.push("/app");   
+                    }
+                )  
+            }
+            catch (error) {  
+                if (error.message ==='Invalid token specified') history.push("/login");                
+            }
         }    
     };    
     const validationSchema = Yup.object({  
@@ -36,12 +35,16 @@ const FormLogin = () => {
             initialValues={{                  
                 email: 'uendel.flavio@gmail.com',
                 password: '123456',
-            }}              
+            }}         
+            // initialValues={{                  
+            //     email: '',
+            //     password: '',
+            // }}    
             validationSchema={validationSchema}
             onSubmit={(values) => onSubmit(values)}
         >
             <Form> 
-                  <div className="form-floating mb-20px">                   
+                  <div className="form-floating mb-20px">                    
                    <Field type="text" name="email" id="email" placeholder="Email" >
                     {({ field, meta: { touched, error } }) => (
                         <input                                  
@@ -84,7 +87,7 @@ const FormLogin = () => {
                 <div className="login-buttons">
                     <button type="submit" onSubmit={onSubmit} className="btn h-45px btn-success d-block w-100 btn-lg">Autenticar</button>
                 </div>
-            </Form>
+              </Form>
         </Formik>
     </React.Fragment>
   );

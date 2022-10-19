@@ -5,11 +5,11 @@ import { useFormikContext } from "formik";
 
 const SwitchInput = props => {  
   const formik = useFormikContext();  
-
   const checked = React.useMemo(() => {
     if (typeof formik.values[props.name] === 'undefined'){
       return false
-    } else {
+    }
+    if (typeof formik.values[props.name] !== 'undefined') {
       return formik.values[props.name]
     }
   }, [formik, props.name]);

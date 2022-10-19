@@ -1,5 +1,5 @@
 import React from "react";
-import { PanelHeader } from "../panel/panel";
+import { PanelHeader } from "components/panel/panel";
 import { useFormikContext } from "formik";
 const PanelHeaderOption = props => {  
   const formik = useFormikContext(); 

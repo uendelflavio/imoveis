@@ -1,5 +1,5 @@
-import API from '../utils/api';
-import { URL_IMAGEM_IMOVEIS } from '../constants/url-constants';
+import API from 'utils/api';
+import { URL_IMAGEM_IMOVEIS } from 'constants/url-constants';
 
 const getAll = async (data) => {
   return await API.get(URL_IMAGEM_IMOVEIS, data)

@@ -5,15 +5,15 @@ defmodule Api.Guardian do
   use Guardian, otp_app: :api
   alias Api.Account
 
-  def subject_for_token(%{id: id}, _claims) do
-    sub = to_string(id)
+  def subject_for_token(%{email: email}, _claims) do
+    sub = email
     {:ok, sub}
   end
 
   def resource_from_claims(claims) do
-    id = claims["sub"]
+    email = claims["sub"]
 
-    resource = Account.get_by_id!(id)
+    resource = Account.get_by_email(email)
     {:ok, resource}
   end
 end

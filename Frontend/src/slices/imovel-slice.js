@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import ImovelService from '../services/imovel-service'
+import ImovelService from 'services/imovel-service'
 
 const initialState = [];
 

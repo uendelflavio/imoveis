@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppSettings } from './../../config/app-settings.js';
+import { AppSettings } from 'config/app-settings';
 
 const ThemePanel = () => {
 
@@ -114,7 +114,7 @@ const ThemePanel = () => {
 							<div className="col-8 control-label text-dark fw-bold">Header Fixed</div>
 							<div className="col-4 d-flex">
 								<div className="form-check form-switch ms-auto mb-0">
-									<input type="checkbox" className="form-check-input" name="app-header-fixed" onChange={handleHeaderFixed} id="appHeaderFixed" value="1" checked={appHeaderFixed} />
+									<input type="checkbox" className="form-check-input" name="app-header-fixed" onChange={handleHeaderFixed} id="appHeaderFixed" value="1" checked={context.appHeaderFixed} />
 									<label className="form-check-label" htmlFor="appHeaderFixed">&nbsp;</label>
 								</div>
 							</div>
@@ -123,7 +123,7 @@ const ThemePanel = () => {
 							<div className="col-8 control-label text-dark fw-bold">Header Inverse</div>
 							<div className="col-4 d-flex">
 								<div className="form-check form-switch ms-auto mb-0">
-									<input type="checkbox" className="form-check-input" name="app-header-inverse" onChange={handleHeaderInverse} id="appHeaderInverse" checked={appHeaderInverse} />
+									<input type="checkbox" className="form-check-input" name="app-header-inverse" onChange={handleHeaderInverse} id="appHeaderInverse" checked={context.appHeaderInverse} />
 									<label className="form-check-label" htmlFor="appHeaderInverse">&nbsp;</label>
 								</div>
 							</div>
@@ -132,7 +132,7 @@ const ThemePanel = () => {
 							<div className="col-8 control-label text-dark fw-bold">Sidebar Fixed</div>
 							<div className="col-4 d-flex">
 								<div className="form-check form-switch ms-auto mb-0">
-									<input type="checkbox" className="form-check-input" name="app-sidebar-fixed" onChange={handleSidebarFixed} id="appSidebarFixed" checked={appSidebarFixed} />
+									<input type="checkbox" className="form-check-input" name="app-sidebar-fixed" onChange={handleSidebarFixed} id="appSidebarFixed" checked={context.appSidebarFixed} />
 									<label className="form-check-label" htmlFor="appSidebarFixed">&nbsp;</label>
 								</div>
 							</div>
@@ -141,7 +141,7 @@ const ThemePanel = () => {
 							<div className="col-8 control-label text-dark fw-bold">Sidebar Grid</div>
 							<div className="col-4 d-flex">
 								<div className="form-check form-switch ms-auto mb-0">
-									<input type="checkbox" className="form-check-input" onChange={handleSidebarGrid} name="app-sidebar-grid" id="appSidebarGrid" checked={appSidebarGrid} />
+									<input type="checkbox" className="form-check-input" onChange={handleSidebarGrid} name="app-sidebar-grid" id="appSidebarGrid" checked={context.appSidebarGrid} />
 									<label className="form-check-label" htmlFor="appSidebarGrid">&nbsp;</label>
 								</div>
 							</div>
@@ -150,7 +150,7 @@ const ThemePanel = () => {
 							<div className="col-md-8 control-label text-dark fw-bold">Gradient Enabled</div>
 							<div className="col-md-4 d-flex">
 								<div className="form-check form-switch ms-auto mb-0">
-									<input type="checkbox" className="form-check-input" name="app-gradient-enabled" onChange={handleGradientEnabled} id="appGradientEnabled" checked={appGradientEnabled} />
+									<input type="checkbox" className="form-check-input" name="app-gradient-enabled" onChange={handleGradientEnabled} id="appGradientEnabled" checked={context.appGradientEnabled} />
 									<label className="form-check-label" htmlFor="appGradientEnabled">&nbsp;</label>
 								</div>
 							</div>

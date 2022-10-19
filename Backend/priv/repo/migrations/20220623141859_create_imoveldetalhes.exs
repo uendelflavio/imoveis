@@ -8,7 +8,7 @@ defmodule Api.Repo.Migrations.CreateImoveldetalhes do
       add(:numero_inscricao, :string, size: 40)
       add(:matricula_agua, :string, size: 20)
       add(:matricula_energia, :string, size: 20)
-      add(:classificacao, :string, size: 20)
+      add(:classificacao, :string, size: 30)
       add(:salas, :integer)
       add(:quartos, :integer)
       add(:banheiros, :integer)

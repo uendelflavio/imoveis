@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { AppSettings } from './../../config/app-settings.js';
-import FloatSubMenuList from './float-sub-menu-list.jsx';
+import { AppSettings } from 'config/app-settings.js';
+import FloatSubMenuList from  'components/float-sub-menu/float-sub-menu-list';
 
  const FloatSubMenu  =  props => {
 	 

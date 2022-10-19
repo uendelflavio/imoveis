@@ -1,5 +1,5 @@
 import React from 'react';
-import Imoveis from './../pages/Imoveis.js';
+import Imoveis from 'pages/Imoveis.js';
 
 const routes = [
   {

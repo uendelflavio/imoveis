@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import DropdownNotification from "./dropdown/notification.jsx";
-import DropdownLanguage from "./dropdown/language.jsx";
-import DropdownProfile from "./dropdown/profile.jsx";
-import SearchForm from "./search/form.jsx";
-import DropdownMegaMenu from "./dropdown/mega.jsx";
-import { AppSettings } from "./../../config/app-settings.js";
+import DropdownNotification from "components/header/dropdown/notification.jsx";
+import DropdownLanguage from "components/header/dropdown/language.jsx";
+import DropdownProfile from "components/header/dropdown/profile.jsx";
+import SearchForm from "components/header/search/form.jsx";
+import DropdownMegaMenu from "components/header/dropdown/mega.jsx";
+import { AppSettings } from "config/app-settings.js";
 
 const Header = props => {
   const [state,setState] = React.useState({appHeaderMegaMenuMobile: false})

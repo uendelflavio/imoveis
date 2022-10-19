@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import FormLogin from "../components/forms/form-login"
+import FormLogin from "components/forms/form-login"
 
 
 const withRouter = WrappedComponent => props => {

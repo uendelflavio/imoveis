@@ -6,15 +6,15 @@ import { Modal, Button } from "reactstrap"
 import { toast } from 'react-toastify'
 import * as Yup from "yup"
 
-import SwitchInput from "../switch-input/switch-input"
-import InputField from "../input-field/input-field"
-import PanelHeaderOption from "../panel-header-option/panel-header-option"
-import CrudInputActionButton from '../crud-input-action-button/crud-input-action-button'
-import SelectInput from "../select-input/select-input"
-import MaskInput from "../mask-input/mask-input"
+import SwitchInput from "components/switch-input/switch-input"
+import InputField from "components/input-field/input-field"
+import PanelHeaderOption from "components/panel-header-option/panel-header-option"
+import CrudInputActionButton from 'components/crud-input-action-button/crud-input-action-button'
+import SelectInput from "components/select-input/select-input"
+import MaskInput from "components/mask-input/mask-input"
 
-import InputNumberField from '../input-number-field/input-number-field'
-import { classificacao } from '../../utils/util'
+import InputNumberField from 'components/input-number-field/input-number-field'
+import { classificacao } from 'utils/util'
 import { useDispatch, useSelector } from 'react-redux'
 import { createImovelDetalhe, updateImovelDetalhe, deleteImovelDetalhe, listImovelWithDetalhes, resetImovelDetalhe } from '../../slices/imovel-detalhe-slice'
 
@@ -28,7 +28,8 @@ const FormImovelDetalhe = props => {
   const data = React.useMemo(() => {
     if (imovel_detalhe[0]){
       return imovel_detalhe[0]
-    } else {
+    }
+    if (imovel_detalhe) {
       return imovel_detalhe
     }
   }, [imovel_detalhe]);
@@ -54,10 +55,14 @@ const FormImovelDetalhe = props => {
         dispatch(listImovelWithDetalhes({ id: props.id })) 
         break;
     } 
-    actions.resetForm();
-    actions.setSubmitting(false);
-    dispatch(resetImovelDetalhe());
-    dispatch(listImovelWithDetalhes({ id: props.id }));
+    Promise.all([
+      actions.resetForm(),
+      actions.setSubmitting(false),
+      dispatch(resetImovelDetalhe()),
+      dispatch(listImovelWithDetalhes({ id: props.id }))
+    ])
+      .then((values) => console.log )
+      .catch(console.log) 
   }
   
   const validationSchema = Yup.object({  

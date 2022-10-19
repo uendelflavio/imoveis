@@ -3,10 +3,10 @@ import { Formik, Form } from "formik";
 import { Panel, PanelBody } from "../panel/panel";
 import { Modal, Button } from "reactstrap";
 import * as Yup from "yup";
-import InputField from "../input-field/input-field";
-import PanelHeaderOption from "../panel-header-option/panel-header-option";
-import ButtonActionInput from "../button-action-input/button-action-input";
-import ImovelService from '../../services/ImovelService';
+import InputField from "components/input-field/input-field";
+import PanelHeaderOption from "components/panel-header-option/panel-header-option";
+import ButtonActionInput from "components/button-action-input/button-action-input";
+import ImovelService from 'services/ImovelService';
 import { toast } from 'react-toastify';
 
 

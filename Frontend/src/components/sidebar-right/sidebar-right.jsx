@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Collapse, CardHeader, CardBody, Card } from 'reactstrap';
-import { AppSettings } from './../../config/app-settings.js';
+import { AppSettings } from 'config/app-settings';
 
 const SidebarRight = () => {
+
+	const  context = React.useContext(AppSettings);
 	const [state, setState] = React.useState({
 		collapse: [
 				{	id: 1, collapse: true },
@@ -34,7 +36,7 @@ const SidebarRight = () => {
 		<AppSettings.Consumer>
 			{({appSidebarTwo, toggleAppSidebarEndMobile}) => (
 				<React.Fragment>
-					{appSidebarTwo && (
+					{context.appSidebarTwo && (
 						<React.Fragment>
 							<div id="sidebar-right" className="app-sidebar app-sidebar-end">
 								<PerfectScrollbar className="app-sidebar-content h-100" options={{suppressScrollX: true}}>
@@ -61,7 +63,7 @@ const SidebarRight = () => {
 							</div>
 							<div className="app-sidebar-bg app-sidebar-end"></div>
 							<div className="app-sidebar-mobile-backdrop app-sidebar-end">
-								<Link to="/" onClick={toggleAppSidebarEndMobile} className="stretched-link"></Link>
+								<Link to="/" onClick={context.toggleAppSidebarEndMobile} className="stretched-link"></Link>
 							</div>
 						</React.Fragment>
 					)}

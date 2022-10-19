@@ -3,12 +3,7 @@ const PanelStat = React.createContext();
 
 const Panel = props => {
 	
-	const [state, setState] = React.useState({
-		expand: false,
-		collapse: false,
-		reload: false,
-		remove: false,
-	})
+
 
 	const toggleExpand = () => setState({ expand: !state.expand });		
 	const toggleRemove = () => setState({remove: !state.remove});
@@ -21,8 +16,18 @@ const Panel = props => {
 			}, 2000);
 		}
 	}
-	setState(...state,toggleExpand,toggleRemove,toggleCollapse,toggleReload)
-		
+
+	const [state, setState] = React.useState({
+		expand: false,
+		collapse: false,
+		reload: false,
+		remove: false,
+		toggleExpand,
+		toggleRemove,
+		toggleCollapse,
+		toggleReload
+	})
+			
 	return (
 		<PanelStat.Provider value={state}>
 			{(!state.remove && 

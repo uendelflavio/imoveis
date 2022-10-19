@@ -3,15 +3,15 @@ import { Formik, Form, Field } from "formik";
 import { Panel, PanelBody } from "../panel/panel";
 import { Modal, Button } from 'reactstrap';
 import { toast } from 'react-toastify';
-import { FILE_SIZE, SUPPORTED_FORMATS } from '../../constants/util-constants';
+import { FILE_SIZE, SUPPORTED_FORMATS } from 'constants/util-constants';
 import * as Yup from "yup";
-import InputField from "../input-field/input-field";
-import FieldInputFileImagem from "../field-input-file-imagem/field-input-file-imagem";
-import PanelHeaderOption from "../panel-header-option/panel-header-option";
-import CrudInputActionButton from '../crud-input-action-button/crud-input-action-button';
-import CarouselImageGallery from '../carousel-image-gallery/carousel-image-gallery';
-import ImovelService from '../../services/imovel-service';
-import ImovelImagemService from '../../services/imovel-imagem-service';
+import InputField from "components/input-field/input-field";
+import FieldInputFileImagem from "components/field-input-file-imagem/field-input-file-imagem";
+import PanelHeaderOption from "components/panel-header-option/panel-header-option";
+import CrudInputActionButton from 'components/crud-input-action-button/crud-input-action-button';
+import CarouselImageGallery from 'components/carousel-image-gallery/carousel-image-gallery';
+import ImovelService from 'services/imovel-service';
+import ImovelImagemService from 'services/imovel-imagem-service';
 import { useList } from 'react-use';
 
 

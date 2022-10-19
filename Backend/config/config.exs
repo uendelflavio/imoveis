@@ -21,7 +21,8 @@ config :api, ApiWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [view: ApiWeb.ErrorView, format: "json", accepts: ~w(json), layout: false],
   pubsub_server: Api.PubSub,
-  live_view: [signing_salt: "6HK9GoEi"]
+  live_view: [signing_salt: "6HK9GoEi"],
+  debug_errors: false
 
 # Configures the mailer
 #

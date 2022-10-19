@@ -1,8 +1,9 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
-import { AppSettings } from './../../config/app-settings.js';
+import { AppSettings } from 'config/app-settings';
 
 const SidebarNavList = props => {
+	const  context = React.useContext(AppSettings);
 	const [state, setState] = React.useState({
 		active: -1,
 		clicked: -1
@@ -32,14 +33,14 @@ const SidebarNavList = props => {
 						{props.data.children ? (
 							<Link to={props.data.path}
 								className="menu-link"
-								onMouseOver={(e) => handleAppSidebarOnMouseOver(e, props.data)} 
-								onMouseOut={(e) => handleAppSidebarOnMouseOut(e, props.data)}
+								onMouseOver={(e) => context.handleAppSidebarOnMouseOver(e, props.data)} 
+								onMouseOut={(e) => context.handleAppSidebarOnMouseOut(e, props.data)}
 								onClick={props.expand}>{ img } { icon } { title }{ caret } { badge }</Link>
 						):(
 							<Link to={props.data.path} className="menu-link">{ img } { icon } { badge } { title }{ caret }</Link>
 						)}
 						{props.data.children && (
-							<div className={"menu-submenu " + (((props.active || (props.clicked === -1 && match) || props.data.search) && !appSidebarMinified) ? 'd-block ' : 'd-none')}>
+							<div className={"menu-submenu " + (((props.active || (props.clicked === -1 && match) || props.data.search) && !context.appSidebarMinified) ? 'd-block ' : 'd-none')}>
 								{props.data.children && props.data.children.map((submenu, i) => (
 									<SidebarNavList
 										data={submenu} 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
-import TopMenuNavList from './top-menu-nav-list.jsx';
-import menus from './menu.jsx';
+import TopMenuNavList from 'components/top-menu/top-menu-nav-list';
+import menus from 'components/top-menu/menu.jsx';
 
 const TopMenuNav = props => {
 	const [state, setState] = React.useState({

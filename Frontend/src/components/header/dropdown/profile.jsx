@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { useHistory } from "react-router-dom";
-import TokenService from '../../../services/token-service';
+import TokenService from 'services/token-service';
 
 const DropdownProfile = props => {
 	let history = useHistory();

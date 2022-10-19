@@ -2,7 +2,7 @@ import React from "react";
 import { useFormikContext } from "formik";
 import { Button } from "reactstrap";
 
-export default function ActionButtonInput (props) {
+  const ActionButtonInput = (props) => {
   const { isValid } = useFormikContext();  
 
   return (
@@ -28,3 +28,5 @@ export default function ActionButtonInput (props) {
       </React.Fragment>
   );
 };
+
+export default ActionButtonInput
