@@ -15,7 +15,8 @@ import TableFilter from 'components/table-filter/table-filter'
 import TablePagination from 'components/table-pagination/table-pagination'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { listImovel, createImovel, deleteImovel, updateImovel } from 'slices/imovel-slice'
+import { listImoveis, deleteImovel } from 'slices/imovel-slice'
+
 
 
 const Imoveis = props => {
@@ -36,23 +37,22 @@ const Imoveis = props => {
             <div className="d-flex flex-row">
               <div className="bd-highlight">
                 <FormImovel
-                  isUpdated={true}
+                  action={'update'}
+                  id={row?.original?.id}
                   isModal={false}
-                  row={row?.original}
-                  refreshData={() => dispatch(listImovel())}
-                  updateData={(id, data) => dispatch(updateImovel({ id, data }))}
                 />
               </div >
               <div className="bd-highlight">
                 <AlertDelete
                   id={row?.original?.id}
-                  deleteData={(id) => { dispatch(deleteImovel({ id })); dispatch(listImovel()); }} />
+                  deleteData={(id) => { dispatch(deleteImovel({ id })); dispatch(listImoveis()); }} />
               </div>
               <div className="bd-highlight">
                 <FormImovelDetalhe
                   isModal={false}
-                  isUpdated={true}
-                  id={row?.original?.id}
+                  id={row?.original?.id || 0}
+                  imovel_id={row?.original?.id || 0}
+                  refreshData={() => dispatch(listImoveis())}
                 />
               </div>
               {/* <div className="bd-highlight"><FormImovelImagem isModal={false} isUpdated={true} id={row?.original?.id} /></div> */}
@@ -63,9 +63,8 @@ const Imoveis = props => {
     }
   }, [columns, dispatch]);
 
-
   React.useEffect(() => {
-    dispatch(listImovel())
+    dispatch(listImoveis())
   }, [dispatch]);
 
   const {
@@ -110,11 +109,9 @@ const Imoveis = props => {
           <ExportActionButton exportData={exportData} getExportFileBlob={getExportFileBlob} pageOptions={pageOptions} />
           <li className="nav-item ms-auto pt-1">
             <FormImovel
-              isUpdated={false}
+              action={'create'}
+              id={0}
               isModal={false}
-              row={''}
-              refreshData={() => dispatch(listImovel())}
-              createData={(data) => dispatch(createImovel({ data }))}
             />
           </li>
         </ul>

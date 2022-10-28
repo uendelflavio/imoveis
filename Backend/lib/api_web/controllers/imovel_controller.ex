@@ -21,12 +21,12 @@ defmodule ApiWeb.ImovelController do
   end
 
   def show(conn, %{"id" => id}) do
-    imovel = Imoveis.get_imovel!(id)
+    imovel = Imoveis.get_imovel(id)
     render(conn, "show.json", imovel: imovel)
   end
 
   def update(conn, %{"id" => id, "imovel" => imovel_params}) do
-    imovel = Imoveis.get_imovel!(id)
+    imovel = Imoveis.get_imovel(id)
 
     with {:ok, %Imovel{} = imovel} <- Imoveis.update_imovel(imovel, imovel_params) do
       render(conn, "show.json", imovel: imovel)
@@ -41,18 +41,17 @@ defmodule ApiWeb.ImovelController do
     end
   end
 
-  def imagens(conn, %{"id" => id} = params) do
+  def imagens(conn, %{"id" => id}) do
     imovel = Imoveis.get_imovel_with_imagem!(id)
     render(conn, "imagens.json", imovel: imovel)
   end
 
-  def detalhes(conn, %{"id" => id} = params) do
+  def detalhes(conn, %{"id" => id}) do
     imovel = Imoveis.get_imovel_with_detalhe!(id)
-    IO.inspect(imovel)
     render(conn, "detalhes.json", imovel: imovel)
   end
 
-  def documentos(conn, %{"id" => id} = params) do
+  def documentos(conn, %{"id" => id}) do
     imovel = Imoveis.get_imovel_with_documento!(id)
     render(conn, "documentos.json", imovel: imovel)
   end

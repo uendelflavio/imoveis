@@ -3,8 +3,7 @@ import { useFormikContext } from "formik";
 
 const InputField = props => {    
   const formik = useFormikContext();   
-  const [state, setState] = React.useState('')
- 
+  
   return (
     <React.Fragment>
     <div className="mb-1">
@@ -13,13 +12,13 @@ const InputField = props => {
           <input    
           id={props.name} 
           name={props.name}              
-          value={state}
-            onChange={(e) => { e.preventDefault(); setState(e.target.value); formik.setFieldValue(props.name, state); }}           
+          value={formik.values[props.name] || ''} 
+          onChange={(e) => { e.preventDefault();  formik.setFieldValue(props.name, e.target.value); }}           
           className={
           formik.touched[props.name] && formik.errors[props.name]
               ? "form-control is-invalid"
               : "form-control is-valid"
-          }    
+          }
           autoFocus={props.focus}
           placeholder={props.label}
         />        

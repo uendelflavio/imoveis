@@ -13,7 +13,7 @@ defmodule ApiWeb.ImovelDetalheView do
   def render("imovel_detalhe.json", %{imovel_detalhe: imovel_detalhe}) do
     %{
       id: imovel_detalhe.id,
-      imovel_id: imovel_detalhe.imovel_id,
+      imovel_id: imovel_detalhe.id,
       area_total_m2: imovel_detalhe.area_total_m2,
       area_total_construida_m2: imovel_detalhe.area_total_construida_m2,
       numero_inscricao: imovel_detalhe.numero_inscricao,
@@ -34,13 +34,11 @@ defmodule ApiWeb.ImovelDetalheView do
   end
 
   def render("imovel_detalhes.json", %{imovel_detalhe: imovel_detalhe}) do
-    IO.inspect(imovel_detalhe)
-
     case imovel_detalhe.imovel_detalhe do
       nil ->
         %{
           id: 0,
-          imovel_id: 0,
+          imovel_id: imovel_detalhe.id,
           area_total_m2: 0,
           area_total_construida_m2: 0,
           numero_inscricao: "",

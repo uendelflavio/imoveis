@@ -106,8 +106,8 @@ const FormImovelImagem = (props) => {
           <PanelHeaderOption  titleInsert="Nova Imagem de Vistoria do Imóvel" titleUpdated="Atualizar Imagem do Imóvel"/>          
           <PanelBody>                       
               <Form className="mb-0 rounded p-1" >
-                <Field type="text" className="form-control border-2 border-primary text-center" name="id" hidden /> 
-                <Field type="text" className="form-control" name="imovel_id" hidden />              
+                <Field type="text"  name="id" hidden /> 
+                <Field type="text"  name="imovel_id" hidden />              
                 <CarouselImageGallery data={data} fetchData={fetchData} />                 
                 <InputField ref={ref} label="Descrição" name="descricao" focus={true} />
                 <FieldInputFileImagem name="imagem" />                                                                                                                                     

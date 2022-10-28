@@ -5,21 +5,23 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { toast } from 'react-toastify';
 import * as Yup from "yup";
 import AuthService from 'services/auth-service'
+// import TokenService from "services/token-service";
 
 const FormLogin = () => {
     const history = useHistory();
+
+    // React.useEffect(() => { TokenService.removeToken() })
+    
     const onSubmit = async (values) => {         
         if (!values.email || !values.password) {
             toast.warning('Preencha e-mail e senha para continuar!');
         } else {  
             try {
                 await AuthService.login(values.email,values.password)
-                    .then((response) => {                          
-                        history.push("/app");   
-                    }
-                )  
+                    .then(() => {history.push("/app")})                                                                                             
             }
             catch (error) {  
+                
                 if (error.message ==='Invalid token specified') history.push("/login");                
             }
         }    

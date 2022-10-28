@@ -1,9 +1,9 @@
 import React from "react";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 import { Panel, PanelBody } from "../panel/panel";
 import { Modal } from "reactstrap";
 import { toast } from 'react-toastify';
-import { uf } from 'utils/util'
+import { uf } from 'utils/util';
 import * as Yup from "yup";
 import SwitchInput from "components/switch-input/switch-input";
 import InputField from "components/input-field/input-field";
@@ -13,57 +13,41 @@ import ButtonModal from "components/button-modal/button-modal";
 import SelectInput from "components/select-input/select-input";
 import MaskInput from "components/mask-input/mask-input";
 
+import { useDispatch, useSelector } from 'react-redux';
+import { listImovel,createImovel, updateImovel } from 'slices/imovel-slice';
+
 const FormImovel = props => {
 
   const [modalOpen, setModalOpen] = React.useState(props.isModal);
-  const [initialValues, setInitialValues] = React.useState(props.isModal);
+  const [isAction, setAction] = React.useState(props.action);
+  const imovel = useSelector(state => state.imovelSlice);
+  const dispatch = useDispatch();
+
+  const data = React.useMemo(() => {
+      if (imovel[0]) return imovel[0]
+      if (imovel) return imovel
+  }, [imovel]);
+
   const toggle = () => setModalOpen(!modalOpen);
- 
-  React.useEffect(() => {
-    if (typeof props.row === 'undefined') {
-      setInitialValues({
-        id:  undefined,                 
-        endereco:   '',
-        numero:  '',
-        bairro:  '',
-        cep:   '',
-        cidade:  '',                  
-        uf:  '',
-        vistoria: false,
-        ocupado: false,
-      })          
-    } else {
-      setInitialValues({
-        id: props.row.id,                 
-        endereco:  props.row.endereco,
-        numero: props.row.numero,
-        bairro: props.row.bairro,
-        cep:  props.row.cep,
-        cidade: props.row.cidade,                  
-        uf: props.row.uf,
-        vistoria: props.row.vistoria|| false,
-        ocupado:  props.row.ocupado|| false,
-      })       
-    } 
-   }, [props.row,setInitialValues]);
 
-  const onSubmit = (values,actions) => {  
-    if (props.isUpdated) { 
-      props.updateData(values.id, values)
-      toast.success(`O imovel: ${values.id.toString().padStart(3, "0")} foi atualizado com sucesso`);
-    } else {                
-      props.createData(values)
-      toast.success('O imovel foi criado com sucesso');
-    }      
-     Promise.all([
-      actions.resetForm(),
-      actions.setSubmitting(false),
-      props.refreshData()      
-    ])
-
+  const onSubmit = (values, actions) => {
+     switch(isAction) {
+       case 'create':
+        dispatch(createImovel({ data: values }))
+        toast.success('O Imovel foi criado com sucesso');
+        break;
+       case 'update':
+        dispatch(updateImovel({ id: values.id, data:values }))
+        toast.warning('O Imovel foi atualizado com sucesso');
+      break;
+      default:
+          actions.resetForm()
+          actions.setSubmitting(false)
+        break;
+    }
   }
-  
-  const validationSchema = Yup.object({  
+
+  const validationSchema = Yup.object({
     endereco: Yup.string().min(4,'4 caracteres no mínimo').required("O endereço é obrigatório!"),
     numero: Yup.number().typeError("Digite um numero válido").required("O número é obrigatório!"),
     bairro: Yup.string().min(4,'4 caracteres no mínimo').required("O bairro é obrigatório!"),
@@ -71,35 +55,53 @@ const FormImovel = props => {
     uf: Yup.string().ensure().required('A uf é obrigatório'),
     cidade: Yup.string().min(4,'4 caracteres no mínimo').required("A cidade é obrigatório!"),
   });
-  
-  
+
   return (
     <React.Fragment >
-      <ButtonModal isUpdated={props.isUpdated} toggle={toggle} />
-      <Formik               
+      <ButtonModal isAction={isAction} toggle={toggle} />
+      <Formik
       onSubmit={(values, actions) => onSubmit(values, actions)}
       enableReinitialize={true}
-      initialValues={initialValues}
-      validationSchema={validationSchema}             
-      >        
-        <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false} > 
+      initialValues={{
+          id: isAction === 'update' ? data.id : '',
+          endereco:  isAction === 'update' ? data.endereco: '',
+          numero: isAction === 'update' ? data.numero: '',
+          bairro: isAction === 'update' ? data.bairro: '',
+          cep:  isAction === 'update' ? data.cep: '',
+          cidade: isAction === 'update' ? data.cidade: '',
+          complemento: isAction === 'update' ? data.complemento: '',
+          uf: isAction === 'update' ? data.uf: '',
+          vistoria: isAction === 'update' ? data.vistoria: false,
+          ocupado:  isAction === 'update' ? data.ocupado: false,
+      }}
+      validationSchema={validationSchema}
+      >
+        <Modal
+          centered
+          toggle={toggle}
+          isOpen={modalOpen}
+          autoFocus={false}
+          onOpened={() => dispatch(listImovel({ id: props.id }))}
+        >
         <Panel className="mb-0" >
-          <PanelHeaderOption titleInsert="Novo Imovel" titleUpdated="Atualizar Imóvel"/>          
-          <PanelBody>                                                         
-              <Form className="mb-0 border border-1 rounded p-2">                                
+          <PanelHeaderOption titleInsert="Novo Imovel" titleUpdated="Atualizar Imóvel"/>
+          <PanelBody>
+              <Form className="mb-0 border border-1 rounded p-2">
+                <Field type="text" name="id" hidden />
                 <InputField label="Endereço" name="endereco" focus={true} />
                 <InputField label="Número" name="numero"/>
-                <InputField label="Bairro" name="bairro"/>                           
+                <InputField label="Bairro" name="bairro" />
+                <InputField label="Complemento" name="complemento"/>
                 <MaskInput label="Cep" name="cep" mask="99.999-999" value />
-                <InputField label="Cidade" name="cidade"/>                
-                <SelectInput label="Uf" name="uf" options={uf} />                                 
+                <InputField label="Cidade" name="cidade"/>
+                <SelectInput label="Uf" name="uf" options={uf} />
                 <SwitchInput label="Vistoria" name="vistoria" />
-                <SwitchInput label="Ocupado" name="ocupado" />                
-                <ActionButtonInput toggle={toggle} isUpdated={props.isUpdated} onSubmit={(values) => onSubmit(values)}/>
-              </Form>                        
+                <SwitchInput label="Ocupado" name="ocupado" />
+                <ActionButtonInput toggle={toggle}  isAction={isAction} setAction={(action) => setAction(action)} onSubmit={(values, actions) => onSubmit(values, actions)} />
+              </Form>
           </PanelBody>
         </Panel>
-      </Modal>   
+      </Modal>
     </Formik>
   </React.Fragment>
   );

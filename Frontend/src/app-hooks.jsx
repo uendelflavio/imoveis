@@ -322,6 +322,8 @@ const AppHooks = props => {
 			elm[i].classList.add('d-none');
 		}
 	}
+
+	
     
 	const [state, setState] = React.useState({
 		appTheme: '',
@@ -457,16 +459,26 @@ const AppHooks = props => {
 		handleSetAppDarkMode,
 		handleSetAppGradientEnabled,
 		handleSetAppTheme,
-		handleSetColor,
+		handleSetColor,		
 	});
 
 	React.useEffect(() => {
 		handleSetColor();
 		handleSetFont();
 		handleSetAppTheme('');
+
+		// const handleBrowserClose = (event) => {		
+		// 	event.preventDefault();
+		// 	event.returnValue = "Deseja sair do Sistema?";
+		// 	return "Deseja sair do Sistema?";		
+		// }
+
 		window.addEventListener('scroll', handleScroll(), { passive: false });
-		return () => window.removeEventListener('scroll', handleScroll(), { passive: false })
-		
+		// window.addEventListener('beforeunload', handleBrowserClose);
+		return () => {
+			window.removeEventListener('scroll', handleScroll(), { passive: false })
+			// window.removeEventListener('beforeunload', handleBrowserClose);
+		}		
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
 

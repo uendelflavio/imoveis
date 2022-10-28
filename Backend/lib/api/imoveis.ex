@@ -36,7 +36,7 @@ defmodule Api.Imoveis do
       ** (Ecto.NoResultsError)
 
   """
-  def get_imovel!(id), do: Repo.get!(Imovel, id)
+  def get_imovel(id), do: Repo.get(Imovel, id)
 
   def get_imovel_with_imagem!(id) do
     Imovel
@@ -48,8 +48,6 @@ defmodule Api.Imoveis do
     Imovel
     |> Repo.get!(id)
     |> Repo.preload([:imovel_detalhe])
-
-    # |> Ecto.assoc(imovel_detalhe, :imovel_detalhe)
   end
 
   def get_imovel_with_documento!(id) do

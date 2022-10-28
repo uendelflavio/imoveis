@@ -1,11 +1,9 @@
 import React from 'react'
-import NumericInput from 'react-numeric-input';
-import { useFormikContext, useField } from "formik";
-
+import NumericInput from 'react-numeric-input2';
+import { useFormikContext } from "formik";
 
 const InputNumberField =  props => {   
   
-  const [field] = useField(props.name);
   const formik = useFormikContext();
   React.useMemo(() => {
     NumericInput.style.btn.right = '32px';
@@ -23,11 +21,11 @@ const InputNumberField =  props => {
         <div className="col-md-12">  
               <NumericInput                
                 min={0}
-                max={100}
-                value={typeof field.value !== 'number'? '': field.value}
+                max={100}           
+                value={typeof formik.values[props.name] !== 'number'? '': formik.values[props.name]}
                 step={1}
                 placeholder={props.label}            
-                onChange={(num) => formik.setFieldValue(props.name, num)}
+                onChange={(num) =>  formik.setFieldValue(props.name, num) }
                 className={formik.errors[props.name] ? "form-control is-invalid": "form-control is-valid"}              
               />                               
           <div className="mt-1" style={{ width: '400px' }} >                  
