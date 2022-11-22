@@ -21,6 +21,7 @@ defmodule ApiWeb.Router do
     get("/imoveisimagem/count/:id", ImovelImagemController, :count)
     get("/imoveis/imagens/:id", ImovelController, :imagens)
     get("/imoveis/detalhes/:id", ImovelController, :detalhes)
+    get("/imoveis/documentos/:id", ImovelController, :documentos)
   end
 
   scope "/api", ApiWeb do

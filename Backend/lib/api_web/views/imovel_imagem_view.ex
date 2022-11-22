@@ -7,7 +7,7 @@ defmodule ApiWeb.ImovelImagemView do
   end
 
   def render("show.json", %{imovel_imagem: imovel_imagem}) do
-    %{imovelimagens: render_one(imovel_imagem, ImovelImagemView, "imovel_imagem.json")}
+    %{imovel_imagem: render_one(imovel_imagem, ImovelImagemView, "imovel_imagem.json")}
   end
 
   def render("imovel_imagem.json", %{imovel_imagem: imovel_imagem}) do
@@ -19,29 +19,9 @@ defmodule ApiWeb.ImovelImagemView do
     }
   end
 
-  def render("imovel_imagens.json", %{imovel_imagem: imovel_imagem}) do
-    case imovel_imagem.imovel_imagem do
-      nil ->
-        %{
-          id: 0,
-          imovel_id: imovel_imagem.id,
-          imagem: '',
-          descricao: ''
-        }
-
-      value ->
-        %{
-          id: imovel_imagem.id,
-          imovel_id: imovel_imagem.imovel_id,
-          imagem: imovel_imagem.imagem,
-          descricao: imovel_imagem.descricao
-        }
-    end
-  end
-
-  def render("count.json", %{imagems: imagems}) do
+  def render("count.json", %{imagens: imagens}) do
     %{
-      imagens: imagems
+      imagens: imagens
     }
   end
 end

@@ -33,6 +33,21 @@ export const deleteImovel = createAsyncThunk(
   }
 );
 
+export const resetImovel = createAsyncThunk("imovel/reset", async () => {
+  return {
+    id: "",
+    endereco: "",
+    numero: "",
+    bairro: "",
+    cep: "",
+    cidade: "",
+    complemento: "",
+    uf: "",
+    vistoria: false,
+    ocupado: false
+  };
+});
+
 const imovelSlice = createSlice({
   name: "imovel",
   initialState,
@@ -41,7 +56,6 @@ const imovelSlice = createSlice({
       state.push(action.payload);
     },
     [listImovel.fulfilled]: (state, action) => {
-      console.log(action);
       return [action.payload];
     },
     [listImoveis.fulfilled]: (state, action) => {
@@ -49,7 +63,6 @@ const imovelSlice = createSlice({
     },
     [updateImovel.fulfilled]: (state, action) => {
       const index = state.findIndex(imovel => imovel.id === action.payload.id);
-      console.log(action);
       state[index] = {
         ...state[index],
         ...action.payload
@@ -58,6 +71,9 @@ const imovelSlice = createSlice({
     [deleteImovel.fulfilled]: (state, action) => {
       let index = state.findIndex(({ id }) => id === action.payload.id);
       state.splice(index, 1);
+    },
+    [resetImovel.fulfilled]: (state, action) => {
+      return [action.payload];
     }
   }
 });

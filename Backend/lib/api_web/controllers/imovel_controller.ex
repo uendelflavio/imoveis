@@ -22,7 +22,12 @@ defmodule ApiWeb.ImovelController do
 
   def show(conn, %{"id" => id}) do
     imovel = Imoveis.get_imovel(id)
-    render(conn, "show.json", imovel: imovel)
+
+    if is_nil(imovel) do
+      render(conn, "show.json", page: [])
+    else
+      render(conn, "show.json", imovel: imovel)
+    end
   end
 
   def update(conn, %{"id" => id, "imovel" => imovel_params}) do
@@ -34,7 +39,7 @@ defmodule ApiWeb.ImovelController do
   end
 
   def delete(conn, %{"id" => id}) do
-    imovel = Imoveis.get_imovel!(id)
+    imovel = Imoveis.get_imovel(id)
 
     with {:ok, %Imovel{}} <- Imoveis.delete_imovel(imovel) do
       send_resp(conn, :no_content, "")
@@ -42,17 +47,32 @@ defmodule ApiWeb.ImovelController do
   end
 
   def imagens(conn, %{"id" => id}) do
-    imovel = Imoveis.get_imovel_with_imagem!(id)
-    render(conn, "imagens.json", imovel: imovel)
+    imovel = Imoveis.get_imovel_with_imagem(id)
+
+    if is_nil(imovel) do
+      render(conn, "imagens.json", page: [])
+    else
+      render(conn, "imagens.json", imovel: imovel)
+    end
   end
 
   def detalhes(conn, %{"id" => id}) do
-    imovel = Imoveis.get_imovel_with_detalhe!(id)
-    render(conn, "detalhes.json", imovel: imovel)
+    imovel = Imoveis.get_imovel_with_detalhe(id)
+
+    if is_nil(imovel.imovel_detalhe) do
+      render(conn, "detalhes.json", page: [])
+    else
+      render(conn, "detalhes.json", imovel: imovel)
+    end
   end
 
   def documentos(conn, %{"id" => id}) do
-    imovel = Imoveis.get_imovel_with_documento!(id)
-    render(conn, "documentos.json", imovel: imovel)
+    imovel = Imoveis.get_imovel_with_documento(id)
+
+    if is_nil(imovel) do
+      render(conn, "documentos.json", page: [])
+    else
+      render(conn, "documentos.json", imovel: imovel)
+    end
   end
 end

@@ -22,7 +22,8 @@ config :api, ApiWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   secret_key_base: "QUOvE3A3z67OptWFG5ojHUfDVjWvWm+B25uJDOZLaw6GW7FwFZn3yZaPWz8X/CwB",
-  watchers: []
+  watchers: [],
+  debug_errors: false
 
 # ## SSL Support
 #

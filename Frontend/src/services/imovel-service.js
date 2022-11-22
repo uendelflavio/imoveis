@@ -15,7 +15,7 @@ const get = async id => {
 
 const getWithImages = async id => {
   return await API.get(`${URL_IMOVEIS}/imagens/${id}`)
-    .then(response => response.data.imovel_imagem)
+    .then(response => response.data.imovel_imagem.flat())
     .catch(error => error);
 };
 
@@ -55,23 +55,22 @@ const removeAll = async () => {
     .catch(error => error);
 };
 
-const findByTitle = async title => {
-  return await API.get(`${URL_IMOVEIS}?title=${title}`)
-    .then(response => response.data)
-    .catch(error => error);
-};
+// const findByTitle = async title => {
+//   return await API.get(`${URL_IMOVEIS}?title=${title}`)
+//     .then(response => response.data)
+//     .catch(error => error);
+// };
 
 const ImovelService = {
-  getAll,
   get,
+  getAll,
   getWithImages,
   getWithDetalhes,
   getWithDocuments,
   create,
   update,
   remove,
-  removeAll,
-  findByTitle
+  removeAll
 };
 
 export default ImovelService;

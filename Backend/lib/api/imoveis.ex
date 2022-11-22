@@ -4,10 +4,9 @@ defmodule Api.Imoveis do
   """
 
   import Ecto.Query, warn: false
-  alias Api.Repo
 
+  alias Api.Repo
   alias Api.Imoveis.Imovel
-  alias Api.Imoveis.ImovelDetalhe
 
   @doc """
   Returns the list of imoveis.
@@ -18,8 +17,11 @@ defmodule Api.Imoveis do
       [%Imovel{}, ...]
 
   """
+
   def list_imoveis do
-    Imovel |> order_by(asc: :inserted_at) |> Repo.all()
+    Imovel
+    |> order_by(asc: :inserted_at)
+    |> Repo.all()
   end
 
   @doc """
@@ -36,23 +38,26 @@ defmodule Api.Imoveis do
       ** (Ecto.NoResultsError)
 
   """
-  def get_imovel(id), do: Repo.get(Imovel, id)
-
-  def get_imovel_with_imagem!(id) do
+  def get_imovel(id) do
     Imovel
-    |> Repo.get!(id)
+    |> Repo.get(id)
+  end
+
+  def get_imovel_with_imagem(id) do
+    Imovel
+    |> Repo.get(id)
     |> Repo.preload([:imovel_imagem])
   end
 
-  def get_imovel_with_detalhe!(id) do
+  def get_imovel_with_detalhe(id) do
     Imovel
-    |> Repo.get!(id)
+    |> Repo.get(id)
     |> Repo.preload([:imovel_detalhe])
   end
 
-  def get_imovel_with_documento!(id) do
+  def get_imovel_with_documento(id) do
     Imovel
-    |> Repo.get!(id)
+    |> Repo.get(id)
     |> Repo.preload([:imovel_documento])
   end
 
@@ -311,21 +316,6 @@ defmodule Api.Imoveis do
   """
   def change_imovel_imagem(%ImovelImagem{} = imovel_imagem, attrs \\ %{}) do
     ImovelImagem.changeset(imovel_imagem, attrs)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` quantity images.
-
-  ## Examples
-      iex> count_imovel_imagem(id)
-      %Ecto.Changeset{data: %ImovelImagem{}}
-
-  """
-  def count_imovel_imagem!(id) do
-    Imovel
-    |> Repo.get(id)
-    |> Ecto.assoc(:imovel_imagem)
-    |> Repo.aggregate(:count, :id)
   end
 
   alias Api.Imoveis.ImovelDocumento

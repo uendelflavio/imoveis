@@ -1,23 +1,21 @@
 import React from "react"
 import { useTable, useGlobalFilter, usePagination, useRowSelect } from 'react-table'
 import { Table } from "reactstrap"
-import { COLUMNS_IMOVEIS } from "components/table-column/table-column"
+import { COLUMNS_IMOVEIS } from "components/ui/table-column/table-column"
 import { useExportData } from "react-table-plugins"
-import ExportActionButton, { getExportFileBlob } from 'components/export_action_button/export_action_button'
-import BreadcrumbIcon from 'components/breadcrumb-icon/breadcrumb-icon'
 
-import AlertDelete from "components/alert-delete/alert-delete"
-import FormImovel from "components/forms/form-imovel";
-import FormImovelDetalhe from "components/forms/form-imovel-detalhe"
-// import FormImovelImagem from "components/forms/form-imovel-imagem"
+import FormImovel from "components/forms/form-imovel/form-imovel";
+import FormImovelDetalhe from "components/forms/form-imovel-detalhe/form-imovel-detalhe"
+import FormImovelImagem from "components/forms/form-imovel-imagem/form-imovel-imagem"
 
-import TableFilter from 'components/table-filter/table-filter'
-import TablePagination from 'components/table-pagination/table-pagination'
+import ButtonExport, { getExportFileBlob } from 'components/ui/button-export/button-export'
+import BreadcrumbIcon from 'components/ui/breadcrumb-icon/breadcrumb-icon'
+import AlertDelete from "components/ui/alert-delete/alert-delete"
+import TableFilter from 'components/ui/table-filter/table-filter'
+import TablePagination from 'components/ui/table-pagination/table-pagination'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { listImoveis, deleteImovel } from 'slices/imovel-slice'
-
-
 
 const Imoveis = props => {
 
@@ -38,24 +36,31 @@ const Imoveis = props => {
               <div className="bd-highlight">
                 <FormImovel
                   action={'update'}
-                  id={row?.original?.id}
+                  data={row.original}
                   isModal={false}
                 />
               </div >
               <div className="bd-highlight">
                 <AlertDelete
                   id={row?.original?.id}
-                  deleteData={(id) => { dispatch(deleteImovel({ id })); dispatch(listImoveis()); }} />
+                  deleteData={(id) => {
+                    dispatch(deleteImovel({ id }));
+                    dispatch(listImoveis());
+                  }} />
               </div>
               <div className="bd-highlight">
                 <FormImovelDetalhe
                   isModal={false}
-                  id={row?.original?.id || 0}
-                  imovel_id={row?.original?.id || 0}
+                  imovel_id={row.original.id}
                   refreshData={() => dispatch(listImoveis())}
                 />
               </div>
-              {/* <div className="bd-highlight"><FormImovelImagem isModal={false} isUpdated={true} id={row?.original?.id} /></div> */}
+              <div className="bd-highlight">
+                <FormImovelImagem
+                  isModal={false}
+                  imovel_id={row.original.id}
+                />
+              </div>
             </div >
           );
         },
@@ -106,11 +111,11 @@ const Imoveis = props => {
       </div>
       <div className="card border-0">
         <ul className="nav ps-4 pe-4 pb-2 pt-3">
-          <ExportActionButton exportData={exportData} getExportFileBlob={getExportFileBlob} pageOptions={pageOptions} />
+          <ButtonExport exportData={exportData} getExportFileBlob={getExportFileBlob} pageOptions={pageOptions} />
           <li className="nav-item ms-auto pt-1">
             <FormImovel
               action={'create'}
-              id={0}
+              data={0}
               isModal={false}
             />
           </li>
@@ -135,7 +140,7 @@ const Imoveis = props => {
                     return (
                       <tr className={i % 2 !== 0 ? "table-active" : ''} {...row.getRowProps()}>
                         {row.cells.map(cell => {
-                          return <td {...cell.getCellProps()}>
+                          return <td className="text-truncate" style={{maxWidth: '80px'}} {...cell.getCellProps()}>
                             <span className="fw-bold" >{cell.render('Cell')}</span>
                           </td>
                         })}

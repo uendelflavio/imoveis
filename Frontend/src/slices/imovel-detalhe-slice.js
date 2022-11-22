@@ -81,15 +81,12 @@ const imovelDetalheSlice = createSlice({
       state.push(action.payload);
     },
     [listAllImovelDetalhe.fulfilled]: (state, action) => {
-      console.log(action);
       return [...action.payload];
     },
     [listImovelDetalhe.fulfilled]: (state, action) => {
-      console.log(action);
       return [...action.payload];
     },
     [listImovelWithDetalhes.fulfilled]: (state, action) => {
-      console.log(action);
       return [action.payload];
     },
     [updateImovelDetalhe.fulfilled]: (state, action) => {

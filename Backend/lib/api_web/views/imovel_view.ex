@@ -10,26 +10,24 @@ defmodule ApiWeb.ImovelView do
   end
 
   def render("show.json", %{imovel: imovel}) do
-    case imovel do
-      nil ->
-        %{
-          imovel: %{
-            id: "0",
-            endereco: "",
-            numero: "",
-            bairro: "",
-            cep: "",
-            cidade: "",
-            uf: "",
-            vistoria: "",
-            ocupado: "",
-            complemento: ""
-          }
-        }
+    %{
+      imovel: render_one(imovel, ImovelView, "imovel.json")
+    }
+  end
 
-      value ->
-        %{imovel: render_one(value, ImovelView, "imovel.json")}
-    end
+  # def render("show.json", %{imovel: imovel}) do
+  # %{
+  # imovel: render_one(imovel, ImovelView, "imovel.json")
+  # imovel_detalhe: render_one(imovel.imovel_detalhe, ImovelDetalheView, "show.json"),
+  # imovel_imagem: render_many(imovel.imovel_imagem, ImovelImagemView, "show.json"),
+  # imovel_documento: render_many(imovel.imovel_documento, ImovelDocumentoView, "show.json")
+  # }
+  # end
+
+  def render("show.json", %{page: page}) do
+    %{
+      imovel: page
+    }
   end
 
   def render("imovel.json", %{imovel: imovel}) do
@@ -53,21 +51,40 @@ defmodule ApiWeb.ImovelView do
     }
   end
 
+  def render("imagens.json", %{page: page}) do
+    %{
+      imovel_imagem: page
+    }
+  end
+
   def render("imagens.json", %{imovel: imovel}) do
     %{
-      imovel_imagens: render_many(imovel, ImovelImagemView, "imovel_imagens.json")
+      imovel_imagem: render_many(imovel.imovel_imagem, ImovelImagemView, "imovel_imagem.json")
+    }
+  end
+
+  def render("detalhes.json", %{page: page}) do
+    %{
+      imovel_detalhe: page
     }
   end
 
   def render("detalhes.json", %{imovel: imovel}) do
     %{
-      imovel_detalhe: render_one(imovel, ImovelDetalheView, "imovel_detalhes.json")
+      imovel_detalhe: render_one(imovel.imovel_detalhe, ImovelDetalheView, "imovel_detalhe.json")
+    }
+  end
+
+  def render("documentos.json", %{page: page}) do
+    %{
+      imovel_documento: page
     }
   end
 
   def render("documentos.json", %{imovel: imovel}) do
     %{
-      imovel_documento: render_one(imovel, ImovelDocumentoView, "imovel_documentos.json")
+      imovel_documento:
+        render_many(imovel.imovel_documento, ImovelDocumentoView, "imovel_documento.json")
     }
   end
 end

@@ -12,7 +12,7 @@ defmodule ApiWeb.SessionController do
         {:ok, access_token, _claims} =
           Guardian.encode_and_sign(user, %{code: "#{email}-#{String.length(email)}"},
             token_type: "access",
-            ttl: {15, :minute}
+            ttl: {100, :minute}
           )
 
         # Guardian.encode_and_sign(user, %{}, token_type: "refresh", ttl: {7, :day})

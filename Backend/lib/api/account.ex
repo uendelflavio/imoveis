@@ -6,6 +6,7 @@ defmodule Api.Account do
   import Ecto.Query, warn: false
   alias Api.Repo
   alias Api.Account.User
+  alias Argon2
 
   def create_user(attrs) do
     %User{}
@@ -36,6 +37,6 @@ defmodule Api.Account do
   end
 
   defp validate_password(password, encrypted_password) do
-    Bcrypt.verify_pass(password, encrypted_password)
+    Argon2.verify_pass(password, encrypted_password)
   end
 end

@@ -1,0 +1,17 @@
+{
+    "default_stop_words": [
+        "defmodule",
+        "defrecord",
+        "defimpl",
+        "def.+(.+\/\/.+).+do"
+    ],
+    "custom_stop_words": [],
+    "coverage_options": {
+        "treat_no_relevant_lines_as_covered": true,
+        "output_dir": "cover/",
+        "template_path": "custom/path/to/template/",
+        "minimum_coverage": 90,
+        "xml_base_dir": "custom/path/for/xml/reports/",
+        "html_filter_full_covered": true
+    }
+}

@@ -5,10 +5,11 @@ defmodule Api.Account.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Argon2
+
   schema "users" do
     field(:email, :string)
     field(:password, :string)
-
     timestamps()
   end
 
@@ -32,7 +33,7 @@ defmodule Api.Account.User do
 
   defp encrypt_and_put_password(user) do
     with password <- fetch_field!(user, :password) do
-      encrypted_password = Bcrypt.Base.hash_password(password, Bcrypt.gen_salt(12, true))
+      encrypted_password = Argon2.hash_pwd_salt(password)
       put_change(user, :password, encrypted_password)
     end
   end
