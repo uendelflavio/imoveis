@@ -49,10 +49,10 @@ export const deleteImovelDetalhe = createAsyncThunk(
 
 export const resetImovelDetalhe = createAsyncThunk(
   "imoveldetalhe/reset",
-  async () => {
+  async ({ imovel_id }) => {
     return {
       id: undefined,
-      imovel_id: undefined,
+      imovel_id: imovel_id,
       area_total_m2: "",
       area_total_construida_m2: "",
       numero_inscricao: "",

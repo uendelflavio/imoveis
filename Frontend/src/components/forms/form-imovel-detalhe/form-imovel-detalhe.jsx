@@ -33,6 +33,7 @@ const FormImovelDetalhe = props => {
     () => {
       if (imovel_detalhe[0]) return imovel_detalhe[0];
       if (imovel_detalhe) return imovel_detalhe;
+      return [];
     },
     [imovel_detalhe]
   );
@@ -51,17 +52,20 @@ const FormImovelDetalhe = props => {
         dispatch(deleteImovelDetalhe({ id: values.id }));
         toast.error("Os Detalhes do Imovel foi apagada com sucesso");
         break;
+      case "new":
+        dispatch(resetImovelDetalhe({ imovel_id: props.imovel_id }));
+        break;
       default:
-        dispatch(resetImovelDetalhe());
+        dispatch(resetImovelDetalhe({ imovel_id: props.imovel_id }));
         dispatch(listImovelWithDetalhes({ id: props.imovel_id }));
         break;
     }
     Promise.all([
-      dispatch(resetImovelDetalhe()),
+      dispatch(resetImovelDetalhe({ imovel_id: props.imovel_id })),
       dispatch(listImovelWithDetalhes({ id: props.imovel_id })),
       actions.resetForm(),
       actions.setSubmitting(false),
-      setModalOpen(false)
+      setAction("")
     ]);
   };
 
@@ -102,6 +106,7 @@ const FormImovelDetalhe = props => {
       <Formik
         onSubmit={(values, actions) => onSubmit(values, actions)}
         enableReinitialize={true}
+        validationSchema={validationSchema}
         initialValues={{
           id: data.length === 0 ? 0 : data.id,
           imovel_id: data.length === 0 ? props.imovel_id : data.imovel_id,
@@ -122,15 +127,18 @@ const FormImovelDetalhe = props => {
           agua_incluso: data.length === 0 ? false : data.agua_incluso,
           gas_incluso: data.length === 0 ? false : data.gas_incluso,
           seguranca_incluso: data.length === 0 ? false : data.seguranca_incluso
-        }}
-        validationSchema={validationSchema}>
+        }}>
         <Modal
           centered
           toggle={toggle}
           isOpen={modalOpen}
           autoFocus={false}
           onClosed={() => {
-            dispatch(resetImovelDetalhe());
+            dispatch(resetImovelDetalhe({ imovel_id: props.imovel_id }));
+            dispatch(listImovelWithDetalhes({ id: props.imovel_id }));
+          }}
+          onOpened={() => {
+            dispatch(resetImovelDetalhe({ imovel_id: props.imovel_id }));
             dispatch(listImovelWithDetalhes({ id: props.imovel_id }));
           }}>
           <Panel className="mb-0">
@@ -186,8 +194,8 @@ const FormImovelDetalhe = props => {
                 <SwitchInput label="Segurança" name="seguranca_incluso" />
                 <ButtonCrud
                   toggle={toggle}
+                  name="ButtonCrudFormImovelDetalhe"
                   setAction={action => setAction(action)}
-                  onSubmit={(values, actions) => onSubmit(values, actions)}
                 />
               </Form>
             </PanelBody>

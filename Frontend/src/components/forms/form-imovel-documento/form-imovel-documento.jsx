@@ -69,8 +69,8 @@ const FormImovelDocumento = props => {
                 <InputField label="Descrição" name="descricao" />
                 <ButtonActionInput
                   toggle={toggle}
+                  name="ButtonActionInputFormImovelDocumento"
                   isUpdated={props.isUpdated}
-                  onSubmit={values => onSubmit(values)}
                 />
               </Form>
             </PanelBody>

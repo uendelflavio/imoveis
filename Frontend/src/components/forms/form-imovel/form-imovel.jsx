@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import SwitchInput from "components/ui/switch-input/switch-input";
 import InputField from "components/ui/input-field/input-field";
 import PanelHeaderOption from "components/ui/panel-header-option/panel-header-option";
-import ActionButtonInput from "components/ui/action-button-input/action-button-input";
+import ButtonAction from "components/ui/button-action/button-action";
 import ButtonModal from "components/ui/button-modal/button-modal";
 import SelectInput from "components/ui/select-input/select-input";
 import InputMask from "components/ui/input-mask/input-mask";
@@ -115,10 +115,10 @@ const FormImovel = props => {
                 <SelectInput label="Uf" name="uf" options={uf} />
                 <SwitchInput label="Vistoria" name="vistoria" />
                 <SwitchInput label="Ocupado" name="ocupado" />
-                <ActionButtonInput
+                <ButtonAction
+                  name="ButtonActionFormImovel"
                   toggle={toggle}
                   setAction={action => setAction(action)}
-                  onSubmit={(values, actions) => onSubmit(values, actions)}
                 />
               </Form>
             </PanelBody>

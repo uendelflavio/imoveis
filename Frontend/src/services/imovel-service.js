@@ -15,7 +15,7 @@ const get = async id => {
 
 const getWithImages = async id => {
   return await API.get(`${URL_IMOVEIS}/imagens/${id}`)
-    .then(response => response.data.imovel_imagem.flat())
+    .then(response => response.data.imovel_imagem)
     .catch(error => error);
 };
 

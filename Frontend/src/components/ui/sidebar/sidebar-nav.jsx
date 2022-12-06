@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import { AppSettings } from "config/app-settings";
 import SidebarNavList from "components/ui/sidebar/sidebar-nav-list";
 import menus from "components/ui/sidebar/menu";
+import { Input } from "reactstrap";
 
 const SidebarNav = props => {
   const context = AppSettings;
@@ -70,7 +71,7 @@ const SidebarNav = props => {
       <div className="menu">
         {context.appSidebarSearch &&
           <div className="menu-search mb-n3">
-            <input
+            <Input
               type="text"
               class="form-control"
               placeholder="Sidebar menu filter..."

@@ -1,7 +1,7 @@
 import React from "react";
 import NumericInput from "react-numeric-input";
 import { useFormikContext } from "formik";
-
+import { Label } from "reactstrap";
 const InputNumberField = props => {
   const formik = useFormikContext();
   React.useMemo(() => {
@@ -18,9 +18,9 @@ const InputNumberField = props => {
   return (
     <React.Fragment>
       <div className="mb-2">
-        <label className="form-label">
+        <Label className="form-label">
           {props.label}:
-        </label>
+        </Label>
         <div className="col-md-12">
           <NumericInput
             min={0}

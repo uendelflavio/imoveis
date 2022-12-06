@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import ImovelImagemService from "services/imovel-imagem-service";
 import ImovelService from "services/imovel-service";
+
 const initialState = [];
 
 export const createImovelImage = createAsyncThunk(
@@ -20,8 +21,7 @@ export const listAllImovelImage = createAsyncThunk(
 export const listImovelImage = createAsyncThunk(
   "imovelimage/get",
   async ({ id }) => {
-    await ImovelImagemService.get(id);
-    return { id };
+    return await ImovelImagemService.get(id);
   }
 );
 
@@ -49,13 +49,8 @@ export const deleteImovelImage = createAsyncThunk(
 
 export const resetImovelImage = createAsyncThunk(
   "imovelimage/reset",
-  async () => {
-    return {
-      id: 0,
-      imovel_id: 0,
-      imagem: "",
-      descricao: ""
-    };
+  ({ id }) => {
+    return { id: 0, imovel_id: id, imagem: "", descricao: "" };
   }
 );
 

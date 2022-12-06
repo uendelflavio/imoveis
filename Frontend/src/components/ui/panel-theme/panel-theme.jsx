@@ -1,6 +1,6 @@
 import React from "react";
 import { AppSettings } from "config/app-settings";
-
+import { Input, Label } from "reactstrap";
 const PanelTheme = () => {
   const context = React.useContext(AppSettings);
 
@@ -145,7 +145,7 @@ const PanelTheme = () => {
               </div>
               <div className="col-4 d-flex">
                 <div className="form-check form-switch ms-auto mb-0">
-                  <input
+                  <Input
                     type="checkbox"
                     className="form-check-input"
                     name="app-theme-dark-mode"
@@ -153,11 +153,11 @@ const PanelTheme = () => {
                     id="appThemeDarkMode"
                     value="1"
                   />
-                  <label
+                  <Label
                     className="form-check-label"
                     htmlFor="appThemeDarkMode">
                     &nbsp;
-                  </label>
+                  </Label>
                 </div>
               </div>
             </div>
@@ -170,7 +170,7 @@ const PanelTheme = () => {
               </div>
               <div className="col-4 d-flex">
                 <div className="form-check form-switch ms-auto mb-0">
-                  <input
+                  <Input
                     type="checkbox"
                     className="form-check-input"
                     name="app-header-fixed"
@@ -179,9 +179,9 @@ const PanelTheme = () => {
                     value="1"
                     checked={context.appHeaderFixed}
                   />
-                  <label className="form-check-label" htmlFor="appHeaderFixed">
+                  <Label className="form-check-label" htmlFor="appHeaderFixed">
                     &nbsp;
-                  </label>
+                  </Label>
                 </div>
               </div>
             </div>
@@ -191,7 +191,7 @@ const PanelTheme = () => {
               </div>
               <div className="col-4 d-flex">
                 <div className="form-check form-switch ms-auto mb-0">
-                  <input
+                  <Input
                     type="checkbox"
                     className="form-check-input"
                     name="app-header-inverse"
@@ -199,11 +199,11 @@ const PanelTheme = () => {
                     id="appHeaderInverse"
                     checked={context.appHeaderInverse}
                   />
-                  <label
+                  <Label
                     className="form-check-label"
                     htmlFor="appHeaderInverse">
                     &nbsp;
-                  </label>
+                  </Label>
                 </div>
               </div>
             </div>
@@ -213,7 +213,7 @@ const PanelTheme = () => {
               </div>
               <div className="col-4 d-flex">
                 <div className="form-check form-switch ms-auto mb-0">
-                  <input
+                  <Input
                     type="checkbox"
                     className="form-check-input"
                     name="app-sidebar-fixed"
@@ -221,9 +221,9 @@ const PanelTheme = () => {
                     id="appSidebarFixed"
                     checked={context.appSidebarFixed}
                   />
-                  <label className="form-check-label" htmlFor="appSidebarFixed">
+                  <Label className="form-check-label" htmlFor="appSidebarFixed">
                     &nbsp;
-                  </label>
+                  </Label>
                 </div>
               </div>
             </div>
@@ -233,7 +233,7 @@ const PanelTheme = () => {
               </div>
               <div className="col-4 d-flex">
                 <div className="form-check form-switch ms-auto mb-0">
-                  <input
+                  <Input
                     type="checkbox"
                     className="form-check-input"
                     onChange={handleSidebarGrid}
@@ -241,9 +241,9 @@ const PanelTheme = () => {
                     id="appSidebarGrid"
                     checked={context.appSidebarGrid}
                   />
-                  <label className="form-check-label" htmlFor="appSidebarGrid">
+                  <Label className="form-check-label" htmlFor="appSidebarGrid">
                     &nbsp;
-                  </label>
+                  </Label>
                 </div>
               </div>
             </div>
@@ -253,7 +253,7 @@ const PanelTheme = () => {
               </div>
               <div className="col-md-4 d-flex">
                 <div className="form-check form-switch ms-auto mb-0">
-                  <input
+                  <Input
                     type="checkbox"
                     className="form-check-input"
                     name="app-gradient-enabled"
@@ -261,11 +261,11 @@ const PanelTheme = () => {
                     id="appGradientEnabled"
                     checked={context.appGradientEnabled}
                   />
-                  <label
+                  <Label
                     className="form-check-label"
                     htmlFor="appGradientEnabled">
                     &nbsp;
-                  </label>
+                  </Label>
                 </div>
               </div>
             </div>

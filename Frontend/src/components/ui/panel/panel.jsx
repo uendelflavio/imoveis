@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "reactstrap";
 const PanelStat = React.createContext();
 
 const Panel = props => {
@@ -53,26 +54,26 @@ const PanelHeader = props => {
         <PanelStat.Consumer>
           {({ toggleExpand, toggleRemove, toggleCollapse, toggleReload }) =>
             <div className="panel-heading-btn">
-              <button
+              <Button
                 className="btn btn-xs btn-icon btn-circle btn-default"
                 onClick={toggleExpand}>
                 <i className="fa fa-expand" />
-              </button>&nbsp;&nbsp;
-              <button
+              </Button>&nbsp;&nbsp;
+              <Button
                 className="btn btn-xs btn-icon btn-circle btn-success"
                 onClick={toggleReload}>
                 <i className="fa fa-redo" />
-              </button>&nbsp;&nbsp;
-              <button
+              </Button>&nbsp;&nbsp;
+              <Button
                 className="btn btn-xs btn-icon btn-circle btn-warning"
                 onClick={toggleCollapse}>
                 <i className="fa fa-minus" />
-              </button>&nbsp;&nbsp;
-              <button
+              </Button>&nbsp;&nbsp;
+              <Button
                 className="btn btn-xs btn-icon btn-circle btn-danger"
                 onClick={toggleRemove}>
                 <i className="fa fa-times" />
-              </button>
+              </Button>
             </div>}
         </PanelStat.Consumer>}
     </div>

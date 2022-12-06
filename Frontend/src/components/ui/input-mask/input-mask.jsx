@@ -1,13 +1,13 @@
 import React from 'react';
 import { useFormikContext } from "formik";
 import ReactInputMask from 'react-input-mask';
-
+import { Label } from "reactstrap";
 const InputMask = props => {
     const formik = useFormikContext();
     return (
     <React.Fragment>
         <div className="mb-1">
-            <label className="form-label">{props.label}:</label>
+            <Label className="form-label">{props.label}:</Label>
                 <div className="col-md-12">
                     <ReactInputMask
                         mask={props.mask}

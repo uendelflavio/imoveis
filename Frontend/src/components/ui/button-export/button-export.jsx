@@ -65,38 +65,54 @@ export const getExportFileBlob = ({ columns, data, fileType, fileName }) => {
 };
 
 const ButtonExport = props => {
+  const BtnExportCSV = () => {
+    return (
+      <Button
+        disabled={props.pageOptions.length > 0 ? false : true}
+        onClick={() => props.exportData("csv", false)}
+        className="btn btn-indigo btn-icon btn-circle btn-lg me-2"
+        data-bs-toggle="tooltip"
+        data-bs-placement="bottom"
+        title="Exportar para arquivo csv.">
+        <i className="fa fa-file-csv" />
+      </Button>
+    );
+  };
+  const BtnExportPDF = () => {
+    return (
+      <Button
+        disabled={props.pageOptions.length > 0 ? false : true}
+        onClick={() => props.exportData("pdf", false)}
+        className="btn btn-primary btn-icon btn-circle btn-lg me-2"
+        data-bs-toggle="tooltip"
+        data-bs-placement="bottom"
+        title="Exportar para arquivo pdf.">
+        <i className="fa fa-file-pdf" />
+      </Button>
+    );
+  };
+  const BtnExportXLSX = () => {
+    return (
+      <Button
+        disabled={props.pageOptions.length > 0 ? false : true}
+        onClick={() => props.exportData("xlsx", false)}
+        className="btn btn-info btn-icon btn-circle btn-lg me-2"
+        data-bs-toggle="tooltip"
+        data-bs-placement="bottom"
+        title="Exportar para arquivo xls.">
+        <i className="fa fa-file-excel" />
+      </Button>
+    );
+  };
+
   return (
     <React.Fragment>
       <ul className="nav px-1 py-1 ">
         <li>
           <div className="d-flex flex-row ">
-            <Button
-              disabled={props.pageOptions.length > 0 ? false : true}
-              onClick={() => props.exportData("csv", false)}
-              className="btn btn-indigo btn-icon btn-circle btn-lg me-2"
-              data-bs-toggle="tooltip"
-              data-bs-placement="bottom"
-              title="Exportar para arquivo csv.">
-              <i className="fa fa-file-csv" />
-            </Button>
-            <Button
-              disabled={props.pageOptions.length > 0 ? false : true}
-              onClick={() => props.exportData("pdf", false)}
-              className="btn btn-primary btn-icon btn-circle btn-lg me-2"
-              data-bs-toggle="tooltip"
-              data-bs-placement="bottom"
-              title="Exportar para arquivo pdf.">
-              <i className="fa fa-file-pdf" />
-            </Button>
-            <Button
-              disabled={props.pageOptions.length > 0 ? false : true}
-              onClick={() => props.exportData("xlsx", false)}
-              className="btn btn-info btn-icon btn-circle btn-lg me-2"
-              data-bs-toggle="tooltip"
-              data-bs-placement="bottom"
-              title="Exportar para arquivo xls.">
-              <i className="fa fa-file-excel" />
-            </Button>
+            <BtnExportCSV />
+            <BtnExportPDF />
+            <BtnExportXLSX />
           </div>
         </li>
       </ul>

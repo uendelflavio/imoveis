@@ -1,7 +1,7 @@
 import React from "react";
 import Switch from "react-switch";
 import { useFormikContext } from "formik";
-
+import { Label } from "reactstrap";
 const SwitchInput = props => {
   const formik = useFormikContext();
   const checked = React.useMemo(
@@ -20,7 +20,7 @@ const SwitchInput = props => {
     <React.Fragment>
       <div className="d-inline-flex flex-row flex-direction: row align-items: start pt-2 pb-1">
         <div className="form-check">
-          <label>
+          <Label>
             <div className="d-flex  justify-content-center">
               <strong>
                 {props.label}
@@ -33,11 +33,10 @@ const SwitchInput = props => {
                   ? formik.setFieldValue(props.name, false, true)
                   : formik.setFieldValue(props.name, true, false);
               }}
-              name={props.name}
-              // id={props.name}
+              name={props.name} // id={props.name}
               className="react-switch"
             />
-          </label>
+          </Label>
         </div>
       </div>
     </React.Fragment>

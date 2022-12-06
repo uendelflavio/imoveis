@@ -3,13 +3,13 @@ import { URL_IMAGEM_IMOVEIS } from "constants/url-constants";
 
 const getAll = async data => {
   return await API.get(URL_IMAGEM_IMOVEIS, data)
-    .then(response => response.data.imovel_imagem)
+    .then(response => response)
     .catch(error => error);
 };
 
 const get = async id => {
   return await API.get(`${URL_IMAGEM_IMOVEIS}/${id}`)
-    .then(response => response.data.imovel_imagem)
+    .then(response => response)
     .catch(error => error);
 };
 
