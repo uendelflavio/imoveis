@@ -5,27 +5,18 @@ import { useFormikContext } from "formik";
 import { useList } from "react-use";
 import { useSelector } from "react-redux";
 import Base64 from "utils/base64";
-
+import { getAllImovelImagem } from "slices/imovel-image-slice";
 export const CarouselImageGallery = props => {
   const [currentIndex, setCurrentIndex] = React.useState(0);
-  const CarouselImageGalleryRef = React.useRef(null);
-  const imovel_carousel = useSelector(state => state.imovelImageSlice);
-  const formik = useFormikContext();
   const [imagens, { push, clear }] = useList();
+  const CarouselImageGalleryRef = React.useRef(null);
+  const data = useSelector(getAllImovelImagem);
+  const formik = useFormikContext();
   const { Base64toFile } = Base64;
-
-  const data = React.useMemo(
-    () => {
-      if (imovel_carousel[0]) return imovel_carousel[0];
-      else if (imovel_carousel) return imovel_carousel;
-      else return [];
-    },
-    [imovel_carousel]
-  );
 
   React.useMemo(() => {
     const loadData = () => {
-      if (typeof data === "object") {
+      if (data.length !== 0) {
         clear();
         for (let img in data) {
           push({
@@ -59,6 +50,10 @@ export const CarouselImageGallery = props => {
         CarouselImageGalleryRef.current.props.items[currentIndex].original
       )
     );
+
+    props.onImageLoading(
+      CarouselImageGalleryRef.current.props.items[currentIndex].original
+    );
   };
 
   const onSlide = id => {
@@ -74,6 +69,9 @@ export const CarouselImageGallery = props => {
     formik.setFieldValue(
       "imagem",
       Base64toFile(CarouselImageGalleryRef.current.props.items[id].original)
+    );
+    props.onImageLoading(
+      CarouselImageGalleryRef.current.props.items[id].original
     );
   };
 
@@ -91,6 +89,9 @@ export const CarouselImageGallery = props => {
       Base64toFile(
         CarouselImageGalleryRef.current.props.items[currentIndex].original
       )
+    );
+    props.onImageLoading(
+      CarouselImageGalleryRef.current.props.items[currentIndex].original
     );
   };
 

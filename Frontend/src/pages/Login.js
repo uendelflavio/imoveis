@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import FormLogin from "components/forms/form-login/form-login";
 
-const withRouter = WrappedComponent => props => {
+const withRouter = (WrappedComponent) => (props) => {
   const params = useParams();
   return <WrappedComponent {...props} params={params} />;
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Form, Field } from "formik";
+import { Field, Form, Formik } from "formik";
 import { Panel, PanelBody } from "components/ui/panel/panel";
 import { Modal } from "reactstrap";
 import { toast } from "react-toastify";
@@ -15,21 +15,21 @@ import InputMask from "components/ui/input-mask/input-mask";
 
 import { useDispatch } from "react-redux";
 import {
-  listImoveis,
   createImovel,
-  updateImovel,
-  resetImovel
+  listImoveis,
+  resetImovel,
+  updateImovel
 } from "slices/imovel-slice";
 
 const FormImovel = props => {
-  const [modalOpen, setModalOpen] = React.useState(props.isModal);
-  const [isAction, setAction] = React.useState(props.action);
+  const [state, setState] = React.useState({
+    modal: props.isModal,
+    action: props.action
+  });
   const dispatch = useDispatch();
-
-  const toggle = () => setModalOpen(!modalOpen);
-
+  const toggle = () => setState({ ...state, modal: !state.modal });
   const onSubmit = (values, actions) => {
-    switch (isAction) {
+    switch (state.action) {
       case "create":
         dispatch(createImovel({ data: values }));
         toast.success("O Imovel foi criado com sucesso");
@@ -73,27 +73,31 @@ const FormImovel = props => {
 
   return (
     <React.Fragment>
-      <ButtonModal isAction={isAction} toggle={toggle} />
+      <ButtonModal
+        name="ButtonModalImovel"
+        isAction={state.action}
+        toggle={toggle}
+      />
       <Formik
         onSubmit={(values, actions) => onSubmit(values, actions)}
         enableReinitialize={true}
         initialValues={{
-          id: isAction === "update" ? props.data.id : "",
-          endereco: isAction === "update" ? props.data.endereco : "",
-          numero: isAction === "update" ? props.data.numero : "",
-          bairro: isAction === "update" ? props.data.bairro : "",
-          cep: isAction === "update" ? props.data.cep : "",
-          cidade: isAction === "update" ? props.data.cidade : "",
-          complemento: isAction === "update" ? props.data.complemento : "",
-          uf: isAction === "update" ? props.data.uf : "",
-          vistoria: isAction === "update" ? props.data.vistoria : false,
-          ocupado: isAction === "update" ? props.data.ocupado : false
+          id: state.action === "update" ? props.data.id : "",
+          endereco: state.action === "update" ? props.data.endereco : "",
+          numero: state.action === "update" ? props.data.numero : "",
+          bairro: state.action === "update" ? props.data.bairro : "",
+          cep: state.action === "update" ? props.data.cep : "",
+          cidade: state.action === "update" ? props.data.cidade : "",
+          complemento: state.action === "update" ? props.data.complemento : "",
+          uf: state.action === "update" ? props.data.uf : "",
+          vistoria: state.action === "update" ? props.data.vistoria : false,
+          ocupado: state.action === "update" ? props.data.ocupado : false
         }}
         validationSchema={validationSchema}>
         <Modal
           centered
           toggle={toggle}
-          isOpen={modalOpen}
+          isOpen={state.modal}
           autoFocus={false}
           onClosed={() => {
             dispatch(listImoveis());
@@ -118,7 +122,7 @@ const FormImovel = props => {
                 <ButtonAction
                   name="ButtonActionFormImovel"
                   toggle={toggle}
-                  setAction={action => setAction(action)}
+                  setAction={action => setState({ ...state, action: action })}
                 />
               </Form>
             </PanelBody>

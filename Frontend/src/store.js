@@ -1,4 +1,4 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 // import { createLogger } from "redux-logger";
 import imovelSlice from "slices/imovel-slice";
 import imovelDetalheSlice from "slices/imovel-detalhe-slice";

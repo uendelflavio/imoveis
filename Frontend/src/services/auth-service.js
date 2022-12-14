@@ -1,8 +1,8 @@
 import API from "utils/api";
 import {
-  URL_SESSION_REFRESH,
+  URL_SESSION_DELETE,
   URL_SESSION_NEW,
-  URL_SESSION_DELETE
+  URL_SESSION_REFRESH,
 } from "constants/url-constants";
 import TokenService from "services/token-service";
 
@@ -10,10 +10,10 @@ const register = async (username, email, password) => {
   return await API.post(
     URL_SESSION_NEW,
     { username, email, password },
-    { withCredentials: false }
+    { withCredentials: false },
   )
-    .then(response => response.data.access_token)
-    .catch(error => {
+    .then((response) => response.data.access_token)
+    .catch((error) => {
       return error;
     });
 };
@@ -22,9 +22,9 @@ const login = async (email, password) => {
   return await API.post(
     URL_SESSION_NEW,
     { email, password },
-    { withCredentials: true }
+    { withCredentials: true },
   )
-    .then(response => {
+    .then((response) => {
       if (response.data.access_token) {
         TokenService.setToken(response.data.access_token);
         TokenService.setUser(email);
@@ -32,28 +32,29 @@ const login = async (email, password) => {
       }
       return response.data.access_token;
     })
-    .catch(error => {
+    .catch((error) => {
       return error;
     });
 };
 
 const refresh = async () => {
   return await API.post(URL_SESSION_REFRESH, "", { withCredentials: true })
-    .then(response => {
-      if (response.data.access_token)
+    .then((response) => {
+      if (response.data.access_token) {
         TokenService.setRefreshToken(response.data.access_token);
+      }
       TokenService.setCount(0);
       return response.data.access_token;
     })
-    .catch(error => {
+    .catch((error) => {
       return error;
     });
 };
 
-const logout = params => {
+const logout = (params) => {
   return API.delete(URL_SESSION_DELETE, params)
-    .then(response => response.data.access_token)
-    .catch(error => {
+    .then((response) => response.data.access_token)
+    .catch((error) => {
       return error;
     });
 };
@@ -68,7 +69,7 @@ const getCurrentUser = () => {
   return JSON.parse(TokenService.getCurrentUser());
 };
 
-const getCurrentUserID = id => {
+const getCurrentUserID = (id) => {
   if (TokenService.getToken().trim() === "") {
     TokenService.setUserID("");
   } else {
@@ -83,7 +84,7 @@ const AuthService = {
   login,
   logout,
   getCurrentUser,
-  getCurrentUserID
+  getCurrentUserID,
 };
 
 export default AuthService;

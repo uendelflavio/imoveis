@@ -1,16 +1,16 @@
 import React from "react";
-import { Route, Link } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import TopMenuNavList from "components/ui/top-menu/top-menu-nav-list";
 import menus from "components/ui/top-menu/menu.jsx";
 
-const TopMenuNav = props => {
+const TopMenuNav = (props) => {
   const [state, setState] = React.useState({
     active: -1,
     controlLeft: false,
     controlRight: false,
     marginLeft: 0,
     marginRight: 0,
-    navWidth: 0
+    navWidth: 0,
   });
   const topMenu = React.createRef();
   React.useEffect(() => {
@@ -21,7 +21,7 @@ const TopMenuNav = props => {
 
     document
       .querySelectorAll(".app-top-menu .menu > .menu-item")
-      .forEach(function(elm) {
+      .forEach(function (elm) {
         listFullWidth += elm.offsetWidth;
         listPrevWidth += !listActive ? elm.offsetWidth : 0;
         listActive = elm.classList.contains("active") ? true : listActive;
@@ -41,20 +41,19 @@ const TopMenuNav = props => {
       }
       topMenu.current.setState({
         marginLeft: finalLeft,
-        marginRight: finalRight
+        marginRight: finalRight,
       });
     }
 
     topMenu.current.setState({
       navWidth: listFullWidth,
-      controlLeft:
-        listPrevWidth >= windowWidth && listFullWidth >= windowWidth
-          ? true
-          : false,
+      controlLeft: listPrevWidth >= windowWidth && listFullWidth >= windowWidth
+        ? true
+        : false,
       controlRight:
         listPrevWidth !== listFullWidth && listFullWidth >= windowWidth
           ? true
-          : false
+          : false,
     });
   });
 
@@ -63,10 +62,10 @@ const TopMenuNav = props => {
     setState({ active: state.active === i ? -1 : i });
   };
 
-  const controlRight = e => {
+  const controlRight = (e) => {
     e.preventDefault();
-    var containerWidth =
-      document.querySelector(".app-top-menu").offsetWidth - 88;
+    var containerWidth = document.querySelector(".app-top-menu").offsetWidth -
+      88;
     var widthLeft = state.navWidth + -state.marginLeft - containerWidth;
     var finalScrollWidth = 0;
 
@@ -81,19 +80,19 @@ const TopMenuNav = props => {
       if (!document.body.classList.contains("rtl-mode")) {
         setState({
           marginRight: 0,
-          marginLeft: finalScrollWidth
+          marginLeft: finalScrollWidth,
         });
       } else {
         setState({
           marginLeft: 0,
-          marginRight: finalScrollWidth
+          marginRight: finalScrollWidth,
         });
       }
       setState({ controlLeft: true });
     }
   };
 
-  const controlLeft = e => {
+  const controlLeft = (e) => {
     e.preventDefault();
     var widthLeft = state.marginLeft;
     var containerWidth = document.querySelector(".app-top-menu").offsetWidth;
@@ -110,13 +109,13 @@ const TopMenuNav = props => {
       setState({
         marginLeft: finalScrollWidth,
         marginRight: 0,
-        controlRight: true
+        controlRight: true,
       });
     } else {
       setState({
         marginLeft: 0,
         marginRight: finalScrollWidth,
-        controlRight: true
+        controlRight: true,
       });
     }
   };
@@ -127,37 +126,37 @@ const TopMenuNav = props => {
         className="menu"
         style={{
           marginLeft: "-" + state.marginLeft + "px",
-          marginRight: "-" + state.marginRight + "px"
-        }}>
-        {menus.map((menu, i) =>
+          marginRight: "-" + state.marginRight + "px",
+        }}
+      >
+        {menus.map((menu, i) => (
           <Route
             path={menu.path}
             exact={menu.exact}
             key={i}
-            children={({ match }) =>
+            children={({ match }) => (
               <TopMenuNavList
                 data={menu}
                 key={i}
-                expand={e => handleExpand(e, i, match)}
+                expand={(e) => handleExpand(e, i, match)}
                 active={i === state.active}
                 clicked={state.clicked}
-              />}
+              />
+            )}
           />
-        )}
+        ))}
         <div
-          className={
-            "menu-item menu-control menu-control-start " +
-            (state.controlLeft ? "show" : "")
-          }>
+          className={"menu-item menu-control menu-control-start " +
+            (state.controlLeft ? "show" : "")}
+        >
           <Link className="menu-link" to="/" onClick={controlLeft}>
             <i className="fa fa-angle-left" />
           </Link>
         </div>
         <div
-          className={
-            "menu-item menu-control menu-control-end " +
-            (state.controlRight ? "show" : "")
-          }>
+          className={"menu-item menu-control menu-control-end " +
+            (state.controlRight ? "show" : "")}
+        >
           <Link className="menu-link" to="/" onClick={controlRight}>
             <i className="fa fa-angle-right" />
           </Link>

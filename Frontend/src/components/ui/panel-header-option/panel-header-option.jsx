@@ -7,8 +7,9 @@ const PanelHeaderOption = props => {
 
   React.useEffect(
     () => {
-      if (typeof formik.values["id"] === "number")
+      if (typeof formik.values["id"] === "number") {
         setId(formik.values["id"].toString().padStart(3, "0"));
+      }
     },
     [formik.values, isId]
   );

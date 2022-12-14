@@ -1,14 +1,14 @@
 import React from "react";
 import {
   Dropdown,
-  DropdownToggle,
+  DropdownItem,
   DropdownMenu,
-  DropdownItem
+  DropdownToggle,
 } from "reactstrap";
 import { useHistory } from "react-router-dom";
 import TokenService from "services/token-service";
 
-const DropdownProfile = props => {
+const DropdownProfile = (props) => {
   let history = useHistory();
   const [dropdownOpen, setdropdownOpen] = React.useState(false);
   const toggle = () => setdropdownOpen(!dropdownOpen);
@@ -23,10 +23,12 @@ const DropdownProfile = props => {
         isOpen={dropdownOpen}
         toggle={toggle}
         className="navbar-item navbar-user dropdown"
-        tag="div">
+        tag="div"
+      >
         <DropdownToggle
           tag="a"
-          className="navbar-link dropdown-toggle d-flex align-items-center">
+          className="navbar-link dropdown-toggle d-flex align-items-center"
+        >
           <div className="image image-icon bg-gray-800 text-gray-600">
             <i className="fa fa-user" />
           </div>

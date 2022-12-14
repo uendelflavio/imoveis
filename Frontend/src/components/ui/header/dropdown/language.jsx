@@ -1,12 +1,12 @@
 import React from "react";
 import {
   Dropdown,
-  DropdownToggle,
+  DropdownItem,
   DropdownMenu,
-  DropdownItem
+  DropdownToggle,
 } from "reactstrap";
 
-const DropdownLanguage = props => {
+const DropdownLanguage = (props) => {
   const [state, setState] = React.useState({ dropdownOpen: false });
   const toggle = () => setState(!state.dropdownOpen);
 
@@ -16,7 +16,8 @@ const DropdownLanguage = props => {
         isOpen={state.dropdownOpen}
         toggle={toggle}
         className="navbar-item navbar-language dropdown"
-        tag="div">
+        tag="div"
+      >
         <DropdownToggle className="navbar-link dropdown-toggle" tag="a">
           <span className="flag-icon flag-icon-us me-5px" title="us" />
           <span className="name d-none d-sm-inline">EN</span>

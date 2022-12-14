@@ -1,8 +1,8 @@
 import React from "react";
-import { Label } from "reactstrap";
-import { Field, useFormikContext } from "formik";
+import { Input, Label } from "reactstrap";
+import { useFormikContext } from "formik";
 
-const InputField = props => {
+const InputField = (props) => {
   const formik = useFormikContext();
 
   return (
@@ -12,26 +12,26 @@ const InputField = props => {
           {props.label}:
         </Label>
         <div className="col-md-12">
-          <Field
-            name={props.name}
+          <Input
+            name={`InputField-${props.name}`}
             value={formik.values[props.name] || ""}
-            onChange={e => {
+            onChange={(e) => {
               formik.setFieldValue(props.name, e.target.value);
             }}
-            className={
-              formik.errors[props.name]
-                ? "form-control is-invalid"
-                : "form-control is-valid"
-            }
+            className={formik.errors[props.name]
+              ? "form-control is-invalid"
+              : "form-control is-valid"}
             placeholder={props.label}
           />
         </div>
       </div>
       <div className="mt-1" style={{ width: "400px" }}>
-        {formik.errors[props.name]
-          ? <small className="bold text-danger">
+        {formik.errors[props.name] && formik.touched[props.name]
+          ? (
+            <small className="bold text-danger">
               {formik.errors[props.name]}
             </small>
+          )
           : ""}
       </div>
     </React.Fragment>

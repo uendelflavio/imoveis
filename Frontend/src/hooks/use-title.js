@@ -10,7 +10,7 @@ function useTitle(newTitle) {
         document.title = title;
       }
     },
-    [title, newTitle]
+    [title, newTitle],
   );
 }
 

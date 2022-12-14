@@ -1,7 +1,5 @@
 const Menu = [
-  { path: '/app/imoveis', icon: 'fa fa-th', title: 'Imoveis' },
-
-  
+  { path: "/app/imoveis", icon: "fa fa-th", title: "Imoveis" },
   // { path: '/menu', icon: 'fa fa-align-left', title: 'Menu Level',
   //   children: [
   //     { path: '/menu/menu-1-1', title: 'Menu 1.1',
@@ -20,6 +18,6 @@ const Menu = [
   //     { path: '/menu/menu-1-3', title: 'Menu 1.3' },
   //   ]
   // }
-]
+];
 
 export default Menu;

@@ -11,80 +11,81 @@ import PanelTheme from "components/ui/panel-theme/panel-theme.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const AppHooks = props => {
-  const toggleAppSidebarMinify = e => {
+const AppHooks = (props) => {
+  const toggleAppSidebarMinify = (e) => {
     e.preventDefault();
-    if (state.appSidebarMinify)
+    if (state.appSidebarMinify) {
       setState({ appSidebarFloatSubMenuActive: false });
+    }
     setState({ ...state, appSidebarMinify: !state.appSidebarMinify });
   };
 
-  const toggleAppSidebarMobile = e => {
+  const toggleAppSidebarMobile = (e) => {
     e.preventDefault();
     setState({
       ...state,
-      appSidebarMobileToggled: !state.appSidebarMobileToggled
+      appSidebarMobileToggled: !state.appSidebarMobileToggled,
     });
   };
 
-  const handleSetAppSidebarNone = value =>
+  const handleSetAppSidebarNone = (value) =>
     setState({ ...state, appSidebarNone: value });
 
-  const handleSetAppSidebarMinified = value =>
+  const handleSetAppSidebarMinified = (value) =>
     setState({ ...state, appSidebarMinify: value });
 
-  const handleSetAppSidebarWide = value =>
+  const handleSetAppSidebarWide = (value) =>
     setState({ ...state, appSidebarWide: value });
 
-  const handleSetAppSidebarLight = value =>
+  const handleSetAppSidebarLight = (value) =>
     setState({ ...state, appSidebarLight: value });
 
-  const handleSetAppSidebarTransparent = value =>
+  const handleSetAppSidebarTransparent = (value) =>
     setState({ ...state, appSidebarTransparent: value });
 
-  const handleSetAppSidebarSearch = value =>
+  const handleSetAppSidebarSearch = (value) =>
     setState({ ...state, appSidebarSearch: value });
 
-  const handleSetAppSidebarFixed = value => {
+  const handleSetAppSidebarFixed = (value) => {
     if (value === true && !state.appHeaderFixed) {
       alert(
-        "Default Header with Fixed Sidebar option is not supported. Proceed with Fixed Header with Fixed Sidebar."
+        "Default Header with Fixed Sidebar option is not supported. Proceed with Fixed Header with Fixed Sidebar.",
       );
       setState({ ...state, appHeaderFixed: value });
     }
     setState({ ...state, appSidebarFixed: value });
   };
 
-  const handleSetAppSidebarGrid = value =>
+  const handleSetAppSidebarGrid = (value) =>
     setState({ ...state, appSidebarGrid: value });
 
-  const toggleAppSidebarEnd = e => {
+  const toggleAppSidebarEnd = (e) => {
     e.preventDefault();
     setState({ ...state, appSidebarEndToggled: !state.appSidebarEndToggled });
   };
 
-  const toggleAppSidebarEndMobile = e => {
+  const toggleAppSidebarEndMobile = (e) => {
     e.preventDefault();
     setState({
       ...state,
-      appSidebarEndMobileToggled: !state.appSidebarEndMobileToggled
+      appSidebarEndMobileToggled: !state.appSidebarEndMobileToggled,
     });
   };
 
-  const handleSetAppSidebarEnd = value =>
+  const handleSetAppSidebarEnd = (value) =>
     setState({ ...state, appSidebarEnd: value });
 
   var appSidebarFloatSubMenuRemove;
   var appSidebarFloatSubMenuCalculate;
   var appSidebarFloatSubMenuRemoveTime = 250;
 
-  const handleAppSidebarFloatSubMenuOnMouseOver = e => {
+  const handleAppSidebarFloatSubMenuOnMouseOver = (e) => {
     e.preventDefault();
     clearTimeout(appSidebarFloatSubMenuRemove);
     clearTimeout(appSidebarFloatSubMenuCalculate);
   };
 
-  const handleAppSidebarFloatSubMenuOnMouseOut = e => {
+  const handleAppSidebarFloatSubMenuOnMouseOut = (e) => {
     e.preventDefault();
     appSidebarFloatSubMenuRemove = setTimeout(() => {
       setState({ ...state, appSidebarFloatSubMenuActive: false });
@@ -94,8 +95,7 @@ const AppHooks = props => {
   const handleAppSidebarOnMouseOver = (e, menu) => {
     if (state.appSidebarMinify) {
       if (menu.children) {
-        var left =
-          document.getElementById("sidebar").offsetWidth +
+        var left = document.getElementById("sidebar").offsetWidth +
           document.getElementById("sidebar").offsetLeft +
           "px";
 
@@ -106,7 +106,7 @@ const AppHooks = props => {
           ...state,
           appSidebarFloatSubMenu: menu,
           appSidebarFloatSubMenuActive: true,
-          appSidebarFloatSubMenuLeft: left
+          appSidebarFloatSubMenuLeft: left,
         });
 
         var offset = e.currentTarget.offsetParent.getBoundingClientRect();
@@ -115,7 +115,7 @@ const AppHooks = props => {
           var targetTop = offset.top;
           var windowHeight = window.innerHeight;
           var targetHeight = document.querySelector(
-            ".app-sidebar-float-submenu-container"
+            ".app-sidebar-float-submenu-container",
           ).offsetHeight;
           var top, bottom, arrowTop, arrowBottom, lineTop, lineBottom;
 
@@ -144,7 +144,7 @@ const AppHooks = props => {
             appSidebarFloatSubMenuLineBottom: lineBottom,
             appSidebarFloatSubMenuArrowTop: arrowTop,
             appSidebarFloatSubMenuArrowBottom: arrowBottom,
-            appSidebarFloatSubMenuOffset: offset
+            appSidebarFloatSubMenuOffset: offset,
           });
         }, 0);
       } else {
@@ -152,14 +152,14 @@ const AppHooks = props => {
           setState({
             ...state,
             appSidebarFloatSubMenu: "",
-            appSidebarFloatSubMenuActive: false
+            appSidebarFloatSubMenuActive: false,
           });
         }, appSidebarFloatSubMenuRemoveTime);
       }
     }
   };
 
-  const handleAppSidebarOnMouseOut = e => {
+  const handleAppSidebarOnMouseOut = (e) => {
     if (state.appSidebarMinify) {
       appSidebarFloatSubMenuRemove = setTimeout(() => {
         setState({ ...state, appSidebarFloatSubMenuActive: false });
@@ -174,22 +174,20 @@ const AppHooks = props => {
         .offsetHeight;
       const targetTop = state.appSidebarFloatSubMenuOffset.top;
       const top = windowHeight - targetTop > targetHeight ? targetTop : "auto";
-      const left =
-        state.appSidebarFloatSubMenuOffset.left +
+      const left = state.appSidebarFloatSubMenuOffset.left +
         document.getElementById("sidebar").offsetWidth +
         "px";
       const bottom = windowHeight - targetTop > targetHeight ? "auto" : "0";
-      const arrowTop =
-        windowHeight - targetTop > targetHeight ? "20px" : "auto";
-      const arrowBottom =
-        windowHeight - targetTop > targetHeight
-          ? "auto"
-          : windowHeight - targetTop - 21 + "px";
+      const arrowTop = windowHeight - targetTop > targetHeight
+        ? "20px"
+        : "auto";
+      const arrowBottom = windowHeight - targetTop > targetHeight
+        ? "auto"
+        : windowHeight - targetTop - 21 + "px";
       const lineTop = windowHeight - targetTop > targetHeight ? "20px" : "auto";
-      const lineBottom =
-        windowHeight - targetTop > targetHeight
-          ? "auto"
-          : windowHeight - targetTop - 21 + "px";
+      const lineBottom = windowHeight - targetTop > targetHeight
+        ? "auto"
+        : windowHeight - targetTop - 21 + "px";
 
       setState({
         ...state,
@@ -199,59 +197,59 @@ const AppHooks = props => {
         appSidebarFloatSubMenuLineTop: lineTop,
         appSidebarFloatSubMenuLineBottom: lineBottom,
         appSidebarFloatSubMenuArrowTop: arrowTop,
-        appSidebarFloatSubMenuArrowBottom: arrowBottom
+        appSidebarFloatSubMenuArrowBottom: arrowBottom,
       });
     }
   };
 
-  const handleSetAppContentNone = value =>
+  const handleSetAppContentNone = (value) =>
     setState({ ...state, appContentNone: value });
 
-  const handleSetAppContentClass = value =>
+  const handleSetAppContentClass = (value) =>
     setState({ ...state, appContentClass: value });
 
-  const handleSetAppContentFullHeight = value =>
+  const handleSetAppContentFullHeight = (value) =>
     setState({ ...state, appContentFullHeight: value });
 
-  const handleSetAppHeaderNone = value =>
+  const handleSetAppHeaderNone = (value) =>
     setState({ ...state, appHeaderNone: value });
 
-  const handleSetAppHeaderFixed = value => {
+  const handleSetAppHeaderFixed = (value) => {
     if (value === false && state.appSidebarFixed) {
       alert(
-        "Default Header with Fixed Sidebar option is not supported. Proceed with Default Header with Default Sidebar."
+        "Default Header with Fixed Sidebar option is not supported. Proceed with Default Header with Default Sidebar.",
       );
       setState({ ...state, appSidebarFixed: false });
     }
     setState({ ...state, appHeaderFixed: value });
   };
 
-  const handleSetAppHeaderInverse = value =>
+  const handleSetAppHeaderInverse = (value) =>
     setState({ ...state, appHeaderInverse: value });
 
-  const handleSetAppHeaderMegaMenu = value =>
+  const handleSetAppHeaderMegaMenu = (value) =>
     setState({ ...state, appHeaderMegaMenu: value });
 
-  const handleSetAppHeaderLanguageBar = value =>
+  const handleSetAppHeaderLanguageBar = (value) =>
     setState({ ...state, appHeaderLanguageBar: value });
 
-  const handleSetAppTopMenu = value =>
+  const handleSetAppTopMenu = (value) =>
     setState({ ...state, appTopMenu: value });
 
-  const toggleAppTopMenuMobile = e => {
+  const toggleAppTopMenuMobile = (e) => {
     e.preventDefault();
     setState({
       ...state,
-      appTopMenuMobileToggled: !state.appTopMenuMobileToggled
+      appTopMenuMobileToggled: !state.appTopMenuMobileToggled,
     });
   };
 
-  const handleSetAppSidebarTwo = value => {
+  const handleSetAppSidebarTwo = (value) => {
     setState({ ...state, appSidebarTwo: value });
     setState({ ...state, appSidebarEndToggled: value });
   };
 
-  const handleSetAppBoxedLayout = value => {
+  const handleSetAppBoxedLayout = (value) => {
     if (value === true) {
       document.body.classList.add("boxed-layout");
     } else {
@@ -259,7 +257,7 @@ const AppHooks = props => {
     }
   };
 
-  const handleSetAppDarkMode = value => {
+  const handleSetAppDarkMode = (value) => {
     if (value === true) {
       document.body.classList.add("dark-mode");
     } else {
@@ -268,7 +266,7 @@ const AppHooks = props => {
     handleSetColor();
   };
 
-  const handleSetAppGradientEnabled = value =>
+  const handleSetAppGradientEnabled = (value) =>
     setState({ ...state, appGradientEnabled: value });
 
   const handleSetFont = () => {
@@ -286,8 +284,8 @@ const AppHooks = props => {
         weight: window
           .getComputedStyle(document.body)
           .getPropertyValue("--bs-body-font-family")
-          .trim()
-      }
+          .trim(),
+      },
     });
   };
 
@@ -518,12 +516,12 @@ const AppHooks = props => {
         blackRgb: window
           .getComputedStyle(document.body)
           .getPropertyValue("--bs-black-rgb")
-          .trim()
-      }
+          .trim(),
+      },
     });
   };
 
-  const handleSetAppTheme = value => {
+  const handleSetAppTheme = (value) => {
     var newTheme = "theme-" + value;
     for (var x = 0; x < document.body.classList.length; x++) {
       if (
@@ -598,7 +596,7 @@ const AppHooks = props => {
       weight: window
         .getComputedStyle(document.body)
         .getPropertyValue("--bs-body-font-family")
-        .trim()
+        .trim(),
     },
     color: {
       componentColor: window
@@ -824,7 +822,7 @@ const AppHooks = props => {
       blackRgb: window
         .getComputedStyle(document.body)
         .getPropertyValue("--bs-black-rgb")
-        .trim()
+        .trim(),
     },
     handleSetAppSidebarNone,
     handleSetAppSidebarWide,
@@ -859,7 +857,7 @@ const AppHooks = props => {
     handleSetAppDarkMode,
     handleSetAppGradientEnabled,
     handleSetAppTheme,
-    handleSetColor
+    handleSetColor,
   });
 
   React.useEffect(() => {
@@ -894,8 +892,7 @@ const AppHooks = props => {
         newestOnTop
       />
       <div
-        className={
-          "app " +
+        className={"app " +
           (state.appGradientEnabled ? "app-gradient-enabled " : "") +
           (state.appHeaderNone ? "app-without-header " : "") +
           (state.appHeaderFixed && !state.appHeaderNone
@@ -915,8 +912,8 @@ const AppHooks = props => {
           (state.appSidebarEndMobileToggled
             ? "app-sidebar-end-mobile-toggled "
             : "") +
-          (state.hasScroll ? "has-scroll " : "")
-        }>
+          (state.hasScroll ? "has-scroll " : "")}
+      >
         {!state.appHeaderNone && <Header />}
         {!state.appSidebarNone && <Sidebar />}
         {state.appSidebarTwo && <SidebarRight />}

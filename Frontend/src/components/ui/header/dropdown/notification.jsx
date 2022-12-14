@@ -1,12 +1,12 @@
 import React from "react";
 import {
   Dropdown,
-  DropdownToggle,
+  DropdownItem,
   DropdownMenu,
-  DropdownItem
+  DropdownToggle,
 } from "reactstrap";
 
-const DropdownNotification = props => {
+const DropdownNotification = (props) => {
   const [state, setState] = React.useState({ dropdownOpen: false });
   const toggle = () => setState(!state.prevState.dropdownOpen);
 
@@ -16,7 +16,8 @@ const DropdownNotification = props => {
         isOpen={state.dropdownOpen}
         toggle={toggle}
         className="navbar-item dropdown"
-        tag="div">
+        tag="div"
+      >
         <DropdownToggle className="navbar-link dropdown-toggle icon" tag="a">
           <i className="fa fa-bell" />
           <span className="badge">0</span>
@@ -24,7 +25,8 @@ const DropdownNotification = props => {
         <DropdownMenu
           className="dropdown-menu media-list dropdown-menu-end"
           end
-          tag="div">
+          tag="div"
+        >
           <DropdownItem className="dropdown-header" tag="div" header>
             NOTIFICAÇÕES (0)
           </DropdownItem>

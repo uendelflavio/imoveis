@@ -6,21 +6,21 @@ import { Button } from "reactstrap";
 const ButtonCrud = props => {
   const [alertDelete, setAlertDelete] = React.useState(false);
   const [alertUpdate, setAlertUpdate] = React.useState(false);
-  const [isId, setId] = React.useState(0);
   const formik = useFormikContext();
+  const [isId, setID] = React.useState();
 
-  React.useEffect(
-    () => {
-      setId(parseInt(formik.values["id"]));
-    },
-    [formik.values]
-  );
+  React.useEffect(() => {
+    setID(formik.values.id);
+    formik.setTouched({}, false);
+    formik.setErrors({}, false);
+    // eslint-disable-next-line
+  }, []);
 
   const BtnNew = () => {
     return (
       <Button
-        name="BtnNew"
-        onClick={e => {
+        name={`BtnNew-${props.name}`}
+        onClick={() => {
           props.setAction("new");
           formik.setSubmitting(true);
           formik.submitForm();
@@ -35,14 +35,13 @@ const ButtonCrud = props => {
   const BtnCreate = () => {
     return (
       <Button
-        name="BtnCreate"
-        onClick={e => {
+        name={`BtnCreate-${props.name}`}
+        onClick={() => {
           props.setAction("create");
-          setId(0);
           formik.setSubmitting(true);
           formik.submitForm();
+          props.setAction("new");
         }}
-        disabled={!formik.isValid}
         className="btn-success btn-lg m-1">
         <i className="fa fa-plus me-2" />
         Incluir
@@ -53,8 +52,8 @@ const ButtonCrud = props => {
   const BtnUpdate = () => {
     return (
       <Button
-        name="BtnUpdate"
-        disabled={typeof isId !== "undefined" && formik.isValid && isId === 0}
+        name={`BtnUpdate-${props.name}`}
+        disabled={isId === 0 ? true : false}
         onClick={e => {
           e.preventDefault();
           setAlertUpdate(true);
@@ -69,10 +68,10 @@ const ButtonCrud = props => {
   const BtnDelete = () => {
     return (
       <Button
-        name="BtnDelete"
-        disabled={typeof isId !== "undefined" && isId === 0}
-        onClick={event => {
-          event.preventDefault();
+        name={`BtnDelete-${props.name}`}
+        disabled={isId === 0 ? true : false}
+        onClick={e => {
+          e.preventDefault();
           setAlertDelete(true);
         }}
         className="btn-danger btn-lg m-1">
@@ -85,7 +84,7 @@ const ButtonCrud = props => {
   const BtnExit = () => {
     return (
       <Button
-        name="BtnExit"
+        name={`BtnExit-${props.name}`}
         onClick={() => {
           props.setAction("");
           props.toggle();
@@ -107,7 +106,8 @@ const ButtonCrud = props => {
         cancelBtnBsStyle="default"
         title={
           <span>
-            Deseja excluir o registro: {isId.toString().padStart(3, "0")}
+            Deseja excluir o registro:{" "}
+            {formik.values.id.toString().padStart(3, "0")}
           </span>
         }
         onConfirm={() => {
@@ -132,7 +132,8 @@ const ButtonCrud = props => {
         cancelBtnBsStyle="default"
         title={
           <span>
-            Deseja atualizar o registro: {isId.toString().padStart(3, "0")}
+            Deseja atualizar o registro:{" "}
+            {formik.values.id.toString().padStart(3, "0")}
           </span>
         }
         onConfirm={() => {
@@ -152,7 +153,7 @@ const ButtonCrud = props => {
       <div
         name={props.name}
         className="d-flex justify-content-evenly hljs-wrapper rounded border border-1 p-1 mt-3">
-        {isId > 0 ? <BtnNew /> : <BtnCreate />}
+        {formik.values.id > 0 ? <BtnNew /> : <BtnCreate />}
         <BtnUpdate />
         <BtnDelete />
         <BtnExit />

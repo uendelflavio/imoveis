@@ -5,12 +5,12 @@ import SidebarNavList from "components/ui/sidebar/sidebar-nav-list";
 import menus from "components/ui/sidebar/menu";
 import { Input } from "reactstrap";
 
-const SidebarNav = props => {
+const SidebarNav = (props) => {
   const context = AppSettings;
   const [state, setState] = React.useState({
     active: -1,
     clicked: -1,
-    menus: menus
+    menus: menus,
   });
 
   const handleExpand = (e, i, match) => {
@@ -18,23 +18,23 @@ const SidebarNav = props => {
     if (state.clicked === -1 && match) {
       setState({
         active: -1,
-        clicked: 1
+        clicked: 1,
       });
     } else {
       setState({
         active: state.active === i ? -1 : i,
-        clicked: 1
+        clicked: 1,
       });
     }
   };
 
-  const handleSidebarSearch = e => {
+  const handleSidebarSearch = (e) => {
     let searchValue = e.target.value.toLowerCase();
 
     setState(() => {
       let newMenus = [];
       if (searchValue !== "") {
-        newMenus = menus.filter(item => {
+        newMenus = menus.filter((item) => {
           let title = item.title;
           title = title.toLowerCase();
           if (title.search(searchValue) > -1) {
@@ -56,13 +56,13 @@ const SidebarNav = props => {
           }
         });
       } else {
-        newMenus = menus.filter(item => {
+        newMenus = menus.filter((item) => {
           item.search = false;
           return true;
         });
       }
       return {
-        menus: newMenus
+        menus: newMenus,
       };
     });
   };
@@ -70,30 +70,33 @@ const SidebarNav = props => {
     <React.Fragment>
       <div className="menu">
         {context.appSidebarSearch &&
-          <div className="menu-search mb-n3">
-            <Input
-              type="text"
-              class="form-control"
-              placeholder="Sidebar menu filter..."
-              onKeyUp={handleSidebarSearch}
-            />
-          </div>}
+          (
+            <div className="menu-search mb-n3">
+              <Input
+                type="text"
+                class="form-control"
+                placeholder="Sidebar menu filter..."
+                onKeyUp={handleSidebarSearch}
+              />
+            </div>
+          )}
         <div className="menu-header">Navigação</div>
-        {state.menus.map((menu, i) =>
+        {state.menus.map((menu, i) => (
           <Route
             path={menu.path}
             exact={menu.exact}
             key={i}
-            children={({ match }) =>
+            children={({ match }) => (
               <SidebarNavList
                 data={menu}
                 key={i}
-                expand={e => handleExpand(e, i, match)}
+                expand={(e) => handleExpand(e, i, match)}
                 active={i === state.active}
                 clicked={state.clicked}
-              />}
+              />
+            )}
           />
-        )}
+        ))}
       </div>
     </React.Fragment>
   );

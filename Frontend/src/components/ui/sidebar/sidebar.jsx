@@ -12,18 +12,18 @@ const Sidebar = () => {
       {({
         toggleAppSidebarMinify,
         toggleAppSidebarMobile,
-        appSidebarTransparent
-      }) =>
+        appSidebarTransparent,
+      }) => (
         <React.Fragment>
           <div
             id="sidebar"
-            className={
-              "app-sidebar " +
-              (context.appSidebarTransparent ? "app-sidebar-transparent" : "")
-            }>
+            className={"app-sidebar " +
+              (context.appSidebarTransparent ? "app-sidebar-transparent" : "")}
+          >
             <PerfectScrollbar
               className="app-sidebar-content h-100"
-              options={{ suppressScrollX: true }}>
+              options={{ suppressScrollX: true }}
+            >
               <div className="menu">
                 {!context.appSidebarSearch && <SidebarProfile />}
               </div>
@@ -33,7 +33,8 @@ const Sidebar = () => {
                   <Link
                     to="/"
                     className="app-sidebar-minify-btn ms-auto"
-                    onClick={context.toggleAppSidebarMinify}>
+                    onClick={context.toggleAppSidebarMinify}
+                  >
                     <i className="fa fa-angle-double-left" />
                   </Link>
                 </div>
@@ -48,7 +49,8 @@ const Sidebar = () => {
               className="stretched-link"
             />
           </div>
-        </React.Fragment>}
+        </React.Fragment>
+      )}
     </AppSettings.Consumer>
   );
 };

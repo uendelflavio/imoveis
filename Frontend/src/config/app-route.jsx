@@ -8,8 +8,8 @@ const routes = [
     title: "Imoveis",
     component: () => {
       return <Imoveis />;
-    }
-  }
+    },
+  },
 ];
 
 export default routes;

@@ -7,7 +7,7 @@ const PanelTheme = () => {
   const [state, setState] = React.useState({
     expand: false,
     theme: "dark",
-    darkMode: false
+    darkMode: false,
   });
 
   let theme = [
@@ -22,10 +22,10 @@ const PanelTheme = () => {
     "blue",
     "purple",
     "indigo",
-    "dark"
+    "dark",
   ];
 
-  const handleDarkMode = e => {
+  const handleDarkMode = (e) => {
     if (e.target.checked) {
       context.handleSetAppDarkMode(true);
     } else {
@@ -33,7 +33,7 @@ const PanelTheme = () => {
     }
   };
 
-  const handleHeaderFixed = e => {
+  const handleHeaderFixed = (e) => {
     if (e.target.checked) {
       context.handleSetAppHeaderFixed(true);
     } else {
@@ -41,7 +41,7 @@ const PanelTheme = () => {
     }
   };
 
-  const handleSidebarFixed = e => {
+  const handleSidebarFixed = (e) => {
     if (e.target.checked) {
       context.handleSetAppSidebarFixed(true);
     } else {
@@ -49,7 +49,7 @@ const PanelTheme = () => {
     }
   };
 
-  const handleHeaderInverse = e => {
+  const handleHeaderInverse = (e) => {
     if (e.target.checked) {
       context.handleSetAppHeaderInverse(true);
     } else {
@@ -57,7 +57,7 @@ const PanelTheme = () => {
     }
   };
 
-  const handleSidebarGrid = e => {
+  const handleSidebarGrid = (e) => {
     if (e.target.checked) {
       context.handleSetAppSidebarGrid(true);
     } else {
@@ -65,7 +65,7 @@ const PanelTheme = () => {
     }
   };
 
-  const handleGradientEnabled = e => {
+  const handleGradientEnabled = (e) => {
     if (e.target.checked) {
       context.handleSetAppGradientEnabled(true);
     } else {
@@ -73,7 +73,7 @@ const PanelTheme = () => {
     }
   };
 
-  const toggleExpand = e => {
+  const toggleExpand = (e) => {
     e.preventDefault();
     setState({ expand: !state.expand });
   };
@@ -92,36 +92,39 @@ const PanelTheme = () => {
         appHeaderInverse,
         appSidebarFixed,
         appSidebarGrid,
-        appGradientEnabled
-      }) =>
+        appGradientEnabled,
+      }) => (
         <div className={"theme-panel " + (state.expand ? "active" : "")}>
           <a
             href="#0"
-            onClick={e => toggleExpand(e)}
-            className="theme-collapse-btn">
+            onClick={(e) => toggleExpand(e)}
+            className="theme-collapse-btn"
+          >
             <i className="fa fa-cog" />
           </a>
           <div
             className="theme-panel-content"
             data-scrollbar="true"
-            data-height="100%">
+            data-height="100%"
+          >
             <h5>Configurações da Aplicação</h5>
 
             <div className="theme-list">
-              {theme.map((theme, i) =>
+              {theme.map((theme, i) => (
                 <div
                   key={i}
-                  className={
-                    "theme-list-item " + (state.theme === theme ? "active" : "")
-                  }>
+                  className={"theme-list-item " +
+                    (state.theme === theme ? "active" : "")}
+                >
                   <a
                     href="#0"
-                    onClick={e => toggleTheme(e, theme)}
-                    className={"theme-list-link bg-" + theme}>
+                    onClick={(e) => toggleTheme(e, theme)}
+                    className={"theme-list-link bg-" + theme}
+                  >
                     &nbsp;
                   </a>
                 </div>
-              )}
+              ))}
             </div>
 
             <div className="theme-panel-divider" />
@@ -132,7 +135,8 @@ const PanelTheme = () => {
                   Modo Escuro{" "}
                   <span
                     className="badge bg-primary ms-1 py-2px position-relative"
-                    style={{ top: "-1px" }}>
+                    style={{ top: "-1px" }}
+                  >
                     Novo
                   </span>
                 </div>
@@ -155,7 +159,8 @@ const PanelTheme = () => {
                   />
                   <Label
                     className="form-check-label"
-                    htmlFor="appThemeDarkMode">
+                    htmlFor="appThemeDarkMode"
+                  >
                     &nbsp;
                   </Label>
                 </div>
@@ -201,7 +206,8 @@ const PanelTheme = () => {
                   />
                   <Label
                     className="form-check-label"
-                    htmlFor="appHeaderInverse">
+                    htmlFor="appHeaderInverse"
+                  >
                     &nbsp;
                   </Label>
                 </div>
@@ -263,14 +269,16 @@ const PanelTheme = () => {
                   />
                   <Label
                     className="form-check-label"
-                    htmlFor="appGradientEnabled">
+                    htmlFor="appGradientEnabled"
+                  >
                     &nbsp;
                   </Label>
                 </div>
               </div>
             </div>
           </div>
-        </div>}
+        </div>
+      )}
     </AppSettings.Consumer>
   );
 };

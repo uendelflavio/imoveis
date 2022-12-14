@@ -1,7 +1,6 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ImovelDetalheService from "services/imovel-detalhe-service";
 import ImovelService from "services/imovel-service";
-const initialState = [];
 
 export const createImovelDetalhe = createAsyncThunk(
   "imoveldetalhe/create",
@@ -72,7 +71,7 @@ export const resetImovelDetalhe = createAsyncThunk(
     };
   }
 );
-
+const initialState = [];
 const imovelDetalheSlice = createSlice({
   name: "imoveldetalhe",
   initialState,
@@ -108,5 +107,4 @@ const imovelDetalheSlice = createSlice({
   }
 });
 
-const { reducer } = imovelDetalheSlice;
-export default reducer;
+export default imovelDetalheSlice.reducer;

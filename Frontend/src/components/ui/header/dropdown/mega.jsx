@@ -1,24 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import {
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
+  Collapse,
   DropdownItem,
-  Collapse
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown,
 } from "reactstrap";
 
-const DropdownMegaMenu = props => {
+const DropdownMegaMenu = (props) => {
   return (
     <React.Fragment>
       <Collapse className="collapse d-md-block me-auto" isOpen={props.collapse}>
         <div className="navbar-nav">
           <UncontrolledDropdown
             tag="div"
-            className="navbar-item dropdown dropdown-lg flex-1">
+            className="navbar-item dropdown dropdown-lg flex-1"
+          >
             <DropdownToggle
               tag="a"
-              className="navbar-link dropdown-toggle d-flex align-items-center">
+              className="navbar-link dropdown-toggle d-flex align-items-center"
+            >
               <i className="fa fa-th-large fa-fw me-1" />
               <span className="d-lg-inline d-md-none">Mega</span>
               <b className="caret ms-1" />
@@ -33,56 +35,70 @@ const DropdownMegaMenu = props => {
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             FontAwesome
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Ionicons
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Simple Line Icons
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Typography
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Media Object
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Widget Boxes
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Tabs & Accordions
                           </Link>
                         </li>
@@ -93,24 +109,30 @@ const DropdownMegaMenu = props => {
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Unlimited Nav Tabs
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Modal & Notification
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Buttons
                           </Link>
                         </li>
@@ -128,16 +150,20 @@ const DropdownMegaMenu = props => {
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Blank Page
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Page with Footer{" "}
                             <span className="badge bg-success py-1">NEW</span>
                           </Link>
@@ -145,40 +171,50 @@ const DropdownMegaMenu = props => {
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Page without Sidebar
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Page with Right Sidebar
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Page with Minified Sidebar
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Page with Two Sidebar
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Page with Line Icons
                           </Link>
                         </li>
@@ -189,32 +225,40 @@ const DropdownMegaMenu = props => {
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Full Height Content
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Page with Mega Menu
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Page with Light Sidebar
                           </Link>
                         </li>
                         <li>
                           <Link
                             to="/page-option/with-mega-menu"
-                            className="text-ellipsis text-gray-800 text-decoration-none">
-                            <i className="fa fa-chevron-right fa-fw text-gray-500" />{" "}
+                            className="text-ellipsis text-gray-800 text-decoration-none"
+                          >
+                            <i className="fa fa-chevron-right fa-fw text-gray-500" />
+                            {" "}
                             Page with Large Sidebar
                           </Link>
                         </li>
@@ -246,7 +290,8 @@ const DropdownMegaMenu = props => {
           <div className="navbar-item flex-1">
             <Link
               to="/page-option/with-mega-menu"
-              className="navbar-link d-flex align-items-center">
+              className="navbar-link d-flex align-items-center"
+            >
               <i className="fa fa-gem fa-fw me-1" />
               <span className="d-lg-inline d-md-none">Client</span>
             </Link>
@@ -254,7 +299,8 @@ const DropdownMegaMenu = props => {
           <UncontrolledDropdown className="navbar-item dropdown flex-1">
             <DropdownToggle
               tag="a"
-              className="navbar-link dropdown-toggle d-flex align-items-center">
+              className="navbar-link dropdown-toggle d-flex align-items-center"
+            >
               <i className="fa fa-database fa-fw me-1" />
               <span className="d-lg-inline d-md-none">New</span>
               <b className="caret ms-1" />

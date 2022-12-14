@@ -1,8 +1,6 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ImovelImagemService from "services/imovel-imagem-service";
 import ImovelService from "services/imovel-service";
-
-const initialState = [];
 
 export const createImovelImage = createAsyncThunk(
   "imovelimage/create",
@@ -54,40 +52,73 @@ export const resetImovelImage = createAsyncThunk(
   }
 );
 
+const initialState = {
+  imovelImagemData: [],
+  loading: false
+};
+
 const imovelImageSlice = createSlice({
   name: "imovelimage",
   initialState,
   extraReducers: {
+    [createImovelImage.pending]: (state, action) => {
+      state.loading = true;
+    },
     [createImovelImage.fulfilled]: (state, action) => {
-      state.push(action.payload);
+      state.loading = false;
+      state.imovelImagemData = [action.payload];
+    },
+    [listAllImovelImage.pending]: (state, action) => {
+      state.loading = true;
     },
     [listAllImovelImage.fulfilled]: (state, action) => {
-      return [...action.payload];
+      state.loading = false;
+      state.imovelImagemData = action.payload;
+    },
+    [listImovelImage.pending]: (state, action) => {
+      state.loading = true;
     },
     [listImovelImage.fulfilled]: (state, action) => {
-      return [...action.payload];
+      state.loading = false;
+      state.imovelImagemData = action.payload;
+    },
+    [listImovelWithImages.pending]: (state, action) => {
+      state.loading = true;
     },
     [listImovelWithImages.fulfilled]: (state, action) => {
-      return [action.payload];
+      state.loading = false;
+      state.imovelImagemData = action.payload;
+    },
+    [updateImovelImage.pending]: (state, action) => {
+      state.loading = true;
     },
     [updateImovelImage.fulfilled]: (state, action) => {
-      const index = state.findIndex(
-        imovel_image => imovel_image.id === action.payload.id
-      );
-      state[index] = {
-        ...state[index],
-        ...action.payload
-      };
+      state.loading = false;
+      const { arg: { id } } = action.meta;
+      if (id) {
+        state.imovelImagemData = state.imovelImagemData.filter(
+          item => item._id !== id
+        );
+      }
+    },
+    [deleteImovelImage.pending]: (state, action) => {
+      state.loading = true;
     },
     [deleteImovelImage.fulfilled]: (state, action) => {
+      state.loading = false;
       let index = state.findIndex(({ id }) => id === action.payload.id);
       state.splice(index, 1);
     },
+    [resetImovelImage.pending]: (state, action) => {
+      state.loading = true;
+    },
     [resetImovelImage.fulfilled]: (state, action) => {
-      return [action.payload];
+      state.loading = false;
+      state.imovelImagemData = action.payload;
     }
   }
 });
-
-const { reducer } = imovelImageSlice;
-export default reducer;
+export const getAllImovelImagem = state =>
+  state.imovelImageSlice.imovelImagemData;
+export const getLoading = state => state.imovelImageSlice.loading;
+export default imovelImageSlice.reducer;

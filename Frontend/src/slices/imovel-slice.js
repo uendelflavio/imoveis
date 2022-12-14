@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ImovelService from "services/imovel-service";
 
 const initialState = [];
@@ -78,5 +78,4 @@ const imovelSlice = createSlice({
   }
 });
 
-const { reducer } = imovelSlice;
-export default reducer;
+export default imovelSlice.reducer;

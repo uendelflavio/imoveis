@@ -6,8 +6,9 @@ import DropdownProfile from "components/ui/header/dropdown/profile.jsx";
 import SearchForm from "components/ui/header/search/form.jsx";
 import DropdownMegaMenu from "components/ui/header/dropdown/mega.jsx";
 import { AppSettings } from "config/app-settings.js";
+import { Button } from "reactstrap";
 
-const Header = props => {
+const Header = (props) => {
   const [state, setState] = React.useState({ appHeaderMegaMenuMobile: false });
   const toggleAppHeaderMegaMenuMobile = () =>
     setState(!state.appHeaderMegaMenuMobile);
@@ -24,67 +25,82 @@ const Header = props => {
         appHeaderInverse,
         appSidebarTwo,
         appTopMenu,
-        appSidebarNone
-      }) =>
+        appSidebarNone,
+      }) => (
         <div
           id="header"
-          className={
-            "app-header " + (appHeaderInverse ? "app-header-inverse" : "")
-          }>
+          className={"app-header " +
+            (appHeaderInverse ? "app-header-inverse" : "")}
+        >
           <div className="navbar-header">
             {appSidebarTwo &&
-              <button
-                type="button"
-                className="navbar-mobile-toggler"
-                onClick={toggleAppSidebarEndMobile}>
-                <span className="icon-bar" />
-                <span className="icon-bar" />
-                <span className="icon-bar" />
-              </button>}
+              (
+                <Button
+                  type="button"
+                  className="navbar-mobile-toggler"
+                  onClick={toggleAppSidebarEndMobile}
+                >
+                  <span className="icon-bar" />
+                  <span className="icon-bar" />
+                  <span className="icon-bar" />
+                </Button>
+              )}
             <Link to="/" className="navbar-brand">
               <span className="navbar-logo" /> <b>Sys</b> Imóveis
             </Link>
 
             {appHeaderMegaMenu &&
-              <button
-                type="button"
-                className="navbar-mobile-toggler"
-                onClick={toggleAppHeaderMegaMenuMobile}>
-                <span className="fa-stack fa-lg text-inverse">
-                  <i className="far fa-square fa-stack-2x" />
-                  <i className="fa fa-cog fa-stack-1x" />
-                </span>
-              </button>}
+              (
+                <Button
+                  type="button"
+                  className="navbar-mobile-toggler"
+                  onClick={toggleAppHeaderMegaMenuMobile}
+                >
+                  <span className="fa-stack fa-lg text-inverse">
+                    <i className="far fa-square fa-stack-2x" />
+                    <i className="fa fa-cog fa-stack-1x" />
+                  </span>
+                </Button>
+              )}
             {appTopMenu &&
               !appSidebarNone &&
-              <button
-                type="button"
-                className="navbar-mobile-toggler"
-                onClick={toggleAppTopMenuMobile}>
-                <span className="fa-stack fa-lg text-inverse">
-                  <i className="far fa-square fa-stack-2x" />
-                  <i className="fa fa-cog fa-stack-1x" />
-                </span>
-              </button>}
+              (
+                <Button
+                  type="button"
+                  className="navbar-mobile-toggler"
+                  onClick={toggleAppTopMenuMobile}
+                >
+                  <span className="fa-stack fa-lg text-inverse">
+                    <i className="far fa-square fa-stack-2x" />
+                    <i className="fa fa-cog fa-stack-1x" />
+                  </span>
+                </Button>
+              )}
             {appSidebarNone &&
               appTopMenu &&
-              <button
-                type="button"
-                className="navbar-mobile-toggler"
-                onClick={toggleAppTopMenuMobile}>
-                <span className="icon-bar" />
-                <span className="icon-bar" />
-                <span className="icon-bar" />
-              </button>}
+              (
+                <Button
+                  type="button"
+                  className="navbar-mobile-toggler"
+                  onClick={toggleAppTopMenuMobile}
+                >
+                  <span className="icon-bar" />
+                  <span className="icon-bar" />
+                  <span className="icon-bar" />
+                </Button>
+              )}
             {!appSidebarNone &&
-              <button
-                type="button"
-                className="navbar-mobile-toggler"
-                onClick={toggleAppSidebarMobile}>
-                <span className="icon-bar" />
-                <span className="icon-bar" />
-                <span className="icon-bar" />
-              </button>}
+              (
+                <Button
+                  type="button"
+                  className="navbar-mobile-toggler"
+                  onClick={toggleAppSidebarMobile}
+                >
+                  <span className="icon-bar" />
+                  <span className="icon-bar" />
+                  <span className="icon-bar" />
+                </Button>
+              )}
           </div>
 
           {appHeaderMegaMenu &&
@@ -102,16 +118,20 @@ const Header = props => {
               <div className="navbar-divider d-none d-md-block" />}
 
             {appSidebarTwo &&
-              <div className="navbar-item d-none d-md-block">
-                <Link
-                  to="/"
-                  onClick={toggleAppSidebarEnd}
-                  className="navbar-link icon">
-                  <i className="fa fa-th" />
-                </Link>
-              </div>}
+              (
+                <div className="navbar-item d-none d-md-block">
+                  <Link
+                    to="/"
+                    onClick={toggleAppSidebarEnd}
+                    className="navbar-link icon"
+                  >
+                    <i className="fa fa-th" />
+                  </Link>
+                </div>
+              )}
           </div>
-        </div>}
+        </div>
+      )}
     </AppSettings.Consumer>
   );
 };

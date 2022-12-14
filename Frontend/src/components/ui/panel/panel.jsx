@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "reactstrap";
 const PanelStat = React.createContext();
 
-const Panel = props => {
+const Panel = (props) => {
   const toggleExpand = () => setState({ expand: !state.expand });
   const toggleRemove = () => setState({ remove: !state.remove });
   const toggleCollapse = () => setState({ collapse: !state.collapse });
@@ -23,83 +23,94 @@ const Panel = props => {
     toggleExpand,
     toggleRemove,
     toggleCollapse,
-    toggleReload
+    toggleReload,
   });
 
   return (
     <PanelStat.Provider value={state}>
       {!state.remove &&
-        <div
-          className={
-            "panel panel-" +
-            (props.theme ? props.theme : "inverse") +
-            " " +
-            (state.expand ? "panel-expand " : " ") +
-            (state.reload ? "panel-loading " : " ") +
-            (props.className ? props.className : "")
-          }>
-          {props.children}
-        </div>}
+        (
+          <div
+            className={"panel panel-" +
+              (props.theme ? props.theme : "inverse") +
+              " " +
+              (state.expand ? "panel-expand " : " ") +
+              (state.reload ? "panel-loading " : " ") +
+              (props.className ? props.className : "")}
+          >
+            {props.children}
+          </div>
+        )}
     </PanelStat.Provider>
   );
 };
 
-const PanelHeader = props => {
+const PanelHeader = (props) => {
   return (
     <div className={"panel-heading " + props.className}>
       <h4 className="panel-title">
         {props.children}
       </h4>
       {!props.noButton &&
-        <PanelStat.Consumer>
-          {({ toggleExpand, toggleRemove, toggleCollapse, toggleReload }) =>
-            <div className="panel-heading-btn">
-              <Button
-                className="btn btn-xs btn-icon btn-circle btn-default"
-                onClick={toggleExpand}>
-                <i className="fa fa-expand" />
-              </Button>&nbsp;&nbsp;
-              <Button
-                className="btn btn-xs btn-icon btn-circle btn-success"
-                onClick={toggleReload}>
-                <i className="fa fa-redo" />
-              </Button>&nbsp;&nbsp;
-              <Button
-                className="btn btn-xs btn-icon btn-circle btn-warning"
-                onClick={toggleCollapse}>
-                <i className="fa fa-minus" />
-              </Button>&nbsp;&nbsp;
-              <Button
-                className="btn btn-xs btn-icon btn-circle btn-danger"
-                onClick={toggleRemove}>
-                <i className="fa fa-times" />
-              </Button>
-            </div>}
-        </PanelStat.Consumer>}
+        (
+          <PanelStat.Consumer>
+            {({ toggleExpand, toggleRemove, toggleCollapse, toggleReload }) => (
+              <div className="panel-heading-btn">
+                <Button
+                  className="btn btn-xs btn-icon btn-circle btn-default"
+                  onClick={toggleExpand}
+                >
+                  <i className="fa fa-expand" />
+                </Button>&nbsp;&nbsp;
+                <Button
+                  className="btn btn-xs btn-icon btn-circle btn-success"
+                  onClick={toggleReload}
+                >
+                  <i className="fa fa-redo" />
+                </Button>&nbsp;&nbsp;
+                <Button
+                  className="btn btn-xs btn-icon btn-circle btn-warning"
+                  onClick={toggleCollapse}
+                >
+                  <i className="fa fa-minus" />
+                </Button>&nbsp;&nbsp;
+                <Button
+                  className="btn btn-xs btn-icon btn-circle btn-danger"
+                  onClick={toggleRemove}
+                >
+                  <i className="fa fa-times" />
+                </Button>
+              </div>
+            )}
+          </PanelStat.Consumer>
+        )}
     </div>
   );
 };
 
-const PanelBody = props => {
+const PanelBody = (props) => {
   return (
     <PanelStat.Consumer>
-      {({ collapse, reload }) =>
+      {({ collapse, reload }) => (
         <div
-          className={
-            "panel-body " + (collapse ? "d-none " : " ") + props.className
-          }>
+          className={"panel-body " + (collapse ? "d-none " : " ") +
+            props.className}
+        >
           {props.children}
 
           {reload &&
-            <div className="panel-loader">
-              <span className="spinner spinner-sm" />
-            </div>}
-        </div>}
+            (
+              <div className="panel-loader">
+                <span className="spinner spinner-sm" />
+              </div>
+            )}
+        </div>
+      )}
     </PanelStat.Consumer>
   );
 };
 
-const PanelFooter = props => {
+const PanelFooter = (props) => {
   return (
     <div className={"panel-footer " + props.className}>
       {props.children}
@@ -107,4 +118,4 @@ const PanelFooter = props => {
   );
 };
 
-export { Panel, PanelHeader, PanelBody, PanelFooter };
+export { Panel, PanelBody, PanelFooter, PanelHeader };

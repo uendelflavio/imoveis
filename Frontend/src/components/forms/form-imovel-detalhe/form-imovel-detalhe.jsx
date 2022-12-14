@@ -1,6 +1,6 @@
 import React from "react";
-import { Formik, Form } from "formik";
-import { Modal, Button } from "reactstrap";
+import { Form, Formik } from "formik";
+import { Button, Modal } from "reactstrap";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { Panel, PanelBody } from "components/ui/panel/panel";
@@ -16,18 +16,21 @@ import { classificacao } from "utils/util";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createImovelDetalhe,
-  updateImovelDetalhe,
   deleteImovelDetalhe,
   listImovelWithDetalhes,
-  resetImovelDetalhe
+  resetImovelDetalhe,
+  updateImovelDetalhe
 } from "slices/imovel-detalhe-slice";
 
 const FormImovelDetalhe = props => {
-  const [modalOpen, setModalOpen] = React.useState(props.isModal);
-  const [isAction, setAction] = React.useState("");
+  const [state, setState] = React.useState({
+    modal: props.isModal,
+    action: ""
+  });
+
   const imovel_detalhe = useSelector(state => state.imovelDetalheSlice);
   const dispatch = useDispatch();
-  const toggle = () => setModalOpen(!modalOpen);
+  const toggle = () => setState({ ...state, modal: !state.modal });
 
   const data = React.useMemo(
     () => {
@@ -39,13 +42,15 @@ const FormImovelDetalhe = props => {
   );
 
   const onSubmit = async (values, actions) => {
-    switch (isAction) {
+    switch (state.action) {
       case "create":
         dispatch(createImovelDetalhe({ data: values }));
         toast.success("Os Detalhes do Imovel foi criado com sucesso");
         break;
       case "update":
         dispatch(updateImovelDetalhe({ id: values.id, data: values }));
+        dispatch(resetImovelDetalhe({ imovel_id: props.imovel_id }));
+        dispatch(listImovelWithDetalhes({ id: props.imovel_id }));
         toast.warning("Os Detalhes do Imovel foi atualizada com sucesso");
         break;
       case "delete":
@@ -56,20 +61,13 @@ const FormImovelDetalhe = props => {
         dispatch(resetImovelDetalhe({ imovel_id: props.imovel_id }));
         break;
       default:
-        dispatch(resetImovelDetalhe({ imovel_id: props.imovel_id }));
-        dispatch(listImovelWithDetalhes({ id: props.imovel_id }));
-        break;
     }
-    Promise.all([
-      dispatch(resetImovelDetalhe({ imovel_id: props.imovel_id })),
-      dispatch(listImovelWithDetalhes({ id: props.imovel_id })),
-      actions.resetForm(),
-      actions.setSubmitting(false),
-      setAction("")
-    ]);
+    Promise.all([actions.resetForm(), actions.setSubmitting(false)]);
   };
 
   const validationSchema = Yup.object({
+    id: Yup.number().default(0).notRequired(),
+    imovel_id: Yup.number().default(0).notRequired(),
     area_total_m2: Yup.number()
       .typeError("Digite um numero válido")
       .required("O número da area total é obrigatório!"),
@@ -131,7 +129,7 @@ const FormImovelDetalhe = props => {
         <Modal
           centered
           toggle={toggle}
-          isOpen={modalOpen}
+          isOpen={state.modal}
           autoFocus={false}
           onClosed={() => {
             dispatch(resetImovelDetalhe({ imovel_id: props.imovel_id }));
@@ -194,8 +192,8 @@ const FormImovelDetalhe = props => {
                 <SwitchInput label="Segurança" name="seguranca_incluso" />
                 <ButtonCrud
                   toggle={toggle}
-                  name="ButtonCrudFormImovelDetalhe"
-                  setAction={action => setAction(action)}
+                  name="button-crud-from-imovel-detalhe"
+                  setAction={action => setState({ ...state, action: action })}
                 />
               </Form>
             </PanelBody>

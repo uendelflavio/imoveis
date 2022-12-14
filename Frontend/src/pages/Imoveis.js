@@ -1,26 +1,32 @@
-import React from "react"
-import { useTable, useGlobalFilter, usePagination, useRowSelect } from 'react-table'
-import { Table } from "reactstrap"
-import { COLUMNS_IMOVEIS } from "components/ui/table-column/table-column"
-import { useExportData } from "react-table-plugins"
+import React from "react";
+import {
+  useGlobalFilter,
+  usePagination,
+  useRowSelect,
+  useTable,
+} from "react-table";
+import { Table } from "reactstrap";
+import { COLUMNS_IMOVEIS } from "components/ui/table-column/table-column";
+import { useExportData } from "react-table-plugins";
 
 import FormImovel from "components/forms/form-imovel/form-imovel";
-import FormImovelDetalhe from "components/forms/form-imovel-detalhe/form-imovel-detalhe"
-import FormImovelImagem from "components/forms/form-imovel-imagem/form-imovel-imagem"
+import FormImovelDetalhe from "components/forms/form-imovel-detalhe/form-imovel-detalhe";
+import FormImovelImagem from "components/forms/form-imovel-imagem/form-imovel-imagem";
 
-import ButtonExport, { getExportFileBlob } from 'components/ui/button-export/button-export'
-import BreadcrumbIcon from 'components/ui/breadcrumb-icon/breadcrumb-icon'
-import AlertDelete from "components/ui/alert-delete/alert-delete"
-import TableFilter from 'components/ui/table-filter/table-filter'
-import TablePagination from 'components/ui/table-pagination/table-pagination'
+import ButtonExport, {
+  getExportFileBlob,
+} from "components/ui/button-export/button-export";
+import BreadcrumbIcon from "components/ui/breadcrumb-icon/breadcrumb-icon";
+import AlertDelete from "components/ui/alert-delete/alert-delete";
+import TableFilter from "components/ui/table-filter/table-filter";
+import TablePagination from "components/ui/table-pagination/table-pagination";
 
-import { useDispatch, useSelector } from 'react-redux'
-import { listImoveis, deleteImovel } from 'slices/imovel-slice'
+import { useDispatch, useSelector } from "react-redux";
+import { deleteImovel, listImoveis } from "slices/imovel-slice";
 
-const Imoveis = props => {
-
-  const columns = React.useMemo(() => COLUMNS_IMOVEIS, [])
-  const imovel = useSelector(state => state.imovelSlice);
+const Imoveis = (props) => {
+  const columns = React.useMemo(() => COLUMNS_IMOVEIS, []);
+  const imovel = useSelector((state) => state.imovelSlice);
   const dispatch = useDispatch();
   const data = React.useMemo(() => imovel, [imovel]);
   const getSubRows = (row) => [] || row.subRows;
@@ -28,25 +34,26 @@ const Imoveis = props => {
   React.useMemo(() => {
     if (columns.length === 8) {
       columns.push({
-        Header: () => 'AÇÕES ATUALIZAR/APAGAR',
-        id: 'action',
+        Header: () => "AÇÕES ATUALIZAR/APAGAR",
+        id: "action",
         Cell: ({ row }) => {
           return (
             <div className="d-flex flex-row">
               <div className="bd-highlight">
                 <FormImovel
-                  action={'update'}
+                  action={"update"}
                   data={row.original}
                   isModal={false}
                 />
-              </div >
+              </div>
               <div className="bd-highlight">
                 <AlertDelete
                   id={row?.original?.id}
                   deleteData={(id) => {
                     dispatch(deleteImovel({ id }));
                     dispatch(listImoveis());
-                  }} />
+                  }}
+                />
               </div>
               <div className="bd-highlight">
                 <FormImovelDetalhe
@@ -61,7 +68,7 @@ const Imoveis = props => {
                   imovel_id={row.original.id}
                 />
               </div>
-            </div >
+            </div>
           );
         },
       });
@@ -69,7 +76,7 @@ const Imoveis = props => {
   }, [columns, dispatch]);
 
   React.useEffect(() => {
-    dispatch(listImoveis())
+    dispatch(listImoveis());
   }, [dispatch]);
 
   const {
@@ -90,31 +97,40 @@ const Imoveis = props => {
     preGlobalFilteredRows,
     setGlobalFilter,
     exportData,
-  } = useTable({
-    columns,
-    data,
-    getExportFileBlob,
-    initialState: { pageIndex: 0 },
-    getSubRows
-  },
+  } = useTable(
+    {
+      columns,
+      data,
+      getExportFileBlob,
+      initialState: { pageIndex: 0 },
+      getSubRows,
+    },
     useGlobalFilter,
     usePagination,
     useExportData,
     useRowSelect,
   );
-  const { pageIndex, pageSize } = state
+  const { pageIndex, pageSize } = state;
 
   return (
     <React.Fragment>
       <div className="d-flex align-items-center mb-3">
-        <BreadcrumbIcon description="Gerência de Imóveis" title='Imóveis' classIcon='fa fa-home fa-stack-1x fa-inverse' />
+        <BreadcrumbIcon
+          description="Gerência de Imóveis"
+          title="Imóveis"
+          classIcon="fa fa-home fa-stack-1x fa-inverse"
+        />
       </div>
       <div className="card border-0">
         <ul className="nav ps-4 pe-4 pb-2 pt-3">
-          <ButtonExport exportData={exportData} getExportFileBlob={getExportFileBlob} pageOptions={pageOptions} />
+          <ButtonExport
+            exportData={exportData}
+            getExportFileBlob={getExportFileBlob}
+            pageOptions={pageOptions}
+          />
           <li className="nav-item ms-auto pt-1">
             <FormImovel
-              action={'create'}
+              action={"create"}
               data={0}
               isModal={false}
             />
@@ -122,35 +138,58 @@ const Imoveis = props => {
         </ul>
         <div className="tab-content ps-4 pe-4 pb-4 pt-0">
           <div className="tab-pane fade show active" id="allTab">
-            <TableFilter preGlobalFilteredRows={preGlobalFilteredRows} globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
+            <TableFilter
+              preGlobalFilteredRows={preGlobalFilteredRows}
+              globalFilter={state.globalFilter}
+              setGlobalFilter={setGlobalFilter}
+            />
             <div className="table-responsive mb-3">
-              <Table {...getTableProps()} className="table table-hover table-panel text-nowrap align-middle mb-0 table-sm" hidden={page.length > 0 ? false : true} responsive>
+              <Table
+                {...getTableProps()}
+                className="table table-hover table-panel text-nowrap align-middle mb-0 table-sm"
+                hidden={page.length > 0 ? false : true}
+                responsive
+              >
                 <thead>
-                  {headerGroups.map(headerGroup => (
-                    <tr  {...headerGroup.getHeaderGroupProps()}>
-                      {headerGroup.headers.map(column => (
-                        <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                  {headerGroups.map((headerGroup) => (
+                    <tr {...headerGroup.getHeaderGroupProps()}>
+                      {headerGroup.headers.map((column) => (
+                        <th {...column.getHeaderProps()}>
+                          {column.render("Header")}
+                        </th>
                       ))}
                     </tr>
                   ))}
                 </thead>
-                <tbody {...getTableBodyProps()} >
+                <tbody {...getTableBodyProps()}>
                   {page?.map((row, i) => {
-                    prepareRow(row)
+                    prepareRow(row);
                     return (
-                      <tr className={i % 2 !== 0 ? "table-active" : ''} {...row.getRowProps()}>
-                        {row.cells.map(cell => {
-                          return <td className="text-truncate" style={{maxWidth: '80px'}} {...cell.getCellProps()}>
-                            <span className="fw-bold" >{cell.render('Cell')}</span>
-                          </td>
+                      <tr
+                        className={i % 2 !== 0 ? "table-active" : ""}
+                        {...row.getRowProps()}
+                      >
+                        {row.cells.map((cell) => {
+                          return (
+                            <td
+                              className="text-truncate"
+                              style={{ maxWidth: "80px" }}
+                              {...cell.getCellProps()}
+                            >
+                              <span className="fw-bold">
+                                {cell.render("Cell")}
+                              </span>
+                            </td>
+                          );
                         })}
                       </tr>
-                    )
+                    );
                   })}
                 </tbody>
               </Table>
             </div>
             <TablePagination
+              name="TablePaginationImoveis"
               nextPage={nextPage}
               previousPage={previousPage}
               canPreviousPage={canPreviousPage}
@@ -168,6 +207,6 @@ const Imoveis = props => {
       </div>
     </React.Fragment>
   );
-}
+};
 
-export default Imoveis
+export default Imoveis;

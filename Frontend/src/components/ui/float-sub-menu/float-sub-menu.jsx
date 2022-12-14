@@ -3,11 +3,11 @@ import { Route } from "react-router-dom";
 import { AppSettings } from "config/app-settings.js";
 import FloatSubMenuList from "components/ui/float-sub-menu/float-sub-menu-list";
 
-const FloatSubMenu = props => {
+const FloatSubMenu = (props) => {
   const context = React.useContext(AppSettings);
   const [state, setState] = React.useState({
     active: -1,
-    clicked: -1
+    clicked: -1,
   });
 
   const handleExpand = (e, i, match) => {
@@ -35,54 +35,55 @@ const FloatSubMenu = props => {
         appSidebarFloatSubMenuArrowTop,
         appSidebarFloatSubMenuArrowBottom,
         handleAppSidebarFloatSubMenuOnMouseOver,
-        handleAppSidebarFloatSubMenuOnMouseOut
-      }) =>
+        handleAppSidebarFloatSubMenuOnMouseOut,
+      }) => (
         <div
           id="app-sidebar-float-submenu"
           onMouseOver={handleAppSidebarFloatSubMenuOnMouseOver}
           onMouseOut={handleAppSidebarFloatSubMenuOnMouseOut}
-          className={
-            "app-sidebar-float-submenu-container " +
-            (appSidebarFloatSubMenuActive ? "d-block" : "d-none")
-          }
+          className={"app-sidebar-float-submenu-container " +
+            (appSidebarFloatSubMenuActive ? "d-block" : "d-none")}
           style={{
             left: appSidebarFloatSubMenuLeft,
             top: appSidebarFloatSubMenuTop,
-            bottom: appSidebarFloatSubMenuBottom
-          }}>
+            bottom: appSidebarFloatSubMenuBottom,
+          }}
+        >
           <div
             className="app-sidebar-float-submenu-arrow"
             style={{
               top: appSidebarFloatSubMenuArrowTop,
-              bottom: appSidebarFloatSubMenuArrowBottom
+              bottom: appSidebarFloatSubMenuArrowBottom,
             }}
           />
           <div
             className="app-sidebar-float-submenu-line"
             style={{
               top: appSidebarFloatSubMenuLineTop,
-              bottom: appSidebarFloatSubMenuLineBottom
+              bottom: appSidebarFloatSubMenuLineBottom,
             }}
           />
           <div className="app-sidebar-float-submenu">
             {appSidebarFloatSubMenu &&
-              appSidebarFloatSubMenu.map((menu, i) =>
+              appSidebarFloatSubMenu.map((menu, i) => (
                 <Route
                   path={menu.path}
                   exact={menu.exact}
                   key={i}
-                  children={({ match }) =>
+                  children={({ match }) => (
                     <FloatSubMenuList
                       data={menu}
                       key={i}
-                      expand={e => handleExpand(e, i, match)}
+                      expand={(e) => handleExpand(e, i, match)}
                       active={i === state.active}
                       clicked={state.clicked}
-                    />}
+                    />
+                  )}
                 />
-              )}
+              ))}
           </div>
-        </div>}
+        </div>
+      )}
     </AppSettings.Consumer>
   );
 };
