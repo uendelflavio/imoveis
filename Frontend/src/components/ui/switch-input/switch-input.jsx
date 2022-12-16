@@ -2,18 +2,18 @@ import React from "react";
 import Switch from "react-switch";
 import { useFormikContext } from "formik";
 import { Label } from "reactstrap";
-const SwitchInput = (props) => {
-  const formik = useFormikContext();
+const SwitchInput = props => {
+  const { values, setFieldValue } = useFormikContext();
   const checked = React.useMemo(
     () => {
-      if (typeof formik.values[props.name] === "undefined") {
+      if (typeof values[props.name] === "undefined") {
         return false;
       }
-      if (typeof formik.values[props.name] !== "undefined") {
-        return formik.values[props.name];
+      if (typeof values[props.name] !== "undefined") {
+        return values[props.name];
       }
     },
-    [formik, props.name],
+    [values, props.name]
   );
 
   return (
@@ -32,8 +32,8 @@ const SwitchInput = (props) => {
               checked={checked}
               onChange={() => {
                 checked
-                  ? formik.setFieldValue(props.name, false, true)
-                  : formik.setFieldValue(props.name, true, false);
+                  ? setFieldValue(props.name, false, true)
+                  : setFieldValue(props.name, true, false);
               }}
             />
           </Label>

@@ -3,31 +3,34 @@ import SweetAlert from "react-bootstrap-sweetalert";
 import { useFormikContext } from "formik";
 import { Button } from "reactstrap";
 
-const ButtonAction = (props) => {
-  const [alertUpdate, setAlertUpdate] = React.useState(false);
-  const [isId, setId] = React.useState();
-  const toggleAlertActionUpdate = () => setAlertUpdate(!alertUpdate);
-  const formik = useFormikContext();
+const ButtonAction = props => {
+  const [state, setState] = React.useState({
+    id: 0,
+    alertupdate: false
+  });
+  const toggleAlertActionUpdate = () =>
+    setState({ ...state, alertupdate: !state.alertupdate });
+  const { values, submitForm, setSubmitting, isValid } = useFormikContext();
 
   React.useEffect(
     () => {
-      setId(Number(formik.values["id"]));
+      setState({ ...state, id: Number(values["id"]) });
     },
-    [formik.values],
+    // eslint-disable-next-line
+    []
   );
 
   const BtnCreateActionButton = () => {
     return (
       <Button
         name={`BtnCreateActionButton-${props.name}`}
-        onClick={(e) => {
+        onClick={e => {
           props.setAction("create");
-          formik.setSubmitting(true);
-          formik.submitForm();
+          setSubmitting(true);
+          submitForm();
         }}
-        disabled={!formik.isValid}
-        className={"btn-success btn-lg m-1"}
-      >
+        disabled={!isValid}
+        className={"btn-success btn-lg m-1"}>
         <i className={"fa fa-plus me-2"} />
         Incluir
       </Button>
@@ -38,13 +41,12 @@ const ButtonAction = (props) => {
     return (
       <Button
         name={`BtnUpdateActionButton-${props.name}`}
-        onClick={(e) => {
+        onClick={e => {
           e.preventDefault();
-          setAlertUpdate(true);
+          setState({ ...state, alertupdate: true });
         }}
-        disabled={!formik.isValid}
-        className={"btn-warning btn-lg m-1"}
-      >
+        disabled={!isValid}
+        className={"btn-warning btn-lg m-1"}>
         <i className={"fa fa-edit me-2"} />
         Atualizar
       </Button>
@@ -61,17 +63,16 @@ const ButtonAction = (props) => {
         cancelBtnBsStyle="default"
         title={
           <span>
-            Deseja atualizar o registro: {isId.toString().padStart(3, "0")}
+            Deseja atualizar o registro: {state.id.toString().padStart(3, "0")}
           </span>
         }
         onConfirm={() => {
           props.setAction("update");
-          formik.setSubmitting(true);
-          formik.submitForm();
+          setSubmitting(true);
+          submitForm();
           toggleAlertActionUpdate(false);
         }}
-        onCancel={() => toggleAlertActionUpdate(false)}
-      >
+        onCancel={() => toggleAlertActionUpdate(false)}>
         Esta ação concluira a atualizaçao completa do registro.
       </SweetAlert>
     );
@@ -82,8 +83,7 @@ const ButtonAction = (props) => {
       <Button
         name={`BtnExitActionButton-${props.name}`}
         onClick={props.toggle}
-        className="btn-gray btn-lg m-2"
-      >
+        className="btn-gray btn-lg m-2">
         <i className="fa fa-door-open me-2" />
         Sair
       </Button>
@@ -94,11 +94,10 @@ const ButtonAction = (props) => {
     <React.Fragment>
       <div
         name={props.name}
-        className="p-0 text-end border border-1 hljs-wrapper rounded"
-      >
-        {isId === 0 ? <BtnCreateActionButton /> : <BtnUpdateActionButton />}
+        className="p-0 text-end border border-1 hljs-wrapper rounded">
+        {state.id === 0 ? <BtnCreateActionButton /> : <BtnUpdateActionButton />}
         <BtnExitActionButton />
-        {alertUpdate && <SweetAlertActionUpdate />}
+        {state.alertupdate && <SweetAlertActionUpdate />}
       </div>
     </React.Fragment>
   );

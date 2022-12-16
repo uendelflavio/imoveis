@@ -4,7 +4,7 @@ import routes from "config/app-route.jsx";
 import { AppSettings } from "config/app-settings.js";
 import PrivateRoute from "config/private-route";
 
-const Content = (props) => {
+const Content = props => {
   const context = React.useContext(AppSettings);
 
   const setTitle = (path, routeArray) => {
@@ -26,20 +26,20 @@ const Content = (props) => {
       });
     };
   });
+
   return (
     <AppSettings.Consumer>
-      {({ appContentClass }) => (
+      {({ appContentClass }) =>
         <div className={"app-content " + context.appContentClass}>
-          {routes.map((route, index) => (
+          {routes.map((route, index) =>
             <PrivateRoute
               key={index}
               path={route.path}
               exact={route.exact}
               component={route.component}
             />
-          ))}
-        </div>
-      )}
+          )}
+        </div>}
     </AppSettings.Consumer>
   );
 };

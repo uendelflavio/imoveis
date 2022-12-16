@@ -4,15 +4,24 @@ import { useFormikContext } from "formik";
 import { Button } from "reactstrap";
 
 const ButtonCrud = props => {
-  const [alertDelete, setAlertDelete] = React.useState(false);
-  const [alertUpdate, setAlertUpdate] = React.useState(false);
-  const formik = useFormikContext();
-  const [isId, setID] = React.useState();
+  const [state, setState] = React.useState({
+    alertdelete: false,
+    alertupdate: false,
+    id: 0
+  });
+
+  const {
+    values,
+    submitForm,
+    setSubmitting,
+    setTouched,
+    setErrors
+  } = useFormikContext();
 
   React.useEffect(() => {
-    setID(formik.values.id);
-    formik.setTouched({}, false);
-    formik.setErrors({}, false);
+    setState({ ...state, id: values.id });
+    setTouched({}, false);
+    setErrors({}, false);
     // eslint-disable-next-line
   }, []);
 
@@ -22,8 +31,8 @@ const ButtonCrud = props => {
         name={`BtnNew-${props.name}`}
         onClick={() => {
           props.setAction("new");
-          formik.setSubmitting(true);
-          formik.submitForm();
+          setSubmitting(true);
+          submitForm();
         }}
         className="btn-info btn-lg m-1">
         <i className="fas fa-plus-circle me-2" />
@@ -38,9 +47,8 @@ const ButtonCrud = props => {
         name={`BtnCreate-${props.name}`}
         onClick={() => {
           props.setAction("create");
-          formik.setSubmitting(true);
-          formik.submitForm();
-          props.setAction("new");
+          setSubmitting(true);
+          submitForm();
         }}
         className="btn-success btn-lg m-1">
         <i className="fa fa-plus me-2" />
@@ -53,10 +61,10 @@ const ButtonCrud = props => {
     return (
       <Button
         name={`BtnUpdate-${props.name}`}
-        disabled={isId === 0 ? true : false}
+        disabled={state.id === 0 ? true : false}
         onClick={e => {
           e.preventDefault();
-          setAlertUpdate(true);
+          setState({ ...state, alertupdate: true });
         }}
         className="btn-warning btn-lg m-1">
         <i className="fa fa-edit me-2" />
@@ -69,10 +77,10 @@ const ButtonCrud = props => {
     return (
       <Button
         name={`BtnDelete-${props.name}`}
-        disabled={isId === 0 ? true : false}
+        disabled={state.id === 0 ? true : false}
         onClick={e => {
           e.preventDefault();
-          setAlertDelete(true);
+          setState({ ...state, alertdelete: true });
         }}
         className="btn-danger btn-lg m-1">
         <i className="fa fa-minus me-2" />
@@ -85,10 +93,7 @@ const ButtonCrud = props => {
     return (
       <Button
         name={`BtnExit-${props.name}`}
-        onClick={() => {
-          props.setAction("");
-          props.toggle();
-        }}
+        onClick={() => props.toggle()}
         className="btn-gray btn-lg m-1">
         <i className="fa fa-door-open me-2" />
         Sair
@@ -106,17 +111,20 @@ const ButtonCrud = props => {
         cancelBtnBsStyle="default"
         title={
           <span>
-            Deseja excluir o registro:{" "}
-            {formik.values.id.toString().padStart(3, "0")}
+            Deseja excluir o registro: {values.id.toString().padStart(3, "0")}
           </span>
         }
         onConfirm={() => {
           props.setAction("delete");
-          formik.setSubmitting(true);
-          formik.submitForm();
-          setAlertDelete(!alertDelete);
+          setSubmitting(true);
+          submitForm();
+          setState({ ...state, alertdelete: !state.alertdelete });
         }}
-        onCancel={() => setAlertDelete(!alertDelete)}>
+        onCancel={() =>
+          setState({
+            ...state,
+            alertdelete: !state.alertdelete
+          })}>
         Esta ação vai excluir permanentemente os dados.
       </SweetAlert>
     );
@@ -132,17 +140,20 @@ const ButtonCrud = props => {
         cancelBtnBsStyle="default"
         title={
           <span>
-            Deseja atualizar o registro:{" "}
-            {formik.values.id.toString().padStart(3, "0")}
+            Deseja atualizar o registro: {values.id.toString().padStart(3, "0")}
           </span>
         }
         onConfirm={() => {
           props.setAction("update");
-          formik.setSubmitting(true);
-          formik.submitForm();
-          setAlertUpdate(!alertUpdate);
+          setSubmitting(true);
+          submitForm();
+          setState({ ...state, alertupdate: !state.alertupdate });
         }}
-        onCancel={() => setAlertUpdate(!alertUpdate)}>
+        onCancel={() =>
+          setState({
+            ...state,
+            alertupdate: !state.alertupdate
+          })}>
         Esta ação concluira a atualizaçao completa do registro.
       </SweetAlert>
     );
@@ -153,12 +164,12 @@ const ButtonCrud = props => {
       <div
         name={props.name}
         className="d-flex justify-content-evenly hljs-wrapper rounded border border-1 p-1 mt-3">
-        {formik.values.id > 0 ? <BtnNew /> : <BtnCreate />}
+        {values.id > 0 ? <BtnNew /> : <BtnCreate />}
         <BtnUpdate />
         <BtnDelete />
         <BtnExit />
-        {alertUpdate && <SweetAlertUpdate />}
-        {alertDelete && <SweetAlertDelete />}
+        {state.alertupdate && <SweetAlertUpdate />}
+        {state.alertdelete && <SweetAlertDelete />}
       </div>
     </React.Fragment>
   );

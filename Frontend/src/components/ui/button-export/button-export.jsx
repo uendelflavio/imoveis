@@ -7,12 +7,12 @@ import * as XLSX from "xlsx/xlsx.mjs";
 
 export const getExportFileBlob = ({ columns, data, fileType, fileName }) => {
   if (fileType === "csv") {
-    const headerNames = columns.map((col) => col.exportValue);
+    const headerNames = columns.map(col => col.exportValue);
     const csvString = Papa.unparse({ fields: headerNames, data });
     return new Blob([csvString], { type: "text/csv" });
   } else if (fileType === "xlsx") {
-    const header = columns.map((c) => c.exportValue);
-    const compatibleData = data.map((row) => {
+    const header = columns.map(c => c.exportValue);
+    const compatibleData = data.map(row => {
       const obj = {};
       header.forEach((col, index) => {
         obj[col] = row[index];
@@ -22,7 +22,7 @@ export const getExportFileBlob = ({ columns, data, fileType, fileName }) => {
 
     let wb = XLSX.utils.book_new();
     let ws1 = XLSX.utils.json_to_sheet(compatibleData, {
-      header,
+      header
     });
     XLSX.utils.book_append_sheet(wb, ws1, "React Table Data");
     XLSX.writeFile(wb, `${fileName}.xlsx`);
@@ -30,18 +30,18 @@ export const getExportFileBlob = ({ columns, data, fileType, fileName }) => {
   }
 
   if (fileType === "pdf") {
-    const headerNames = columns.map((column) => column.exportValue);
+    const headerNames = columns.map(column => column.exportValue);
     const page = {
       layout: "l", //p=portrait, l=landscape
       papersize: {
         height: 297.0, //330.2mm
         width: 210.0, //215.9mm
-        unit: "mm",
-      },
+        unit: "mm"
+      }
     };
     const doc = new JsPDF(page.layout, page.papersize.unit, [
       page.papersize.width,
-      page.papersize.height,
+      page.papersize.height
     ]);
     doc.autoTable({
       orientation: "landscape",
@@ -53,8 +53,8 @@ export const getExportFileBlob = ({ columns, data, fileType, fileName }) => {
         minCellHeight: 9,
         halign: "left",
         valign: "center",
-        fontSize: 8,
-      },
+        fontSize: 8
+      }
     });
 
     doc.save(`${fileName}.pdf`);
@@ -64,7 +64,7 @@ export const getExportFileBlob = ({ columns, data, fileType, fileName }) => {
   return false;
 };
 
-const ButtonExport = (props) => {
+const ButtonExport = props => {
   const BtnExportCSV = () => {
     return (
       <Button
@@ -74,12 +74,12 @@ const ButtonExport = (props) => {
         className="btn btn-indigo btn-icon btn-circle btn-lg me-2"
         data-bs-toggle="tooltip"
         data-bs-placement="bottom"
-        title="Exportar para arquivo csv."
-      >
+        title="Exportar para arquivo csv.">
         <i className="fa fa-file-csv" />
       </Button>
     );
   };
+
   const BtnExportPDF = () => {
     return (
       <Button
@@ -89,12 +89,12 @@ const ButtonExport = (props) => {
         className="btn btn-primary btn-icon btn-circle btn-lg me-2"
         data-bs-toggle="tooltip"
         data-bs-placement="bottom"
-        title="Exportar para arquivo pdf."
-      >
+        title="Exportar para arquivo pdf.">
         <i className="fa fa-file-pdf" />
       </Button>
     );
   };
+
   const BtnExportXLSX = () => {
     return (
       <Button
@@ -104,8 +104,7 @@ const ButtonExport = (props) => {
         className="btn btn-info btn-icon btn-circle btn-lg me-2"
         data-bs-toggle="tooltip"
         data-bs-placement="bottom"
-        title="Exportar para arquivo xls."
-      >
+        title="Exportar para arquivo xls.">
         <i className="fa fa-file-excel" />
       </Button>
     );

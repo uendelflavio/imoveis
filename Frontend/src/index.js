@@ -1,9 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { Provider } from "react-redux";
 import PrivateRoute from "config/private-route";
-import store from "store";
 import AppHooks from "app-hooks";
 import Login from "pages/Login";
 import Logout from "pages/Logout";
@@ -28,21 +26,27 @@ passiveSupport({
   debug: false,
   listeners: [
     {
-      element: "div.some-element",
+      element: "div.ps__thumb-x",
       event: "touchstart"
+    },
+    {
+      element: "div.ps__thumb-y",
+      event: "touchstart"
+    },
+    {
+      element: "div.ps",
+      event: "wheel"
     }
   ]
 });
 
 root.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/" component={Logout} />
-        <PrivateRoute path="/app" component={AppHooks} />
-        <Route path="*" component={() => <h1>Page not found</h1>} />
-      </Switch>
-    </BrowserRouter>,
-  </Provider>
+  <BrowserRouter>
+    <Switch>
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/" component={Logout} />
+      <PrivateRoute path="/app" component={AppHooks} />
+      <Route path="*" component={() => <h1>Page not found</h1>} />
+    </Switch>
+  </BrowserRouter>
 );

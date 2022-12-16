@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const BreadcrumbIcon = (props) => {
+const BreadcrumbIcon = props => {
   return (
     <React.Fragment>
       <div>

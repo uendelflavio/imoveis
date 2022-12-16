@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "reactstrap";
-const ButtonModal = (props) => {
+const ButtonModal = props => {
   const ButtonModalCreate = () => {
     return (
       <Button
@@ -9,8 +9,7 @@ const ButtonModal = (props) => {
         className="btn btn-success btn-icon btn-circle btn-lg me-2"
         data-bs-toggle="tooltip"
         data-bs-placement="bottom"
-        title="Cadastra os Dados"
-      >
+        title="Cadastra os Dados">
         <i className="fa fa-plus" />
       </Button>
     );
@@ -24,8 +23,7 @@ const ButtonModal = (props) => {
         className="btn btn-warning btn-icon btn-circle btn-lg me-2"
         data-bs-toggle="tooltip"
         data-bs-placement="bottom"
-        title="Atualiza os Dados"
-      >
+        title="Atualiza os Dados">
         <i className="fa fa-check " />
       </Button>
     );

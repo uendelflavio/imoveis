@@ -20,16 +20,19 @@ import BreadcrumbIcon from "components/ui/breadcrumb-icon/breadcrumb-icon";
 import AlertDelete from "components/ui/alert-delete/alert-delete";
 import TableFilter from "components/ui/table-filter/table-filter";
 import TablePagination from "components/ui/table-pagination/table-pagination";
+import { useImovelStore } from "store/imovel-store";
 
-import { useDispatch, useSelector } from "react-redux";
-import { deleteImovel, listImoveis } from "slices/imovel-slice";
 
-const Imoveis = (props) => {
+const Imoveis = props => {
   const columns = React.useMemo(() => COLUMNS_IMOVEIS, []);
-  const imovel = useSelector((state) => state.imovelSlice);
-  const dispatch = useDispatch();
-  const data = React.useMemo(() => imovel, [imovel]);
+  const data = useImovelStore(state=> state.imoveisData);
+  const listImoveis = useImovelStore(state => state.listImoveis);
+  const deleteImovel = useImovelStore(state => state.deleteImovel);
   const getSubRows = (row) => [] || row.subRows;
+
+  React.useEffect(() => {
+    if (data.length === 0) listImoveis();
+  }, [listImoveis,data.length ]);
 
   React.useMemo(() => {
     if (columns.length === 8) {
@@ -50,8 +53,8 @@ const Imoveis = (props) => {
                 <AlertDelete
                   id={row?.original?.id}
                   deleteData={(id) => {
-                    dispatch(deleteImovel({ id }));
-                    dispatch(listImoveis());
+                    deleteImovel(id);
+                    listImoveis();
                   }}
                 />
               </div>
@@ -59,7 +62,7 @@ const Imoveis = (props) => {
                 <FormImovelDetalhe
                   isModal={false}
                   imovel_id={row.original.id}
-                  refreshData={() => dispatch(listImoveis())}
+                  refreshData={() => listImoveis()}
                 />
               </div>
               <div className="bd-highlight">
@@ -72,12 +75,11 @@ const Imoveis = (props) => {
           );
         },
       });
-    }
-  }, [columns, dispatch]);
 
-  React.useEffect(() => {
-    dispatch(listImoveis());
-  }, [dispatch]);
+    }
+  }, [columns,deleteImovel,listImoveis]);
+
+
 
   const {
     getTableProps,
@@ -169,7 +171,7 @@ const Imoveis = (props) => {
                         className={i % 2 !== 0 ? "table-active" : ""}
                         {...row.getRowProps()}
                       >
-                        {row.cells.map((cell) => {
+                        {row.cells.map(cell => {
                           return (
                             <td
                               className="text-truncate"

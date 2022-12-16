@@ -13,29 +13,38 @@ import ButtonModal from "components/ui/button-modal/button-modal";
 import SelectInput from "components/ui/select-input/select-input";
 import InputMask from "components/ui/input-mask/input-mask";
 
-import { useDispatch } from "react-redux";
-import {
-  createImovel,
-  listImoveis,
-  resetImovel,
-  updateImovel
-} from "slices/imovel-slice";
+// import { useDispatch } from "react-redux";
+// import {
+//   createImovel,
+//   listImoveis,
+//   resetImovel,
+//   updateImovel
+// } from "slices/imovel-slice";
+
+import { useImovelStore } from "store/imovel-store";
 
 const FormImovel = props => {
   const [state, setState] = React.useState({
     modal: props.isModal,
     action: props.action
   });
-  const dispatch = useDispatch();
+
+  const data = useImovelStore(state => state.imoveisData);
+  const createImovel = useImovelStore(state => state.createImovel);
+  const listImoveis = useImovelStore(state => state.listImoveis);
+  const updateImovel = useImovelStore(state => state.updateImovel);
+  const resetImovel = useImovelStore(state => state.resetImovel);
+
+  // const dispatch = useDispatch();
   const toggle = () => setState({ ...state, modal: !state.modal });
   const onSubmit = (values, actions) => {
     switch (state.action) {
       case "create":
-        dispatch(createImovel({ data: values }));
+        createImovel(values);
         toast.success("O Imovel foi criado com sucesso");
         break;
       case "update":
-        dispatch(updateImovel({ id: values.id, data: values }));
+        updateImovel(values.id, values);
         toast.warning("O Imovel foi atualizado com sucesso");
         break;
       default:
@@ -45,7 +54,7 @@ const FormImovel = props => {
         break;
     }
     Promise.all([
-      dispatch(resetImovel()),
+      resetImovel(),
       actions.resetForm(),
       actions.setSubmitting(false),
       toggle()
@@ -82,16 +91,16 @@ const FormImovel = props => {
         onSubmit={(values, actions) => onSubmit(values, actions)}
         enableReinitialize={true}
         initialValues={{
-          id: state.action === "update" ? props.data.id : "",
-          endereco: state.action === "update" ? props.data.endereco : "",
-          numero: state.action === "update" ? props.data.numero : "",
-          bairro: state.action === "update" ? props.data.bairro : "",
-          cep: state.action === "update" ? props.data.cep : "",
-          cidade: state.action === "update" ? props.data.cidade : "",
-          complemento: state.action === "update" ? props.data.complemento : "",
-          uf: state.action === "update" ? props.data.uf : "",
-          vistoria: state.action === "update" ? props.data.vistoria : false,
-          ocupado: state.action === "update" ? props.data.ocupado : false
+          id: data.length === 0 ? 0 : data.id,
+          endereco: data.length === 0 ? "" : props.data.endereco,
+          numero: data.length === 0 ? 0 : props.data.numero,
+          bairro: data.length === 0 ? "" : props.data.bairro,
+          cep: data.length === 0 ? "" : props.data.cep,
+          cidade: data.length === 0 ? "" : props.data.cidade,
+          complemento: data.length === 0 ? "" : props.data.complemento,
+          uf: data.length === 0 ? "" : props.data.uf,
+          vistoria: data.length === 0 ? false : props.data.vistoria,
+          ocupado: data.length === 0 ? false : props.data.ocupado
         }}
         validationSchema={validationSchema}>
         <Modal
@@ -100,7 +109,7 @@ const FormImovel = props => {
           isOpen={state.modal}
           autoFocus={false}
           onClosed={() => {
-            dispatch(listImoveis());
+            listImoveis();
           }}>
           <Panel className="mb-0">
             <PanelHeaderOption

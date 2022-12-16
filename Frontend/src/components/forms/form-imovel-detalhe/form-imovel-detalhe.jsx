@@ -11,54 +11,58 @@ import ButtonCrud from "components/ui/button-crud/button-crud";
 import SelectInput from "components/ui/select-input/select-input";
 import InputMask from "components/ui/input-mask/input-mask";
 import InputNumberField from "components/ui/input-number-field/input-number-field";
-
 import { classificacao } from "utils/util";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  createImovelDetalhe,
-  deleteImovelDetalhe,
-  listImovelWithDetalhes,
-  resetImovelDetalhe,
-  updateImovelDetalhe
-} from "slices/imovel-detalhe-slice";
+import { useImovelDetalheStore } from "store/imovel-detalhe-store";
 
 const FormImovelDetalhe = props => {
+  const data = useImovelDetalheStore(state => state.imovelDetalheData);
   const [state, setState] = React.useState({
     modal: props.isModal,
     action: ""
   });
 
-  const imovel_detalhe = useSelector(state => state.imovelDetalheSlice);
-  const dispatch = useDispatch();
-  const toggle = () => setState({ ...state, modal: !state.modal });
-
-  const data = React.useMemo(
-    () => {
-      if (imovel_detalhe[0]) return imovel_detalhe[0];
-      if (imovel_detalhe) return imovel_detalhe;
-      return [];
-    },
-    [imovel_detalhe]
+  const listImovelWithDetalhes = useImovelDetalheStore(
+    state => state.listImovelWithDetalhes
   );
+  const createImovelDetalhe = useImovelDetalheStore(
+    state => state.createImovelDetalhe
+  );
+  const updateImovelDetalhe = useImovelDetalheStore(
+    state => state.updateImovelDetalhe
+  );
+  const deleteImovelDetalhe = useImovelDetalheStore(
+    state => state.deleteImovelDetalhe
+  );
+  const resetImovelDetalhe = useImovelDetalheStore(
+    state => state.resetImovelDetalhe
+  );
+  React.useEffect(
+    () => {
+      if (data.length === 0) listImovelWithDetalhes(props.imovel_id);
+    },
+    [listImovelWithDetalhes, props.imovel_id, data.length]
+  );
+
+  const toggle = () => setState({ ...state, modal: !state.modal });
 
   const onSubmit = async (values, actions) => {
     switch (state.action) {
       case "create":
-        dispatch(createImovelDetalhe({ data: values }));
+        createImovelDetalhe(values);
         toast.success("Os Detalhes do Imovel foi criado com sucesso");
         break;
       case "update":
-        dispatch(updateImovelDetalhe({ id: values.id, data: values }));
-        dispatch(resetImovelDetalhe({ imovel_id: props.imovel_id }));
-        dispatch(listImovelWithDetalhes({ id: props.imovel_id }));
+        updateImovelDetalhe(values);
+        resetImovelDetalhe(props.imovel_id);
+        listImovelWithDetalhes(props.imovel_id);
         toast.warning("Os Detalhes do Imovel foi atualizada com sucesso");
         break;
       case "delete":
-        dispatch(deleteImovelDetalhe({ id: values.id }));
+        deleteImovelDetalhe(values.id);
         toast.error("Os Detalhes do Imovel foi apagada com sucesso");
         break;
       case "new":
-        dispatch(resetImovelDetalhe({ imovel_id: props.imovel_id }));
+        resetImovelDetalhe(props.imovel_id);
         break;
       default:
     }
@@ -106,20 +110,22 @@ const FormImovelDetalhe = props => {
         enableReinitialize={true}
         validationSchema={validationSchema}
         initialValues={{
-          id: data.length === 0 ? 0 : data.id,
-          imovel_id: data.length === 0 ? props.imovel_id : data.imovel_id,
-          area_total_m2: data.length === 0 ? 0 : data.area_total_m2,
+          id: data.length === 0 ? 0 : data.id || "",
+          imovel_id: data.length === 0 ? props.imovel_id : data.imovel_id || "",
+          area_total_m2: data.length === 0 ? 0 : data.area_total_m2 || "",
           area_total_construida_m2:
-            data.length === 0 ? "" : data.area_total_construida_m2,
-          numero_inscricao: data.length === 0 ? "" : data.numero_inscricao,
-          matricula_agua: data.length === 0 ? "" : data.matricula_agua,
-          matricula_energia: data.length === 0 ? "" : data.matricula_energia,
-          classificacao: data.length === 0 ? "" : data.classificacao,
-          salas: data.length === 0 ? 0 : data.salas,
-          quartos: data.length === 0 ? 0 : data.quartos,
-          banheiros: data.length === 0 ? 0 : data.banheiros,
-          suites: data.length === 0 ? 0 : data.suites,
-          vagas_garagem: data.length === 0 ? 0 : data.vagas_garagem,
+            data.length === 0 ? "" : data.area_total_construida_m2 || "",
+          numero_inscricao:
+            data.length === 0 ? "" : data.numero_inscricao || "",
+          matricula_agua: data.length === 0 ? "" : data.matricula_agua || "",
+          matricula_energia:
+            data.length === 0 ? "" : data.matricula_energia || "",
+          classificacao: data.length === 0 ? "" : data.classificacao || "",
+          salas: data.length === 0 ? 0 : data.salas || "",
+          quartos: data.length === 0 ? 0 : data.quartos || "",
+          banheiros: data.length === 0 ? 0 : data.banheiros || "",
+          suites: data.length === 0 ? 0 : data.suites || "",
+          vagas_garagem: data.length === 0 ? 0 : data.vagas_garagem || "",
           area_lazer: data.length === 0 ? false : data.area_lazer,
           piscina: data.length === 0 ? false : data.piscina,
           agua_incluso: data.length === 0 ? false : data.agua_incluso,
@@ -132,12 +138,12 @@ const FormImovelDetalhe = props => {
           isOpen={state.modal}
           autoFocus={false}
           onClosed={() => {
-            dispatch(resetImovelDetalhe({ imovel_id: props.imovel_id }));
-            dispatch(listImovelWithDetalhes({ id: props.imovel_id }));
+            resetImovelDetalhe(props.imovel_id);
+            listImovelWithDetalhes(props.imovel_id);
           }}
           onOpened={() => {
-            dispatch(resetImovelDetalhe({ imovel_id: props.imovel_id }));
-            dispatch(listImovelWithDetalhes({ id: props.imovel_id }));
+            resetImovelDetalhe(props.imovel_id);
+            listImovelWithDetalhes(props.imovel_id);
           }}>
           <Panel className="mb-0">
             <PanelHeaderOption
