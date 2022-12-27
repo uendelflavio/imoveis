@@ -12,31 +12,21 @@ import ButtonAction from "components/ui/button-action/button-action";
 import ButtonModal from "components/ui/button-modal/button-modal";
 import SelectInput from "components/ui/select-input/select-input";
 import InputMask from "components/ui/input-mask/input-mask";
-
-// import { useDispatch } from "react-redux";
-// import {
-//   createImovel,
-//   listImoveis,
-//   resetImovel,
-//   updateImovel
-// } from "slices/imovel-slice";
-
 import { useImovelStore } from "store/imovel-store";
 
 const FormImovel = props => {
-  const [state, setState] = React.useState({
-    modal: props.isModal,
-    action: props.action
-  });
-
   const data = useImovelStore(state => state.imoveisData);
+  const [state, setState] = React.useState({
+    id: props.data.length === 0 ? "0" : props.data.id,
+    modal: props.data.length === 0 ? false : props.isModal,
+    action: props.data.length === 0 ? "" : props.action
+  });
   const createImovel = useImovelStore(state => state.createImovel);
-  const listImoveis = useImovelStore(state => state.listImoveis);
   const updateImovel = useImovelStore(state => state.updateImovel);
-  const resetImovel = useImovelStore(state => state.resetImovel);
+  const listImoveis = useImovelStore(state => state.listImoveis);
 
-  // const dispatch = useDispatch();
   const toggle = () => setState({ ...state, modal: !state.modal });
+
   const onSubmit = (values, actions) => {
     switch (state.action) {
       case "create":
@@ -44,7 +34,7 @@ const FormImovel = props => {
         toast.success("O Imovel foi criado com sucesso");
         break;
       case "update":
-        updateImovel(values.id, values);
+        updateImovel(values);
         toast.warning("O Imovel foi atualizado com sucesso");
         break;
       default:
@@ -54,10 +44,9 @@ const FormImovel = props => {
         break;
     }
     Promise.all([
-      resetImovel(),
       actions.resetForm(),
       actions.setSubmitting(false),
-      toggle()
+      listImoveis()
     ]);
   };
 
@@ -91,7 +80,7 @@ const FormImovel = props => {
         onSubmit={(values, actions) => onSubmit(values, actions)}
         enableReinitialize={true}
         initialValues={{
-          id: data.length === 0 ? 0 : data.id,
+          id: state.id,
           endereco: data.length === 0 ? "" : props.data.endereco,
           numero: data.length === 0 ? 0 : props.data.numero,
           bairro: data.length === 0 ? "" : props.data.bairro,
@@ -103,14 +92,7 @@ const FormImovel = props => {
           ocupado: data.length === 0 ? false : props.data.ocupado
         }}
         validationSchema={validationSchema}>
-        <Modal
-          centered
-          toggle={toggle}
-          isOpen={state.modal}
-          autoFocus={false}
-          onClosed={() => {
-            listImoveis();
-          }}>
+        <Modal centered toggle={toggle} isOpen={state.modal} autoFocus={false}>
           <Panel className="mb-0">
             <PanelHeaderOption
               titleInsert="Novo Imovel"

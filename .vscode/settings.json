@@ -1,3 +1,5 @@
 {
-    "code-runner.enableAppInsights": false
+    "code-runner.enableAppInsights": false,
+    "colorful-comments.highlightPlainText": true,
+    "colorful-comments.multilineComments": true
 }

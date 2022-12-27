@@ -2,8 +2,9 @@ import React from "react";
 import { Form, Formik } from "formik";
 import { Button, Modal } from "reactstrap";
 import { toast } from "react-toastify";
-import * as Yup from "yup";
+import { classificacao } from "utils/util";
 import { Panel, PanelBody } from "components/ui/panel/panel";
+import * as Yup from "yup";
 import SwitchInput from "components/ui/switch-input/switch-input";
 import InputField from "components/ui/input-field/input-field";
 import PanelHeaderOption from "components/ui/panel-header-option/panel-header-option";
@@ -11,15 +12,16 @@ import ButtonCrud from "components/ui/button-crud/button-crud";
 import SelectInput from "components/ui/select-input/select-input";
 import InputMask from "components/ui/input-mask/input-mask";
 import InputNumberField from "components/ui/input-number-field/input-number-field";
-import { classificacao } from "utils/util";
 import { useImovelDetalheStore } from "store/imovel-detalhe-store";
 
-const FormImovelDetalhe = props => {
-  const data = useImovelDetalheStore(state => state.imovelDetalheData);
+const FormImovelDetalhe = ({ isModal, imovel_id, name }) => {
   const [state, setState] = React.useState({
-    modal: props.isModal,
-    action: ""
+    action: "",
+    modal: isModal,
+    name: name
   });
+
+  const data = useImovelDetalheStore(state => state.imovelDetalheData);
 
   const listImovelWithDetalhes = useImovelDetalheStore(
     state => state.listImovelWithDetalhes
@@ -36,11 +38,12 @@ const FormImovelDetalhe = props => {
   const resetImovelDetalhe = useImovelDetalheStore(
     state => state.resetImovelDetalhe
   );
+
   React.useEffect(
     () => {
-      if (data.length === 0) listImovelWithDetalhes(props.imovel_id);
+      if (state.modal) listImovelWithDetalhes(imovel_id);
     },
-    [listImovelWithDetalhes, props.imovel_id, data.length]
+    [state.modal, listImovelWithDetalhes, imovel_id]
   );
 
   const toggle = () => setState({ ...state, modal: !state.modal });
@@ -49,12 +52,14 @@ const FormImovelDetalhe = props => {
     switch (state.action) {
       case "create":
         createImovelDetalhe(values);
+        resetImovelDetalhe(imovel_id);
+        listImovelWithDetalhes(imovel_id);
         toast.success("Os Detalhes do Imovel foi criado com sucesso");
         break;
       case "update":
         updateImovelDetalhe(values);
-        resetImovelDetalhe(props.imovel_id);
-        listImovelWithDetalhes(props.imovel_id);
+        resetImovelDetalhe(imovel_id);
+        listImovelWithDetalhes(imovel_id);
         toast.warning("Os Detalhes do Imovel foi atualizada com sucesso");
         break;
       case "delete":
@@ -62,7 +67,7 @@ const FormImovelDetalhe = props => {
         toast.error("Os Detalhes do Imovel foi apagada com sucesso");
         break;
       case "new":
-        resetImovelDetalhe(props.imovel_id);
+        resetImovelDetalhe(imovel_id);
         break;
       default:
     }
@@ -98,6 +103,7 @@ const FormImovelDetalhe = props => {
   return (
     <React.Fragment>
       <Button
+        name={`BtnFormImovelDetalheOpen-${name}-${imovel_id}`}
         onClick={toggle}
         className="btn btn-lime btn-icon btn-circle btn-lg me-2"
         data-bs-toggle="tooltip"
@@ -105,46 +111,33 @@ const FormImovelDetalhe = props => {
         title="Cadastro dos Detalhes do Imóvel">
         <i className="fa fa-house-user" />
       </Button>
+
       <Formik
         onSubmit={(values, actions) => onSubmit(values, actions)}
         enableReinitialize={true}
         validationSchema={validationSchema}
         initialValues={{
-          id: data.length === 0 ? 0 : data.id || "",
-          imovel_id: data.length === 0 ? props.imovel_id : data.imovel_id || "",
-          area_total_m2: data.length === 0 ? 0 : data.area_total_m2 || "",
+          id: data.length === 0 ? "" : data.id,
+          imovel_id: data.length === 0 ? "" : imovel_id,
+          area_total_m2: data.length === 0 ? "" : data.area_total_m2,
           area_total_construida_m2:
-            data.length === 0 ? "" : data.area_total_construida_m2 || "",
-          numero_inscricao:
-            data.length === 0 ? "" : data.numero_inscricao || "",
-          matricula_agua: data.length === 0 ? "" : data.matricula_agua || "",
-          matricula_energia:
-            data.length === 0 ? "" : data.matricula_energia || "",
-          classificacao: data.length === 0 ? "" : data.classificacao || "",
-          salas: data.length === 0 ? 0 : data.salas || "",
-          quartos: data.length === 0 ? 0 : data.quartos || "",
-          banheiros: data.length === 0 ? 0 : data.banheiros || "",
-          suites: data.length === 0 ? 0 : data.suites || "",
-          vagas_garagem: data.length === 0 ? 0 : data.vagas_garagem || "",
+            data.length === 0 ? "" : data.area_total_construida_m2,
+          numero_inscricao: data.length === 0 ? "" : data.numero_inscricao,
+          matricula_agua: data.length === 0 ? "" : data.matricula_agua,
+          matricula_energia: data.length === 0 ? "" : data.matricula_energia,
+          classificacao: data.length === 0 ? "" : data.classificacao,
+          salas: data.length === 0 ? "0" : data.salas,
+          quartos: data.length === 0 ? "0" : data.quartos,
+          banheiros: data.length === 0 ? "0" : data.banheiros,
+          suites: data.length === 0 ? "0" : data.suites,
+          vagas_garagem: data.length === 0 ? "0" : data.vagas_garagem,
           area_lazer: data.length === 0 ? false : data.area_lazer,
           piscina: data.length === 0 ? false : data.piscina,
           agua_incluso: data.length === 0 ? false : data.agua_incluso,
           gas_incluso: data.length === 0 ? false : data.gas_incluso,
           seguranca_incluso: data.length === 0 ? false : data.seguranca_incluso
         }}>
-        <Modal
-          centered
-          toggle={toggle}
-          isOpen={state.modal}
-          autoFocus={false}
-          onClosed={() => {
-            resetImovelDetalhe(props.imovel_id);
-            listImovelWithDetalhes(props.imovel_id);
-          }}
-          onOpened={() => {
-            resetImovelDetalhe(props.imovel_id);
-            listImovelWithDetalhes(props.imovel_id);
-          }}>
+        <Modal centered toggle={toggle} isOpen={state.modal} autoFocus={false}>
           <Panel className="mb-0">
             <PanelHeaderOption
               titleInsert="Novo Detalhe do Imóvel"

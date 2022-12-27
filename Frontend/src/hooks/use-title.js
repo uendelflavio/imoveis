@@ -1,5 +1,5 @@
 import React from "react";
-
+//~ uso: useTitle(`Spotify - ${artist.name}`);
 function useTitle(newTitle) {
   const [title, setTitle] = React.useState(document.title);
 
@@ -10,10 +10,8 @@ function useTitle(newTitle) {
         document.title = title;
       }
     },
-    [title, newTitle],
+    [title, newTitle]
   );
 }
 
 export default useTitle;
-
-// uso: useTitle(`Spotify - ${artist.name}`);

@@ -9,7 +9,7 @@
   .theme-#{$color} {
   	--app-theme: #{$value} !important;
   	--app-theme-rgb: #{to-rgb($value)} !important;
-  	
+
   	@if ($color == 'yellow') {
   		--app-theme-color: #{$black} !important;
   		--app-theme-color-rgb: #{to-rgb($black)} !important;
@@ -18,24 +18,24 @@
   @for $i from 1 through 5 {
   	.bg-#{$color}-#{$i * 100} {
   		--bs-bg-opacity: 1;
-  		
+
   		background-color: rgba(tint-color($value, ((5 - $i) * 10%)), var(--bs-bg-opacity));
   	}
   	.text-#{$color}-#{$i * 100} {
   		--bs-text-opacity: 1;
-  		
+
   		color: rgba(tint-color($value, ((5 - $i) * 10%)), var(--bs-text-opacity));
   	}
 	}
   @for $i from 6 through 9 {
   	.bg-#{$color}-#{$i * 100} {
   		--bs-bg-opacity: 1;
-  		
-  		background-color: rgba(shade-color($value, ($i - 5) * 10), var(--bs-bg-opacity));
+
+  		background-color: rgba(shade-color($value, ($i - 5%) * 10%), var(--bs-bg-opacity));
   	}
   	.text-#{$color}-#{$i * 100} {
   		--bs-text-opacity: 1;
-  		
+
   		color: rgba(shade-color($value, ($i - 5) * 10), var(--bs-text-opacity));
   	}
 	}

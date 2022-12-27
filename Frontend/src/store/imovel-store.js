@@ -35,14 +35,13 @@ export const useImovelStore = create(
       },
       deleteImovel: async id => {
         await ImovelService.remove(id);
-        // eslint-disable-next-line
         set(state => {
           state.imoveisData = state.imoveisData.filter(_ => _.id !== id);
         });
       },
       resetImovel: async () => {
         const apiResponse = {
-          id: "",
+          id: 0,
           endereco: "",
           numero: "",
           bairro: "",

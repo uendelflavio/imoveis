@@ -8,13 +8,13 @@ export const useImovelDetalheStore = create(
   devtools(
     immer(set => ({
       imovelDetalheData: [],
-      createImovelDetalhe: async ({ data }) => {
+      createImovelDetalhe: async data => {
         const apiResponse = await ImovelDetalheService.create(data);
         set(state => {
           state.imovelDetalheData.push(apiResponse);
         });
       },
-      listImovelDetalhe: async ({ id }) => {
+      listImovelDetalhe: async id => {
         const apiResponse = await ImovelDetalheService.get(id);
         set(state => {
           state.imovelDetalheData = apiResponse;
@@ -32,17 +32,18 @@ export const useImovelDetalheStore = create(
           state.imovelDetalheData = apiResponse;
         });
       },
-      updateImovelDetalhe: async ({ data }) => {
+      updateImovelDetalhe: async data => {
+        console.log(data);
         const apiResponse = await ImovelDetalheService.update(data.id, data);
         set(state => {
-          let imoveisDetalhesData = state.imoveisData.filter(
+          let imoveisDetalhesData = state.imovelDetalheData.filter(
             _ => _.id !== data.id
           );
           imoveisDetalhesData.push(apiResponse);
           state.imovelDetalheData = imoveisDetalhesData;
         });
       },
-      deleteImovelDetalhe: async ({ id }) => {
+      deleteImovelDetalhe: async id => {
         await ImovelService.remove(id);
         // eslint-disable-next-line
         set(state => {
@@ -51,9 +52,9 @@ export const useImovelDetalheStore = create(
           );
         });
       },
-      resetImovelDetalhe: async ({ imovel_id }) => {
+      resetImovelDetalhe: async imovel_id => {
         const apiResponse = {
-          id: undefined,
+          id: 0,
           imovel_id: imovel_id,
           area_total_m2: "",
           area_total_construida_m2: "",

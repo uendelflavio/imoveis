@@ -1,21 +1,35 @@
 import React from "react";
 import { Button } from "reactstrap";
 const ButtonModal = props => {
-  const ButtonModalCreate = () => {
-    return (
-      <Button
-        onClick={props.toggle}
-        name={`ButtonModalCreate-${props.name}`}
-        className="btn btn-success btn-icon btn-circle btn-lg me-2"
-        data-bs-toggle="tooltip"
-        data-bs-placement="bottom"
-        title="Cadastra os Dados">
-        <i className="fa fa-plus" />
-      </Button>
-    );
-  };
+  const [visible, setVisible] = React.useState(
+    props.isAction === "create" ? true : false
+  );
 
-  const ButtonModalUpdate = () => {
+  React.useEffect(
+    () => {
+      if (props.isAction === "create") {
+        setVisible(true);
+      } else {
+        setVisible(false);
+      }
+    },
+    [props.isAction]
+  );
+
+  const ButtonModalCreateUpdate = status => {
+    if (status.visible) {
+      return (
+        <Button
+          onClick={props.toggle}
+          name={`ButtonModalCreate-${props.name}`}
+          className="btn btn-success btn-icon btn-circle btn-lg me-2"
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          title="Cadastra os Dados">
+          <i className="fa fa-plus" />
+        </Button>
+      );
+    }
     return (
       <Button
         onClick={props.toggle}
@@ -31,9 +45,7 @@ const ButtonModal = props => {
 
   return (
     <React.Fragment>
-      {props.isAction === "create"
-        ? <ButtonModalCreate />
-        : <ButtonModalUpdate />}
+      <ButtonModalCreateUpdate visible={visible} />
     </React.Fragment>
   );
 };

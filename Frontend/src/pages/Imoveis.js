@@ -8,11 +8,9 @@ import {
 import { Table } from "reactstrap";
 import { COLUMNS_IMOVEIS } from "components/ui/table-column/table-column";
 import { useExportData } from "react-table-plugins";
-
 import FormImovel from "components/forms/form-imovel/form-imovel";
 import FormImovelDetalhe from "components/forms/form-imovel-detalhe/form-imovel-detalhe";
 import FormImovelImagem from "components/forms/form-imovel-imagem/form-imovel-imagem";
-
 import ButtonExport, {
   getExportFileBlob,
 } from "components/ui/button-export/button-export";
@@ -25,60 +23,59 @@ import { useImovelStore } from "store/imovel-store";
 
 const Imoveis = props => {
   const columns = React.useMemo(() => COLUMNS_IMOVEIS, []);
-  const data = useImovelStore(state=> state.imoveisData);
+  const data = useImovelStore(state => state.imoveisData);
   const listImoveis = useImovelStore(state => state.listImoveis);
   const deleteImovel = useImovelStore(state => state.deleteImovel);
   const getSubRows = (row) => [] || row.subRows;
 
-  React.useEffect(() => {
+  React.useMemo(() => {
     if (data.length === 0) listImoveis();
-  }, [listImoveis,data.length ]);
+  }, [listImoveis, data.length]);
 
   React.useMemo(() => {
-    if (columns.length === 8) {
-      columns.push({
-        Header: () => "AÇÕES ATUALIZAR/APAGAR",
-        id: "action",
-        Cell: ({ row }) => {
-          return (
-            <div className="d-flex flex-row">
-              <div className="bd-highlight">
-                <FormImovel
-                  action={"update"}
-                  data={row.original}
-                  isModal={false}
-                />
+      if (columns.length === 8) {
+        columns.push({
+          Header: () => "AÇÕES ATUALIZAR/APAGAR",
+          id: "action",
+          Cell: ({ row }) => {
+            return (
+              <div className="d-flex flex-row">
+                <div className="bd-highlight">
+                  <FormImovel
+                    action={"update"}
+                    data={row.original}
+                    isModal={false}
+                  />
+                </div>
+                <div className="bd-highlight">
+                  <AlertDelete
+                    id={row.original.id}
+                    deleteData={(id) => {
+                      deleteImovel(id);
+                    }}
+                  />
+                </div>
+                <div className="bd-highlight">
+                  <FormImovelDetalhe
+                    name="FormImovelDetalhe"
+                    isModal={false}
+                    imovel_id={row.original.id}
+                  />
+                </div>
+                <div className="bd-highlight">
+                  <FormImovelImagem
+                    name="FormImovelImagem"
+                    isModal={false}
+                    imovel_id={row.original.id}
+                  />
+                </div>
               </div>
-              <div className="bd-highlight">
-                <AlertDelete
-                  id={row?.original?.id}
-                  deleteData={(id) => {
-                    deleteImovel(id);
-                    listImoveis();
-                  }}
-                />
-              </div>
-              <div className="bd-highlight">
-                <FormImovelDetalhe
-                  isModal={false}
-                  imovel_id={row.original.id}
-                  refreshData={() => listImoveis()}
-                />
-              </div>
-              <div className="bd-highlight">
-                <FormImovelImagem
-                  isModal={false}
-                  imovel_id={row.original.id}
-                />
-              </div>
-            </div>
-          );
-        },
-      });
+            );
+          },
+        });
 
-    }
-  }, [columns,deleteImovel,listImoveis]);
-
+      }
+  }, [columns,deleteImovel]);
 
 
   const {
@@ -111,7 +108,8 @@ const Imoveis = props => {
     usePagination,
     useExportData,
     useRowSelect,
-  );
+    );
+
   const { pageIndex, pageSize } = state;
 
   return (
@@ -131,7 +129,7 @@ const Imoveis = props => {
             pageOptions={pageOptions}
           />
           <li className="nav-item ms-auto pt-1">
-            <FormImovel
+             <FormImovel
               action={"create"}
               data={0}
               isModal={false}

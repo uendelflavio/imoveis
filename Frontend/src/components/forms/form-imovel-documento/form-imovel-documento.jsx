@@ -9,19 +9,25 @@ import ButtonActionInput from "components/button-action-input/button-action-inpu
 import ImovelService from "services/ImovelService";
 import { toast } from "react-toastify";
 
-const FormImovelDocumento = (props) => {
-  const [modalOpen, setModalOpen] = React.useState(props.isModal);
-  const toggle = () => setModalOpen(!modalOpen);
+const FormImovelDocumento = props => {
+  const [state, setState] = React.useState({
+    id: 0,
+    action: "",
+    modal: props.isModal,
+    imovel_id: props.imovel_id
+  });
 
-  const onSubmit = (values) => {
+  const toggle = () => setState({ ...state, modal: !state.modal });
+
+  const onSubmit = values => {
     if (props.isUpdated) {
-      ImovelService.update(values.id, values);
+      ImovelService.update(values);
       toast.success("O imovel: " + values.id + " foi atualizado com sucesso");
     } else {
       ImovelService.create(values);
       toast.success("O imovel foi criado com sucesso");
     }
-    setInterval(function () {
+    setInterval(function() {
       window.location.reload();
     }, 500);
   };
@@ -32,7 +38,7 @@ const FormImovelDocumento = (props) => {
       .required("O endereço é obrigatório!"),
     descricao: Yup.string()
       .min(4, "4 caracteres no mínimo")
-      .required("O endereço é obrigatório!"),
+      .required("O endereço é obrigatório!")
   });
 
   return (
@@ -43,22 +49,20 @@ const FormImovelDocumento = (props) => {
         className="btn btn-purple btn-icon btn-circle btn-lg me-2"
         data-bs-toggle="tooltip"
         data-bs-placement="bottom"
-        title="Cadastro de Documentos do Imovel"
-      >
+        title="Cadastro de Documentos do Imovel">
         <i className="fa fa-file" />
       </Button>
       <Formik
-        onSubmit={(values) => onSubmit(values)}
+        onSubmit={values => onSubmit(values)}
         enableReinitialize={true}
         initialValues={{
           id: props.row.id,
-          imovel_id: props.isId,
+          imovel_id: state.imovel_id,
           link: props.row.link,
-          descricao: props.row.descricao,
+          descricao: props.row.descricao
         }}
-        validationSchema={validationSchema}
-      >
-        <Modal centered toggle={toggle} isOpen={modalOpen} autoFocus={false}>
+        validationSchema={validationSchema}>
+        <Modal centered toggle={toggle} isOpen={state.modal} autoFocus={false}>
           <Panel className="mb-0">
             <PanelHeaderOption
               id={props.id}

@@ -2,26 +2,18 @@ import React from "react";
 import { useFormikContext } from "formik";
 import { Button, Card, CardImg, Input } from "reactstrap";
 import Base64 from "utils/base64";
-import { useBase64ImagemStore } from "store/base64-imagem-store";
+
 const InputFieldImagem = props => {
   const fileRef = React.useRef(null);
-  const base64Ref = React.useRef(useBase64ImagemStore.getState().imagem);
-  const { FiletoBase64 } = Base64;
-  const { errors, setFieldValue } = useFormikContext();
   const [baseFile, setBaseFile] = React.useState();
-
-  React.useEffect(() => {
-    useBase64ImagemStore.subscribe(
-      imagem => (base64Ref.current = imagem),
-      state => state.imagem
-    );
-  }, []);
+  const { errors, setFieldValue } = useFormikContext();
+  const { FiletoBase64 } = Base64;
 
   React.useEffect(
     () => {
-      setBaseFile(base64Ref.current.imagem);
+      if (props.imagem.length !== 0) setBaseFile(props.imagem);
     },
-    [base64Ref.current.imagem, setBaseFile]
+    [props.imagem]
   );
 
   const CardImage = () => {

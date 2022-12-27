@@ -4,68 +4,42 @@ export const COLUMNS_IMOVEIS = [
   {
     Header: "ID",
     accessor: "id",
-    Cell: (e) =>
+    Cell: e =>
       e.value
-        ? (
-          <span className="fw-bold">
+        ? <span className="fw-bold">
             {e.value.toString().padStart(3, "0")}
           </span>
-        )
-        : "",
+        : ""
   },
-  {
-    Header: "ENDERECO",
-    accessor: "endereco",
-    maxWidth: 100,
-  },
-  {
-    Header: "NUMERO",
-    accessor: "numero",
-  },
-  {
-    Header: "BAIRRO",
-    accessor: "bairro",
-  },
-  {
-    Header: "CEP",
-    accessor: "cep",
-  },
-  {
-    Header: "CIDADE",
-    accessor: "cidade",
-  },
+  { Header: "ENDERECO", accessor: "endereco", maxWidth: 100 },
+  { Header: "NUMERO", accessor: "numero" },
+  { Header: "BAIRRO", accessor: "bairro" },
+  { Header: "CEP", accessor: "cep" },
+  { Header: "CIDADE", accessor: "cidade" },
   {
     Header: "VISTORIA",
     accessor: "vistoria",
-    Cell: (e) =>
+    Cell: e =>
       e.value
-        ? (
-          <span className="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
+        ? <span className="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
             SIM&nbsp;<i className="fa fa-circle fs-9px fa-fw" />
             {e.value}
           </span>
-        )
-        : (
-          <span className="badge border border-danger text-danger px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
+        : <span className="badge border border-danger text-danger px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
             NÃO&nbsp;<i className="fa fa-circle fs-9px fa-fw" />
           </span>
-        ),
   },
   {
     Header: "OCUPADO",
     accessor: "ocupado",
-    Cell: (e) =>
+    Cell: e =>
       e.value
-        ? (
-          <span className="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
+        ? <span className="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
             SIM&nbsp;<i className="fa fa-circle fs-9px fa-fw" />
             {e.value}
           </span>
-        )
-        : (
-          <span className="badge border border-danger text-danger px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
+        : <span className="badge border border-danger text-danger px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
             NÃO&nbsp;<i className="fa fa-circle fs-9px fa-fw" />
           </span>
-        ),
-  },
+  }
 ];

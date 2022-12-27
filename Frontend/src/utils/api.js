@@ -7,7 +7,7 @@ export const API = axios.create({
   baseURL: URL_BASE,
   timeout: 4000,
   withCredentials: true,
-  headers: { "Content-type": "application/json;charset=utf-8" },
+  headers: { "Content-type": "application/json;charset=utf-8" }
 });
 
 // habilita debug no axios
@@ -22,7 +22,7 @@ export const API = axios.create({
 // });
 
 API.interceptors.request.use(
-  async (config) => {
+  async config => {
     const token = TokenService.getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -30,16 +30,16 @@ API.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
+  error => {
     Promise.reject(error);
-  },
+  }
 );
 
 API.interceptors.response.use(
-  (response) => {
+  response => {
     return response;
   },
-  async (error) => {
+  async error => {
     const { config, response: { status } } = error;
     const originalRequest = config;
 
@@ -49,10 +49,10 @@ API.interceptors.response.use(
       if (token) {
         TokenService.setToken(token);
         await API.post(URL_SESSION_REFRESH, "", { withCredentials: true })
-          .then((response) => {
+          .then(response => {
             TokenService.setRefreshToken(response.data.access_token);
           })
-          .catch((err) => console.log(err));
+          .catch(err => console.log(err));
 
         const OrigReq = new Promise((resolve, reject) => {
           const token_access = TokenService.getToken();
@@ -71,7 +71,7 @@ API.interceptors.response.use(
     }
     if (error.response.status >= 500) window.location = "/login";
     return error;
-  },
+  }
 );
 
 export default API;

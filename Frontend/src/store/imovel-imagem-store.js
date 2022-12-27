@@ -33,6 +33,7 @@ export const useImovelImageStore = create(
         });
       },
       updateImovelImage: async data => {
+        console.log(data);
         const apiResponse = await ImovelImagemService.update(data.id, data);
         set(state => {
           let imovelImagemsData = state.imovelImagemData.filter(

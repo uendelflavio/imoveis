@@ -5,22 +5,26 @@ import { Button, Modal } from "reactstrap";
 import { toast } from "react-toastify";
 import { FILE_SIZE, SUPPORTED_FORMATS } from "constants/util-constants";
 import * as Yup from "yup";
-import InputField from "components/ui/input-field/input-field";
 import PanelHeaderOption from "components/ui/panel-header-option/panel-header-option";
 import ButtonCrud from "components/ui/button-crud/button-crud";
 import CarouselImageGallery from "components/ui/carousel-image-gallery/carousel-image-gallery";
 import InputFieldImagem from "components/ui/input-field-imagem/input-field-imagem";
+import InputField from "components/ui/input-field/input-field";
 import Base64 from "utils/base64";
 import { useImovelImageStore } from "store/imovel-imagem-store";
+// import { Debug } from "utils/debug-formik";
 
-const FormImovelImagem = props => {
+const FormImovelImagem = ({ name, isModal, imovel_id }) => {
   const [state, setState] = React.useState({
     action: "",
+    name: name,
     imagem: "",
-    modal: props.isModal
+    modal: isModal,
+    visible: false
   });
 
   const data = useImovelImageStore(state => state.imovelImagemData);
+
   const createImovelImage = useImovelImageStore(
     state => state.createImovelImage
   );
@@ -35,28 +39,56 @@ const FormImovelImagem = props => {
   );
   const resetImovelImage = useImovelImageStore(state => state.resetImovelImage);
 
-  const initLoad = React.useCallback(() => {
-    resetImovelImage(props.imovel_id);
-    listImovelWithImages(props.imovel_id);
-    setState({
-      ...state,
-      action: ""
-    });
-    // eslint-disable-next-line
-  }, []);
-
   React.useEffect(
     () => {
-      if (data.length === 0) initLoad();
+      if (state.modal) {
+        setState({ ...state, visible: false });
+        listImovelWithImages(imovel_id);
+      }
     },
-    [initLoad, data.length]
+    [state.modal]
   );
 
-  const toggle = () =>
-    setState({
-      ...state,
-      modal: !state.modal
-    });
+  const CarouselInputImage = img => {
+    if (img.visible) {
+      return (
+        <InputFieldImagem name="imagem" imagem={img.visible && state.imagem} />
+      );
+    } else {
+      return (
+        <div>
+          <CarouselImageGallery
+            modal={state.modal}
+            setImagem={imagem =>
+              !img.visible && setState({ ...state, imagem: imagem })}
+            data={data}
+          />
+        </div>
+      );
+    }
+  };
+
+  const BtnModeEditUpdate = () => {
+    return (
+      <Button
+        outline
+        color={state.visible ? "dark" : "secondary"}
+        onClick={() => {
+          resetImovelImage(imovel_id);
+          listImovelWithImages(imovel_id);
+          setState({ ...state, visible: !state.visible });
+        }}
+        className="position-relative border-2 m-0">
+        <i className="fa fa-upload me-1" />
+        {state.visible ? "Modo Inclusão" : "Modo Edição"}
+        {state.visible
+          ? <span className="position-absolute top-0 start-100 translate-middle p-2 bg-dark border border-dark rounded-circle" />
+          : <span className="position-absolute top-0 start-100 translate-middle p-2 bg-secondary border border-light rounded-circle" />}
+      </Button>
+    );
+  };
+
+  const toggle = () => setState({ ...state, modal: !state.modal });
 
   const onSubmit = async (values, actions) => {
     if (typeof values.imagem !== "undefined") {
@@ -68,7 +100,7 @@ const FormImovelImagem = props => {
         toast.success("A Imagem foi armazenada com sucesso!!!");
         break;
       case "update":
-        updateImovelImage(values.id, values);
+        updateImovelImage(values);
         toast.warning("A Imagem foi atualizada com sucesso!!!");
         break;
       case "delete":
@@ -76,32 +108,27 @@ const FormImovelImagem = props => {
         toast.error("A Imagem foi apagada com sucesso!!!");
         break;
       case "new":
-        setState({
-          ...state,
-          imagem: ""
-        });
-        resetImovelImage(props.imovel_id);
+        setState({ ...state, imagem: "" });
+        resetImovelImage(imovel_id);
         break;
       default:
         setState({
           ...state,
           action: ""
         });
-        listImovelWithImages(props.imovel_id);
+        listImovelWithImages(imovel_id);
         break;
     }
-    if (state.action !== "new") {
-      Promise.all([
-        actions.resetForm(),
-        actions.setSubmitting(false),
-        initLoad(),
-        setState({
-          ...state,
-          action: ""
-        })
-      ]);
+    actions.resetForm();
+    actions.setSubmitting(false);
+    if (state.action !== "new" || state.action !== "create") {
+      setState({
+        ...state,
+        action: "",
+        visible: true
+      });
     } else {
-      Promise.all([actions.resetForm(), actions.setSubmitting(false)]);
+      setState({ ...state, visible: false });
     }
   };
 
@@ -165,6 +192,7 @@ const FormImovelImagem = props => {
   return (
     <React.Fragment>
       <Button
+        name={`BtnFormImovelImagemOpen-${state.name}-${imovel_id}`}
         onClick={toggle}
         className="btn btn-pink btn-icon btn-circle btn-lg me-2"
         data-bs-toggle="tooltip"
@@ -174,10 +202,10 @@ const FormImovelImagem = props => {
       </Button>
       <Formik
         initialValues={{
-          id: data.length === 0 ? 0 : data.id || "",
-          imovel_id: data.length === 0 ? 0 : data.imovel_id || "",
-          imagem: data.length === 0 ? 0 : data.imagem || "",
-          descricao: data.length === 0 ? 0 : data.descricao || ""
+          id: data.length === 0 ? "" : data.id,
+          imovel_id: imovel_id,
+          imagem: data.length === 0 ? "" : data.imagem,
+          descricao: data.length === 0 ? "" : data.descricao
         }}
         onSubmit={(values, actions) => onSubmit(values, actions)}
         enableReinitialize={true}
@@ -186,28 +214,20 @@ const FormImovelImagem = props => {
           centered
           toggle={toggle}
           isOpen={state.modal}
-          onClosed={() => {
-            initLoad();
-          }}
           style={{ maxWidth: "600px", width: "100%" }}>
           <Panel className="mb-0">
             <PanelHeaderOption
               titleInsert="Nova Imagem de Vistoria do Imóvel"
               titleUpdated="Atualizar Imagem do Imóvel"
-              id={state.id}
             />
             <PanelBody>
               <Form className="mb-0 rounded p-1">
                 <Field type="text" name="id" hidden />
                 <Field type="text" name="imovel_id" hidden />
-                {state.action === "new" || state.action === "create"
-                  ? <InputFieldImagem name="imagem" />
-                  : <CarouselImageGallery
-                      name="carousel_imagem_gallery"
-                      imovel_id={props.imovel_id}
-                      data={data}
-                    />}
+
+                <CarouselInputImage visible={state.visible} />
                 <InputField label="Descrição" name="descricao" />
+                <BtnModeEditUpdate />
                 <ButtonCrud
                   toggle={toggle}
                   name="button-crud-form-imovel-imagem"
@@ -217,6 +237,7 @@ const FormImovelImagem = props => {
                       action: action
                     })}
                 />
+                {/* <Debug /> */}
               </Form>
             </PanelBody>
           </Panel>
